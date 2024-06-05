@@ -5,8 +5,34 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Wpf_View"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Restaurant Management" Height="600" Width="1050">
     <Grid>
+        <Image Source="\Resource\background.jpg" Stretch="Fill">
+            <Image.Effect>
+                <BlurEffect Radius="8"/>
+            </Image.Effect>
+        </Image>
 
+        <TextBlock x:Name="StartPage" FontSize="50" VerticalAlignment="Center" HorizontalAlignment="Center"
+           Margin="200,380,200,20" Foreground="WhiteSmoke" FontWeight="Bold" Text="Restaurant Management"/>
+
+        <Border x:Name="LoginPage" Visibility="Collapsed" Background="#647C90" CornerRadius="20" Margin="300,50">
+
+            <StackPanel>
+                <TextBlock Text="Login" FontWeight="Bold" FontSize="50" Foreground="WhiteSmoke"
+                       HorizontalAlignment="Center" Margin="10"/>
+
+                <Border Background="#B1B1B1" Margin="50,50,50,25" CornerRadius="10">
+                    <TextBox FontSize="30" Foreground="Gray" Background="#B1B1B1" Text="Username"
+                     IsEnabled="True" Margin="10,0" BorderThickness="0"/>
+                </Border>
+
+                <Border BorderBrush="Blue" BorderThickness="4"
+                Margin="50,25,50,50" CornerRadius="10">
+                    <TextBox FontSize="30" Foreground="Gray" Background="Black" Text="Password"
+                IsEnabled="True" Margin="10,0" BorderThickness="0"/>
+                </Border>
+            </StackPanel>
+        </Border>
     </Grid>
 </Window>

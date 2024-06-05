@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace Wpf_View
 {
@@ -19,6 +20,18 @@ namespace Wpf_View
         public MainWindow()
         {
             InitializeComponent();
+            ShowLoginPage();
+        }
+
+        private async void ShowLoginPage()
+        {
+            await Task.Delay(2000);
+            for (int i = 0; i < 10; i++)
+            {
+
+            }
+            StartPage.Visibility = Visibility.Collapsed;
+            LoginPage.Visibility = Visibility.Visible;
         }
     }
 }
