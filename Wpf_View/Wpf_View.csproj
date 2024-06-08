@@ -3,17 +3,20 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="Resource\background.jpg" />
+    <None Remove="Resource\LoginPage\password.png" />
+    <None Remove="Resource\LoginPage\username.png" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="Resource\background.jpg" />
+    <Resource Include="Resource\LoginPage\password.png" />
+    <Resource Include="Resource\LoginPage\username.png" />
   </ItemGroup>
 
 </Project>
