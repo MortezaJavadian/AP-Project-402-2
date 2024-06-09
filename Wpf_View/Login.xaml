@@ -1,0 +1,138 @@
+﻿<Page x:Class="Wpf_View.Login"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Wpf_View"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Login">
+
+    <Grid>
+        <Image Source="\Resource\background.jpg" Stretch="Fill">
+            <Image.Effect>
+                <BlurEffect Radius="8"/>
+            </Image.Effect>
+        </Image>
+
+        <Border x:Name="LoginPage" Background="DarkCyan" CornerRadius="20" Width="0" Height="0"
+                Margin="0,50,0,0" VerticalAlignment="Top">
+
+            <StackPanel>
+                <TextBlock Text="Login" FontWeight="SemiBold" FontFamily="Gabriola" FontSize="65" Foreground="White"
+                           HorizontalAlignment="Center"/>
+
+                <Border Background="#E8E8E8" Margin="30,30,30,12" CornerRadius="16,10,10,16">
+                    <StackPanel Orientation="Horizontal">
+                        <Border CornerRadius="14" BorderBrush="Black" BorderThickness="1.5">
+                            <Image Source="\Resource\LoginPage\username.png" Height="20" Width="20" Margin="7,5"/>
+                        </Border>
+
+                        <TextBox FontSize="17" Foreground="DimGray" Background="#E8E8E8" Text="Username"
+                                 Margin="4,5" Width="220" BorderThickness="0" GotFocus="Clear_UsernameOrPassword"/>
+                    </StackPanel>
+                </Border>
+
+                <Border Background="#E8E8E8" Margin="30,12,30,12" CornerRadius="16,10,10,16">
+                    <StackPanel Orientation="Horizontal">
+                        <Border CornerRadius="14" BorderBrush="Black" BorderThickness="1.5">
+                            <Image Source="\Resource\LoginPage\password.png" Height="20" Width="20" Margin="7,5"/>
+                        </Border>
+
+                        <Grid>
+                            <TextBox FontSize="17" Foreground="DimGray" Background="#E8E8E8" Text="Password"
+                                     Margin="4,5" Width="220" BorderThickness="0" GotFocus="Clear_UsernameOrPassword"/>
+
+                            <PasswordBox x:Name="LoginPasswordBox" FontSize="17" Foreground="DimGray" Background="#E8E8E8"
+                                         Margin="4,5" Width="220" BorderThickness="0" Visibility="Collapsed"/>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <Button FontWeight="SemiBold" Background="Blue" Foreground="White" Margin="125,15,125,0">
+
+                    <TextBlock Text="Sign In"  FontSize="15" Margin="0,5,0,8"/>
+
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border x:Name="border" Background="{TemplateBinding Background}" 
+                                                BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="13">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="border" Property="Background" Value="DarkOrange"/>
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter TargetName="border" Property="Background" Value="Transparent"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,30,0,0">
+                    <Button Content="Forget Password" FontWeight="SemiBold" Background="Transparent" BorderThickness="0"
+                            Margin="0,0,10,0" FontSize="13">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Foreground" Value="Black"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="Transparent"/>
+                                                    <Setter Property="Foreground" Value="Blue"/>
+                                                </Trigger>
+                                                <Trigger Property="IsPressed" Value="True">
+                                                    <Setter Property="Foreground" Value="White"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+
+                    <Button Content="Sign Up Customer" FontWeight="SemiBold" Background="Transparent" BorderThickness="0"
+                            Margin="10,0,0,0" FontSize="13" Click="SignUpCustomer_Click">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Foreground" Value="Black"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="Transparent"/>
+                                                    <Setter Property="Foreground" Value="Blue"/>
+                                                </Trigger>
+                                                <Trigger Property="IsPressed" Value="True">
+                                                    <Setter Property="Foreground" Value="White"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Page>
