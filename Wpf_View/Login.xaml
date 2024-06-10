@@ -29,7 +29,8 @@
                         </Border>
 
                         <TextBox FontSize="17" Foreground="DimGray" Background="#E8E8E8" Text="Username"
-                                 Margin="4,5" Width="220" BorderThickness="0" GotFocus="Clear_UsernameOrPassword"/>
+                                 Margin="4,5" Width="220" BorderThickness="0" GotFocus="Clear_HintText_Username"
+                                 LostFocus="Set_HintText_Username"/>
                     </StackPanel>
                 </Border>
 
@@ -40,18 +41,24 @@
                         </Border>
 
                         <Grid>
-                            <TextBox FontSize="17" Foreground="DimGray" Background="#E8E8E8" Text="Password"
-                                     Margin="4,5" Width="220" BorderThickness="0" GotFocus="Clear_UsernameOrPassword"/>
+                            <TextBox x:Name="LoginTextBoxPassword" FontSize="17" Foreground="DimGray"
+                                     Background="#E8E8E8" Text="Password" Margin="4,5" Width="220"
+                                     BorderThickness="0" GotFocus="Clear_HintText_Password"
+                                     LostFocus="Set_HintText_Password"/>
 
-                            <PasswordBox x:Name="LoginPasswordBox" FontSize="17" Foreground="DimGray" Background="#E8E8E8"
-                                         Margin="4,5" Width="220" BorderThickness="0" Visibility="Collapsed"/>
+                            <PasswordBox x:Name="LoginPasswordBox" FontSize="17" Foreground="Black" Background="#E8E8E8"
+                                         Margin="4,5" Width="220" BorderThickness="0" Visibility="Hidden"
+                                         LostFocus="Set_HintText_Password"/>
                         </Grid>
                     </StackPanel>
                 </Border>
 
+                <local:ChangeRadioButton x:Name="ShowPassword" Content="Show Password" FontSize="12.5" Margin="40,-5,175,0"
+                                         BorderBrush="Black" BorderThickness="2" Click="ShowPassword_Click"/>
+
                 <Button FontWeight="SemiBold" Background="Blue" Foreground="White" Margin="125,15,125,0">
 
-                    <TextBlock Text="Sign In"  FontSize="15" Margin="0,5,0,8"/>
+                    <TextBlock Text="Sign In" FontSize="15" Margin="0,5,0,8"/>
 
                     <Button.Style>
                         <Style TargetType="Button">

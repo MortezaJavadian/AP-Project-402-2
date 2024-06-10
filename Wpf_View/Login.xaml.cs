@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -37,25 +39,90 @@ namespace Wpf_View
             }
         }
 
-        bool AllowedUsername = true;
-        bool AllowedPassword = true;
-        private void Clear_UsernameOrPassword(object sender, RoutedEventArgs e)
+        bool ClearUsername = true;
+        private void Clear_HintText_Username(object sender, RoutedEventArgs e)
         {
-            TextBox textBox = sender as TextBox;
-            if (AllowedUsername && textBox.Text == "Username")
+            if (ClearUsername)
             {
+                TextBox textBox = sender as TextBox;
                 textBox.Text = "";
                 textBox.Foreground = Brushes.Black;
-                AllowedUsername = false;
+                ClearUsername = false;
             }
-            else if (AllowedPassword && textBox.Text == "Password")
+        }
+
+        private void Set_HintText_Username(object sender, RoutedEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+            if (textBox.Text == "")
             {
-                textBox.Text = "";
-                textBox.Visibility = Visibility.Collapsed;
+                textBox.Foreground = Brushes.DimGray;
+                textBox.Text = "Username";
+                ClearUsername = true;
+            }
+        }
+
+        bool ClearPassword = true;
+        private void Clear_HintText_Password(object sender, RoutedEventArgs e)
+        {
+            if (ClearPassword && ShowPassword.IsChecked == true)
+            {
+                LoginTextBoxPassword.Text = "";
+                LoginTextBoxPassword.Foreground = Brushes.Black;
+                ClearPassword = false;
+            }
+            else if (ClearPassword)
+            {
+                LoginTextBoxPassword.Text = "";
+                LoginTextBoxPassword.Visibility = Visibility.Hidden;
                 LoginPasswordBox.Visibility = Visibility.Visible;
-                LoginPasswordBox.Foreground = Brushes.Black;
                 LoginPasswordBox.Focus();
-                AllowedPassword = false;
+                ClearPassword = false;
+            }
+        }
+
+        private void Set_HintText_Password(object sender, RoutedEventArgs e)
+        {
+            if (sender is TextBox && LoginTextBoxPassword.Text == "" &&
+                LoginTextBoxPassword.Visibility == Visibility.Visible)
+            {
+                LoginTextBoxPassword.Foreground = Brushes.DimGray;
+                LoginTextBoxPassword.Text = "Password";
+                ClearPassword = true;
+            }
+            else if (sender is PasswordBox && LoginPasswordBox.Password == "" &&
+                     LoginPasswordBox.Visibility == Visibility.Visible)
+            {
+                LoginTextBoxPassword.Foreground = Brushes.DimGray;
+                LoginTextBoxPassword.Text = "Password";
+                LoginTextBoxPassword.Visibility = Visibility.Visible;
+                LoginPasswordBox.Visibility = Visibility.Hidden;
+                ClearPassword = true;
+            }
+        }
+
+        private void ShowPassword_Click(object sender, RoutedEventArgs e)
+        {
+            if (!ClearPassword)
+            {
+                if (LoginPasswordBox.Visibility == Visibility.Visible)
+                {
+                    LoginPasswordBox.Visibility = Visibility.Hidden;
+                    LoginTextBoxPassword.Visibility = Visibility.Visible;
+                    LoginTextBoxPassword.Text = LoginPasswordBox.Password;
+                    LoginTextBoxPassword.Focus();
+                    LoginTextBoxPassword.CaretIndex = LoginTextBoxPassword.Text.Length;
+                }
+                else
+                {
+                    LoginPasswordBox.Visibility = Visibility.Visible;
+                    LoginTextBoxPassword.Visibility = Visibility.Hidden;
+                    LoginPasswordBox.Password = LoginTextBoxPassword.Text;
+                    LoginPasswordBox.GetType()
+                                .GetMethod("Select", BindingFlags.Instance | BindingFlags.NonPublic)
+                                .Invoke(LoginPasswordBox, new object[] { LoginPasswordBox.Password.Length, 0 });
+                    LoginPasswordBox.Focus();
+                }
             }
         }
 
@@ -69,6 +136,23 @@ namespace Wpf_View
                 LoginPage.CornerRadius = new CornerRadius(25 + 3 * j);
             }
             (Application.Current.MainWindow as MainWindow).Content = new SignUp();
+        }
+    }
+
+    public class ChangeRadioButton : RadioButton
+    {
+        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
+        {
+            if (IsChecked == false)
+            {
+                IsChecked = true;
+                base.OnClick();
+            }
+            else
+            {
+                base.OnClick();
+                IsChecked = false;
+            }
         }
     }
 }
