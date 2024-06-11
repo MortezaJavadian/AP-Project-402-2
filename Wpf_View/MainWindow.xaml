@@ -5,8 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Wpf_View"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Restaurant Management" Height="600" Width="1050" MinHeight="550" MinWidth="850">
     <Grid>
+        <Image Source="\Resource\background.jpg" Stretch="Fill">
+            <Image.Effect>
+                <BlurEffect Radius="8"/>
+            </Image.Effect>
+        </Image>
 
+        <!--Start page when the program run-->
+        <TextBlock x:Name="StartPage" FontSize="50" VerticalAlignment="Bottom" HorizontalAlignment="Center"
+                   Margin="0,0,0,70" Foreground="LightYellow" FontWeight="Bold"/>
     </Grid>
 </Window>
