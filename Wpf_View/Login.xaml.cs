@@ -39,6 +39,8 @@ namespace Wpf_View
             }
         }
 
+        //Functions of hint text
+
         bool ClearUsername = true;
         private void Clear_HintText_Username(object sender, RoutedEventArgs e)
         {
@@ -100,6 +102,8 @@ namespace Wpf_View
                 ClearPassword = true;
             }
         }
+
+        //Show and hide Password radio button
 
         private void ShowPassword_Click(object sender, RoutedEventArgs e)
         {

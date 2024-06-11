@@ -9,14 +9,18 @@
 
   <ItemGroup>
     <None Remove="Resource\background.jpg" />
-    <None Remove="Resource\LoginPage\password.png" />
-    <None Remove="Resource\LoginPage\username.png" />
+    <None Remove="Resource\UserInfo\email.png" />
+    <None Remove="Resource\UserInfo\password.png" />
+    <None Remove="Resource\UserInfo\phonenumber.png" />
+    <None Remove="Resource\UserInfo\username.png" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="Resource\background.jpg" />
-    <Resource Include="Resource\LoginPage\password.png" />
-    <Resource Include="Resource\LoginPage\username.png" />
+    <Resource Include="Resource\UserInfo\email.png" />
+    <Resource Include="Resource\UserInfo\password.png" />
+    <Resource Include="Resource\UserInfo\phonenumber.png" />
+    <Resource Include="Resource\UserInfo\username.png" />
   </ItemGroup>
 
 </Project>

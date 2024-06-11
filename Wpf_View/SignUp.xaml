@@ -15,44 +15,71 @@
             </Image.Effect>
         </Image>
 
-        <Border x:Name="SignUpPage" Background="DarkCyan" CornerRadius="20" Width="0" Height="0"
+        <Border x:Name="SignUpPage" Background="DarkCyan" CornerRadius="25" Width="625" Height="0"
                 Margin="0,50,0,0" VerticalAlignment="Top">
             <StackPanel>
                 <TextBlock Text="Sing Up" FontWeight="SemiBold" FontFamily="Gabriola" FontSize="65" Foreground="White"
                            HorizontalAlignment="Center"/>
 
-                <Border Background="#E8E8E8" Margin="30,30,30,12" CornerRadius="16,10,10,16">
+                <StackPanel Orientation="Horizontal">
+                    <Border Background="#E8E8E8" Margin="30,30,15,12" CornerRadius="16,10,10,16">
+                        <StackPanel Orientation="Horizontal">
+                            <Border CornerRadius="14" BorderBrush="Black" BorderThickness="1.5">
+                                <Image Source="\Resource\UserInfo\username.png" Height="20" Width="20" Margin="7,5"/>
+                            </Border>
+
+                            <TextBox FontSize="17" Foreground="DimGray" Background="#E8E8E8" Text="Firstname"
+                                 Margin="4,5" Width="220" BorderThickness="0"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Background="#E8E8E8" Margin="15,30,30,12" CornerRadius="16,10,10,16">
+                        <StackPanel Orientation="Horizontal">
+                            <Border CornerRadius="14" BorderBrush="Black" BorderThickness="1.5">
+                                <Image Source="\Resource\UserInfo\username.png" Height="20" Width="20" Margin="7,5"/>
+                            </Border>
+
+                            <TextBox FontSize="17" Foreground="DimGray" Background="#E8E8E8" Text="Lasstname"
+                                     Margin="4,5" Width="220" BorderThickness="0"/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <Border Background="#E8E8E8" Margin="30,12,15,12" CornerRadius="16,10,10,16">
+                        <StackPanel Orientation="Horizontal">
+                            <Border CornerRadius="14" BorderBrush="Black" BorderThickness="1.5">
+                                <Image Source="\Resource\UserInfo\username.png" Height="20" Width="20" Margin="7,5"/>
+                            </Border>
+
+                            <TextBox FontSize="17" Foreground="DimGray" Background="#E8E8E8" Text="Username"
+                                     Margin="4,5" Width="220" BorderThickness="0"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Background="#E8E8E8" Margin="15,12,30,12" CornerRadius="16,10,10,16">
+                        <StackPanel Orientation="Horizontal">
+                            <Border CornerRadius="14" BorderBrush="Black" BorderThickness="1.5">
+                                <Image Source="\Resource\UserInfo\phonenumber.png" Height="20" Width="20" Margin="7,5"/>
+                            </Border>
+
+                            <TextBox FontSize="17" Foreground="DimGray" Background="#E8E8E8" Text="Phone Number"
+                                     Margin="4,5" Width="220" BorderThickness="0"/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+
+                <Border Background="#E8E8E8" Margin="15,12,30,12" CornerRadius="16,10,10,16" Width="280">
                     <StackPanel Orientation="Horizontal">
                         <Border CornerRadius="14" BorderBrush="Black" BorderThickness="1.5">
-                            <Image Source="\Resource\LoginPage\username.png" Height="20" Width="20" Margin="7,5"/>
+                            <Image Source="\Resource\UserInfo\email.png" Height="23" Width="23" Margin="5,3,5,4"/>
                         </Border>
 
-                        <TextBox FontSize="17" Foreground="DimGray" Background="#E8E8E8" Text="Firstname"
-                                 Margin="4,5" Width="220" BorderThickness="0" GotFocus="Clear_Text"/>
+                        <TextBox FontSize="17" Foreground="DimGray" Background="#E8E8E8" Text="Email"
+                                     Margin="4,5" Width="220" BorderThickness="0"/>
                     </StackPanel>
                 </Border>
 
-                <Border Background="#E8E8E8" Margin="30,12,30,12" CornerRadius="16,10,10,16">
-                    <StackPanel Orientation="Horizontal">
-                        <Border CornerRadius="14" BorderBrush="Black" BorderThickness="1.5">
-                            <Image Source="\Resource\LoginPage\username.png" Height="20" Width="20" Margin="7,5"/>
-                        </Border>
-
-                        <TextBox FontSize="17" Foreground="DimGray" Background="#E8E8E8" Text="Lastname"
-                                 Margin="4,5" Width="220" BorderThickness="0" GotFocus="Clear_Text"/>
-                    </StackPanel>
-                </Border>
-
-                <Border Background="#E8E8E8" Margin="30,12,30,12" CornerRadius="16,10,10,16">
-                    <StackPanel Orientation="Horizontal">
-                        <Border CornerRadius="14" BorderBrush="Black" BorderThickness="1.5">
-                            <Image Source="\Resource\LoginPage\username.png" Height="20" Width="20" Margin="7,5"/>
-                        </Border>
-
-                        <TextBox FontSize="17" Foreground="DimGray" Background="#E8E8E8" Text="Username"
-                                 Margin="4,5" Width="220" BorderThickness="0" GotFocus="Clear_Text"/>
-                    </StackPanel>
-                </Border>
             </StackPanel>
         </Border>
     </Grid>
