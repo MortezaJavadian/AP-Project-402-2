@@ -34,5 +34,93 @@ namespace Wpf_View
                 SignUpPage.Height += 8;
             }
         }
+
+        private async void Login_Click(object sender, RoutedEventArgs e)
+        {
+            for (int j = 1; j <= 25; j++)
+            {
+                await Task.Delay(1);
+                SignUpPage.Height -= 16;
+            }
+            (Application.Current.MainWindow as MainWindow).Content = new Login();
+        }
+
+        bool ClearFirstname = true;
+        bool ClearLastname = true;
+        bool ClearUsername = true;
+        bool ClearPhoneNumber = true;
+        bool ClearEmail = true;
+        private void Clear_HintText(object sender, RoutedEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+            if (ClearFirstname && textBox.Name == "Firstname")
+            {
+                textBox.Text = "";
+                textBox.Foreground = Brushes.Black;
+                ClearFirstname = false;
+            }
+            else if (ClearLastname && textBox.Name == "Lastname")
+            {
+                textBox.Text = "";
+                textBox.Foreground = Brushes.Black;
+                ClearLastname = false;
+            }
+            else if (ClearUsername && textBox.Name == "Username")
+            {
+                textBox.Text = "";
+                textBox.Foreground = Brushes.Black;
+                ClearUsername = false;
+            }
+            else if (ClearPhoneNumber && textBox.Name == "PhoneNumber")
+            {
+                textBox.Text = "";
+                textBox.Foreground = Brushes.Black;
+                ClearPhoneNumber = false;
+            }
+            else if (ClearEmail && textBox.Name == "Email")
+            {
+                textBox.Text = "";
+                textBox.Foreground = Brushes.Black;
+                ClearEmail = false;
+            }
+        }
+
+        private void Set_HintText(object sender, RoutedEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+            if (textBox.Text == "")
+            {
+                if (textBox.Name == "Firstname")
+                {
+                    textBox.Foreground = Brushes.DimGray;
+                    textBox.Text = "Firstname";
+                    ClearFirstname = true;
+                }
+                else if (textBox.Name == "Lastname")
+                {
+                    textBox.Foreground = Brushes.DimGray;
+                    textBox.Text = "Lastname";
+                    ClearLastname = true;
+                }
+                else if (textBox.Name == "Username")
+                {
+                    textBox.Foreground = Brushes.DimGray;
+                    textBox.Text = "Username";
+                    ClearUsername = true;
+                }
+                else if (textBox.Name == "PhoneNumber")
+                {
+                    textBox.Foreground = Brushes.DimGray;
+                    textBox.Text = "Phone Number";
+                    ClearPhoneNumber = true;
+                }
+                else if (textBox.Name == "Email")
+                {
+                    textBox.Foreground = Brushes.DimGray;
+                    textBox.Text = "Email";
+                    ClearEmail = true;
+                }
+            }
+        }
     }
 }
