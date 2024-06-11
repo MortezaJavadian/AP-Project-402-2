@@ -40,10 +40,22 @@ namespace Backend.Models
             throw new Exception($"There is no user with username \"{username}\" here");    
         }
 
-        public static bool IsValid_UserName(string password)
+        public static bool IsValid_UserName(string userName) // Regex for a true username type
         {
             string pattern = @"^(?=.*[A-Za-z].*[A-Za-z].*[A-Za-z])[A-Za-z\d]*$";
-            return Regex.IsMatch(password, pattern);
+            if (!Regex.IsMatch(userName, pattern))
+                throw new Exception("Username is not in a true format");
+                //throw new Exception("The username must contain at least three letters, which can include numbers, uppercase or lowercase letters.");
+            else 
+                foreach(var user in Users)
+                    { if (user.UserName == userName) throw new Exception("This username is used before"); }
+
+            return true;
+        }
+
+        public void ChangePassword(string password)
+        {
+            Password = password;
         }
     }
 }
