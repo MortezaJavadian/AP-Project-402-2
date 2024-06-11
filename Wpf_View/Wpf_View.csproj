@@ -21,6 +21,7 @@
     <Resource Include="Resource\UserInfo\password.png" />
     <Resource Include="Resource\UserInfo\phonenumber.png" />
     <Resource Include="Resource\UserInfo\username.png" />
+    <ProjectReference Include="..\Backend\Backend.csproj" />
   </ItemGroup>
 
 </Project>
