@@ -10,7 +10,7 @@ namespace Backend.Models
 {
     public abstract class User
     {
-        public static List<User> Users { get; set; } = new List<User>();
+        public static List<User> Users = new List<User>();
 
         public string UserName { get; set; }
         public string Password { get; set; }
@@ -19,6 +19,8 @@ namespace Backend.Models
         {
             UserName = username;
             Password = pass;
+
+            Users.Add(this);
         }
 
         public static bool Exist_UserName(string username)
