@@ -9,11 +9,10 @@ using System.Threading.Tasks;
 
 namespace Backend.Models
 {
-    public enum Gender { Male, Female }
+    public enum Gender { Male, Female, Unknown }
 
     public class Customer : User
     {
-        public static List<Customer> customers = new List<Customer>();
         public int PhoneNumber { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -28,37 +27,40 @@ namespace Backend.Models
             this.LastName = lastname;
             this.Email = email;
             this.Address = addres;
+            this.gender = Gender.Unknown;
         }
 
-        public static bool IsValidPhonenumber(string phonenumber) // Regex for a true phone number type 
+        public static void IsValidPhonenumber(string phonenumber) // Regex for a true phone number type 
         {
             string pattern = @"^09\d{9}$";
             if (!Regex.IsMatch(phonenumber, pattern))
-                throw new Exception("Phone number is not in a true format");
-                //throw new Exception("Must be exactly 11 digits and start with 09");
+                throw new Exception("Phone Number is not in a true format");
             else
-                foreach (var customer in customers)
-                    { if (customer.PhoneNumber.ToString() == phonenumber) throw new Exception("This phone number is used before"); }
-
-            return true;
+            {
+                foreach (var user in User.Users)
+                {
+                    if (user is Customer)
+                    {
+                        Customer customer = user as Customer;
+                        if (customer.PhoneNumber.ToString() == phonenumber) 
+                            throw new Exception("This phone number is used before");
+                    }
+                }
+            }
         }
         
-        public static bool IsValidName(string Name) // Regex for a true Name (fristname & lastname) type
+        public static void IsValidName(string Name) // Regex for a true Name (fristname & lastname) type
         {
             string pattern = @"^[A-Za-z]{3,32}$";
             if (!Regex.IsMatch(Name, pattern))
                 throw new Exception("Name is not in a true format");
-                //throw new Exception("Name must be at least 3 letters and at most 32 letters and only consist of letters and no characters or numbers.");
-            return true;
         }
         
-        public static bool IsValidEmail(string email) // Regex for a true eamil type
+        public static void IsValidEmail(string email) // Regex for a true eamil type
         {
             string pattern = @"^[A-Za-z]{3,32}@[A-Za-z]{3,32}\.[A-Za-z]{2,3}$";
             if (!Regex.IsMatch(email, pattern))
                 throw new Exception("Email is not in a true format");
-                //throw new Exception("The email must be in the format A@B.C, where A, B can be at least 3 letters and at most 32 letters, and C can be at least 2 letters and at most 3 letters.");
-            return true;
         } 
         
         public static bool IsValidPassword(string password) // Regex for a true password of customer type
@@ -66,28 +68,18 @@ namespace Backend.Models
             string pattern = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,32}$";
             if (!Regex.IsMatch(password, pattern))
                 throw new Exception("Password is not in a true format");
-                //throw new Exception("The password must be at least 8 and at most 32 characters. It should also contain at least one uppercase letter, one lowercase letter and one number.");
             return true;
-        }
-
-        public static void AddToList()
-        {
-            foreach (var user in User.Users)
-            {
-                if (user is RestaurantManager)
-                    customers.Add((Customer)user);
-            }
         }
 
         public void ChangeEmail(string eamil)
         {
-            if(IsValidEmail(eamil))
-                Email = eamil;
+            IsValidEmail(eamil);
+            Email = eamil;
         }
         
         public void ChangeAddress(string address)
         {
-            if (address.Trim() == "" || FirstName == null)
+            if (address.Trim() == "" || address == null)
                 throw new Exception("Address could not be Empty");
             Address = address.Trim();
         }
@@ -99,7 +91,7 @@ namespace Backend.Models
                 "\nUser name: " + UserName + "\nEmail" + Email;
             if (Address != null)
                 Info += "\nAdress: " + Address;
-            if (gender == null)
+            if (gender == Gender.Unknown)
                 return Info;
 
             if (gender == Gender.Female)
@@ -113,22 +105,25 @@ namespace Backend.Models
         public string withoutFilter_search()
         {
             string search = "";
-            foreach(var resturan in RestaurantManager.restaurants)
+            foreach (var user in User.Users)
             {
-                search += "Name: " + resturan.NameOfRestaurant + "\nAddress: " + resturan.City + " " + resturan.Address;
-                if (resturan.Delivery && resturan.Dine_in)
-                    search += "\nDistribution: Delivery and Dine_in";
-                else if (resturan.Delivery)
-                    search += "\nDistribution: Delivery";
-                else if (resturan.Dine_in)
-                    search += "\nDistribution: Dine_in";
-                else
-                    search += "There is no distribution consist for restaurant";
-                search += "\nScore of restaurant: " + resturan.Score.ToString() + "/5\n\n";
+                if (user is RestaurantManager)
+                {
+                    RestaurantManager resturan = user as RestaurantManager;
+                    search += "Name: " + resturan.NameOfRestaurant + "\nAddress: " + resturan.City + " " + resturan.Address;
+                    if (resturan.Delivery && resturan.Dine_in)
+                        search += "\nDistribution: Delivery and Dine_in";
+                    else if (resturan.Delivery)
+                        search += "\nDistribution: Delivery";
+                    else if (resturan.Dine_in)
+                        search += "\nDistribution: Dine_in";
+                    else
+                        search += "There is no distribution consist for restaurant";
+                    search += "\nScore of restaurant: " + resturan.Score.ToString() + "/5\n\n";
+                }
             }
 
             return search;
         }
-
     }
 }

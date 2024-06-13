@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Backend.Models;
 
 namespace Wpf_View
 {
@@ -76,6 +77,7 @@ namespace Wpf_View
             else if (ClearPassword)
             {
                 LoginTextBoxPassword.Text = "";
+                LoginTextBoxPassword.Foreground = Brushes.Black;
                 LoginTextBoxPassword.Visibility = Visibility.Hidden;
                 LoginPasswordBox.Visibility = Visibility.Visible;
                 LoginPasswordBox.Focus();
@@ -140,6 +142,37 @@ namespace Wpf_View
                 LoginPage.CornerRadius = new CornerRadius(25 + 3 * j);
             }
             (Application.Current.MainWindow as MainWindow).Content = new SignUp();
+        }
+
+        private void SignIn_Click(object sender, RoutedEventArgs e)
+        {
+            string Username = (ClearUsername) ? "" : username.Text;
+            string Password = (ClearPassword) ? "" : (LoginPasswordBox.Visibility == Visibility.Visible) ? 
+                                                      LoginPasswordBox.Password : LoginTextBoxPassword.Text;
+            try
+            {
+                User user = User.LoginUser(Username, Password);
+                if (user is Admin)
+                    (Application.Current.MainWindow as MainWindow).Content =
+                        new AdminPanel.Home(user as Admin);
+
+                else if (user is Customer)
+                    (Application.Current.MainWindow as MainWindow).Content =
+                        new CustomerPanel.Home(user as Customer);
+
+                else if (user is RestaurantManager)
+                    (Application.Current.MainWindow as MainWindow).Content =
+                        new RestaurantManagerPanel.Home(user as RestaurantManager);
+            }
+            catch (Exception ex)
+            {
+                ErrorBlock.Text = ex.Message;
+            }
+        }
+
+        private void Clear_Error(object sender, KeyEventArgs e)
+        {
+            ErrorBlock.Text = "";
         }
     }
 

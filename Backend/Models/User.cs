@@ -10,7 +10,7 @@ namespace Backend.Models
 {
     public abstract class User
     {
-        public static List<User> Users { get; set; }
+        public static List<User> Users = new List<User>();
 
         public string UserName { get; set; }
         public string Password { get; set; }
@@ -19,6 +19,8 @@ namespace Backend.Models
         {
             UserName = username;
             Password = pass;
+
+            Users.Add(this);
         }
 
         public static bool Exist_UserName(string username)
@@ -26,18 +28,16 @@ namespace Backend.Models
 
         public static User LoginUser(string username, string password)
         {
+            if (username == "" || password == "")
+                throw new Exception("Fields can not be empty");
+
             foreach (var user in Users)
             {
-                if (user.UserName == username)
-                {
-                    if (user.Password == password)
-                        return user;
-                    else
-                        throw new Exception($"Password for user \"{username}\"");    
-                }
+                if (user.UserName == username && user.Password == password)
+                    return user;
             }
 
-            throw new Exception($"There is no user with username \"{username}\" here");    
+            throw new Exception("Username or Password is not valid");
         }
 
         public static bool IsValid_UserName(string userName) // Regex for a true username type
