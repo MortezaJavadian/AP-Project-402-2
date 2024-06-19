@@ -30,11 +30,23 @@ namespace Backend.Models
             this.gender = Gender.Unknown;
         }
 
+<<<<<<< HEAD
         public static void IsValidPhonenumber(string phonenumber) // Regex for a true phone number type 
         {
             string pattern = @"^09\d{9}$";
             if (!Regex.IsMatch(phonenumber, pattern))
                 throw new Exception("Phone Number is not in a true format");
+=======
+        // Regex for a true phone number type
+        public static (bool Valid, string Message) IsValidPhonenumber(string phonenumber) 
+        {
+            if (phonenumber == "")
+                return (false, "Phone Number can not be empty");
+
+            string pattern = @"^09\d{9}$";
+            if (!Regex.IsMatch(phonenumber, pattern))
+                return (false, "Phone Number is not in a true format");
+>>>>>>> Morteza
             else
             {
                 foreach (var user in User.Users)
@@ -43,6 +55,7 @@ namespace Backend.Models
                     {
                         Customer customer = user as Customer;
                         if (customer.PhoneNumber.ToString() == phonenumber) 
+<<<<<<< HEAD
                             throw new Exception("This phone number is used before");
                     }
                 }
@@ -69,6 +82,50 @@ namespace Backend.Models
             if (!Regex.IsMatch(password, pattern))
                 throw new Exception("Password is not in a true format");
             return true;
+=======
+                            return (false, "Phone Number is used before");
+                    }
+                }
+            }
+
+            return (true, "Phone Number is valid");
+        }
+
+        // Regex for a true Name (fristname & lastname) type
+        public static (bool Valid, string Message) IsValidName(string Name)
+        {
+            if (Name == "")
+                return (false, "name can not be empty");
+
+            string pattern = @"^[A-Za-z]{3,32}$";
+            if (!Regex.IsMatch(Name, pattern))
+                return (false, "name is not in a true format");
+
+            return (true, "name is valid");
+        }
+
+        // Regex for a true eamil type
+        public static (bool Valid, string Message) IsValidEmail(string email)
+        {
+            string pattern = @"^[A-Za-z0-9.]{3,32}@[A-Za-z]{3,32}\.[A-Za-z]{2,3}$";
+            if (!Regex.IsMatch(email, pattern))
+                return (false, "Email is not in a true format");
+
+            return (true, "Email is valid");
+        }
+
+        // Regex for a true password of customer type
+        public static (bool Valid, string Message) IsValidPassword(string password)
+        {
+            if (password == "")
+                return (false, "Password can not be empty");
+
+            string pattern = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,32}$";
+            if (!Regex.IsMatch(password, pattern))
+                return (false, "Password is not in a true format");
+
+            return (true, "Password is valid");
+>>>>>>> Morteza
         }
 
         public void ChangeEmail(string eamil)
@@ -106,7 +163,10 @@ namespace Backend.Models
         public string withoutFilter_search()
         {
             string search = "";
+<<<<<<< HEAD
 
+=======
+>>>>>>> Morteza
             foreach (var user in User.Users)
             {
                 if (user is RestaurantManager)
@@ -124,7 +184,10 @@ namespace Backend.Models
                     search += "\nScore of restaurant: " + resturan.Score.ToString() + "/5\n\n";
                 }
             }
+<<<<<<< HEAD
 
+=======
+>>>>>>> Morteza
             return search;
         }
     }
