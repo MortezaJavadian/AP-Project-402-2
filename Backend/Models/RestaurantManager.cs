@@ -14,10 +14,6 @@ namespace Backend.Models
         public double Score { get; set; }
         public bool Delivery { get; set; }
         public bool Dine_in { get; set; }
-<<<<<<< HEAD
-
-=======
->>>>>>> Morteza
         public List<Food> foods;
 
         //public int Complaint_Investigated {  get; set; }

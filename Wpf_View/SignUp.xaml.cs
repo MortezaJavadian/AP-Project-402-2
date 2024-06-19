@@ -9,18 +9,12 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-<<<<<<< HEAD
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-=======
 using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using Backend.Models;
->>>>>>> Morteza
 
 namespace Wpf_View
 {
@@ -40,11 +34,7 @@ namespace Wpf_View
             for (int j = 1; j <= 50; j++)
             {
                 await Task.Delay(15);
-<<<<<<< HEAD
-                SignUpPage.Height += 8;
-=======
                 SignUpPage.Opacity += 0.02;
->>>>>>> Morteza
             }
         }
 
@@ -57,11 +47,7 @@ namespace Wpf_View
             }
             (Application.Current.MainWindow as MainWindow).Content = new Login();
         }
-<<<<<<< HEAD
 
-=======
-        
->>>>>>> Morteza
         bool ClearFirstname = true;
         bool ClearLastname = true;
         bool ClearUsername = true;
@@ -75,55 +61,44 @@ namespace Wpf_View
                 textBox.Text = "";
                 textBox.Foreground = Brushes.Black;
                 ClearFirstname = false;
-<<<<<<< HEAD
-=======
                 FirstnameError.Text = "Firstname can not be empty";
                 FirstnameBorder.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D10000"));
->>>>>>> Morteza
             }
             else if (ClearLastname && textBox.Name == "Lastname")
             {
                 textBox.Text = "";
                 textBox.Foreground = Brushes.Black;
                 ClearLastname = false;
-<<<<<<< HEAD
-=======
+
                 LastnameError.Text = "Lastname can not be empty";
                 LastnameBorder.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D10000"));
->>>>>>> Morteza
             }
             else if (ClearUsername && textBox.Name == "Username")
             {
                 textBox.Text = "";
                 textBox.Foreground = Brushes.Black;
                 ClearUsername = false;
-<<<<<<< HEAD
-=======
+
                 UsernameError.Text = "Username can not be empty";
                 UsernameBorder.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D10000"));
->>>>>>> Morteza
             }
             else if (ClearPhoneNumber && textBox.Name == "PhoneNumber")
             {
                 textBox.Text = "";
                 textBox.Foreground = Brushes.Black;
                 ClearPhoneNumber = false;
-<<<<<<< HEAD
-=======
+
                 PhoneNumberError.Text = "Phone Number can not be empty";
                 PhoneNumberBorder.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D10000"));
->>>>>>> Morteza
             }
             else if (ClearEmail && textBox.Name == "Email")
             {
                 textBox.Text = "";
                 textBox.Foreground = Brushes.Black;
                 ClearEmail = false;
-<<<<<<< HEAD
-=======
+
                 EmailError.Text = "Email can not be empty";
                 EmailBorder.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D10000"));
->>>>>>> Morteza
             }
         }
 
@@ -137,55 +112,38 @@ namespace Wpf_View
                     textBox.Foreground = Brushes.DimGray;
                     textBox.Text = "Firstname";
                     ClearFirstname = true;
-<<<<<<< HEAD
-=======
                     FirstnameError.Text = "";
                     FirstnameBorder.BorderBrush = null;
->>>>>>> Morteza
                 }
                 else if (textBox.Name == "Lastname")
                 {
                     textBox.Foreground = Brushes.DimGray;
                     textBox.Text = "Lastname";
                     ClearLastname = true;
-<<<<<<< HEAD
-=======
                     LastnameError.Text = "";
                     LastnameBorder.BorderBrush = null;
->>>>>>> Morteza
                 }
                 else if (textBox.Name == "Username")
                 {
                     textBox.Foreground = Brushes.DimGray;
                     textBox.Text = "Username";
                     ClearUsername = true;
-<<<<<<< HEAD
-=======
                     UsernameError.Text = "";
                     UsernameBorder.BorderBrush = null;
->>>>>>> Morteza
                 }
                 else if (textBox.Name == "PhoneNumber")
                 {
                     textBox.Foreground = Brushes.DimGray;
                     textBox.Text = "Phone Number";
                     ClearPhoneNumber = true;
-<<<<<<< HEAD
-=======
                     PhoneNumberError.Text = "";
                     PhoneNumberBorder.BorderBrush = null;
->>>>>>> Morteza
                 }
                 else if (textBox.Name == "Email")
                 {
                     textBox.Foreground = Brushes.DimGray;
                     textBox.Text = "Email";
                     ClearEmail = true;
-<<<<<<< HEAD
-                }
-            }
-        }
-=======
                     EmailError.Text = "";
                     EmailBorder.BorderBrush = null;
                 }
@@ -362,6 +320,5 @@ namespace Wpf_View
             Box4.Text = "";
             Box5.Text = "";
         }
->>>>>>> Morteza
     }
 }
