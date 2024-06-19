@@ -71,7 +71,7 @@ namespace Backend.Models
         // Regex for a true eamil type
         public static (bool Valid, string Message) IsValidEmail(string email)
         {
-            string pattern = @"^[A-Za-z]{3,32}@[A-Za-z]{3,32}\.[A-Za-z]{2,3}$";
+            string pattern = @"^[A-Za-z0-9.]{3,32}@[A-Za-z]{3,32}\.[A-Za-z]{2,3}$";
             if (!Regex.IsMatch(email, pattern))
                 return (false, "Email is not in a true format");
 

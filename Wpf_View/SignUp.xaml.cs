@@ -9,9 +9,11 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using Backend.Models;
 
 namespace Wpf_View
@@ -32,7 +34,7 @@ namespace Wpf_View
             for (int j = 1; j <= 50; j++)
             {
                 await Task.Delay(15);
-                SignUpPage.Height += 8;
+                SignUpPage.Opacity += 0.02;
             }
         }
 
@@ -144,16 +146,21 @@ namespace Wpf_View
             }
         }
 
+        bool ValidFirstname = false;
+        bool ValidLastname = false;
+        bool ValidUsername = false;
+        bool ValidPhoneNumber = false;
+        bool ValidEmail = false;
         private void Clear_Error(object sender, KeyEventArgs e)
         {
             TextBox textBox = sender as TextBox;
             if (textBox.Name == "Firstname")
             {
-                (bool Valid, string Message) = Customer.IsValidName(textBox.Text);
-                FirstnameBorder.BorderBrush = (Valid) ? 
+                (ValidFirstname, string Message) = Customer.IsValidName(textBox.Text);
+                FirstnameBorder.BorderBrush = (ValidFirstname) ? 
                                       new SolidColorBrush((Color)ColorConverter.ConvertFromString("#00D100")) :
                                       new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D10000"));
-                FirstnameError.Foreground = (Valid) ? 
+                FirstnameError.Foreground = (ValidFirstname) ? 
                                       new SolidColorBrush((Color)ColorConverter.ConvertFromString("#00D100")) :
                                       new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D10000"));
 
@@ -161,11 +168,11 @@ namespace Wpf_View
             }
             else if (textBox.Name == "Lastname")
             {
-                (bool Valid, string Message) = Customer.IsValidName(textBox.Text);
-                LastnameBorder.BorderBrush = (Valid) ?
+                (ValidLastname, string Message) = Customer.IsValidName(textBox.Text);
+                LastnameBorder.BorderBrush = (ValidLastname) ?
                                       new SolidColorBrush((Color)ColorConverter.ConvertFromString("#00D100")) :
                                       new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D10000"));
-                LastnameError.Foreground = (Valid) ?
+                LastnameError.Foreground = (ValidLastname) ?
                                       new SolidColorBrush((Color)ColorConverter.ConvertFromString("#00D100")) :
                                       new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D10000"));
 
@@ -173,11 +180,11 @@ namespace Wpf_View
             }
             else if (textBox.Name == "Username")
             {
-                (bool Valid, string Message) = User.IsValid_UserName(textBox.Text);
-                UsernameBorder.BorderBrush = (Valid) ?
+                (ValidUsername, string Message) = User.IsValid_UserName(textBox.Text);
+                UsernameBorder.BorderBrush = (ValidUsername) ?
                                       new SolidColorBrush((Color)ColorConverter.ConvertFromString("#00D100")) :
                                       new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D10000"));
-                UsernameError.Foreground = (Valid) ?
+                UsernameError.Foreground = (ValidUsername) ?
                                       new SolidColorBrush((Color)ColorConverter.ConvertFromString("#00D100")) :
                                       new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D10000"));
 
@@ -185,11 +192,11 @@ namespace Wpf_View
             }
             else if (textBox.Name == "PhoneNumber")
             {
-                (bool Valid, string Message) = Customer.IsValidPhonenumber(textBox.Text);
-                PhoneNumberBorder.BorderBrush = (Valid) ?
+                (ValidPhoneNumber, string Message) = Customer.IsValidPhonenumber(textBox.Text);
+                PhoneNumberBorder.BorderBrush = (ValidPhoneNumber) ?
                                       new SolidColorBrush((Color)ColorConverter.ConvertFromString("#00D100")) :
                                       new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D10000"));
-                PhoneNumberError.Foreground = (Valid) ?
+                PhoneNumberError.Foreground = (ValidPhoneNumber) ?
                                       new SolidColorBrush((Color)ColorConverter.ConvertFromString("#00D100")) :
                                       new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D10000"));
 
@@ -197,16 +204,117 @@ namespace Wpf_View
             }
             else if (textBox.Name == "Email")
             {
-                (bool Valid, string Message) = Customer.IsValidEmail(textBox.Text);
-                EmailBorder.BorderBrush = (Valid) ?
+                (ValidEmail, string Message) = Customer.IsValidEmail(textBox.Text);
+                EmailBorder.BorderBrush = (ValidEmail) ?
                                       new SolidColorBrush((Color)ColorConverter.ConvertFromString("#00D100")) :
                                       new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D10000"));
-                EmailError.Foreground = (Valid) ?
+                EmailError.Foreground = (ValidEmail) ?
                                       new SolidColorBrush((Color)ColorConverter.ConvertFromString("#00D100")) :
                                       new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D10000"));
 
                 EmailError.Text = Message;
             }
+
+            if (ValidFirstname && ValidLastname && ValidUsername && ValidPhoneNumber && ValidEmail)
+            {
+                ConfirmButton.IsEnabled = true;
+                ConfirmButton.Opacity = 1;
+            }
+            else
+            {
+                ConfirmButton.IsEnabled = false;
+                ConfirmButton.Opacity = 0.4;
+            }
+        }
+
+        private async void Confirm_Click(object sender, RoutedEventArgs e)
+        {
+            Style DisabledBorderStyle = new Style(typeof(Border));
+            DisabledBorderStyle.Setters.Add(new Setter(Border.IsEnabledProperty, false));
+            SignUpPage.Style = DisabledBorderStyle;
+
+            Panel.SetZIndex(VerifyPage, 0);
+
+            SignUpPage.Effect = new BlurEffect();
+            for (int i = 1; i <= 25; i++)
+            {
+                await Task.Delay(1);
+                (SignUpPage.Effect as BlurEffect).Radius += 0.2;
+                VerifyPage.Opacity += 0.04;
+            }
+
+            Box1.Focus();
+        }
+
+        private void FocusNextBox(object sender, KeyEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+            bool isDigit = false;
+
+            if (e.Key >= Key.D0 && e.Key <= Key.D9 && !Keyboard.IsKeyDown(Key.LeftShift) &&
+                                                      !Keyboard.IsKeyDown(Key.RightShift))
+                isDigit = true;
+            else if (Keyboard.IsKeyToggled(Key.NumLock) && e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9)
+                isDigit = true;
+
+            e.Handled = !((textBox.Text.Length == 0 && isDigit) || 
+                          (textBox.Text.Length != 0 && textBox.SelectedText.Length == textBox.Text.Length));
+
+            if (!e.Handled)
+            {
+                Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    if (textBox.Name == "Box1")
+                    {
+                        Box2.Focus();
+                        Box2.SelectAll();
+                    }
+                    else if (textBox.Name == "Box2")
+                    {
+                        Box3.Focus();
+                        Box3.SelectAll();
+                    }
+                    else if (textBox.Name == "Box3")
+                    {
+                        Box4.Focus();
+                        Box4.SelectAll();
+                    }
+                    else if (textBox.Name == "Box4")
+                    {
+                        Box5.Focus();
+                        Box5.SelectAll();
+                    }
+                    else if (textBox.Name == "Box5")
+                    {
+                        FocusManager.SetFocusedElement(FocusManager.GetFocusScope(textBox), null);
+                        Keyboard.ClearFocus();
+                    }
+                }), DispatcherPriority.ContextIdle);
+            }
+        }
+
+        private async void Edit_Click(object sender, RoutedEventArgs e)
+        {
+            Keyboard.ClearFocus();
+
+            Style EnabledBorderStyle = new Style(typeof(Border));
+            EnabledBorderStyle.Setters.Add(new Setter(Border.IsEnabledProperty, true));
+            SignUpPage.Style = EnabledBorderStyle;
+
+            Panel.SetZIndex(VerifyPage, -1);
+
+            for (int i = 1; i <= 25; i++)
+            {
+                await Task.Delay(1);
+                (SignUpPage.Effect as BlurEffect).Radius -= 0.4;
+                VerifyPage.Opacity -= 0.04;
+            }
+
+            Box1.Text = "";
+            Box2.Text = "";
+            Box3.Text = "";
+            Box4.Text = "";
+            Box5.Text = "";
         }
     }
 }
