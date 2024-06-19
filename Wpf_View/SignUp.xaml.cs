@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using Backend.Models;
+using Backend.NetWork;
 
 namespace Wpf_View
 {
@@ -233,21 +234,32 @@ namespace Wpf_View
 
         private async void Confirm_Click(object sender, RoutedEventArgs e)
         {
-            Style DisabledBorderStyle = new Style(typeof(Border));
-            DisabledBorderStyle.Setters.Add(new Setter(Border.IsEnabledProperty, false));
-            SignUpPage.Style = DisabledBorderStyle;
-
-            Panel.SetZIndex(VerifyPage, 0);
-
-            SignUpPage.Effect = new BlurEffect();
-            for (int i = 1; i <= 25; i++)
+            try
             {
-                await Task.Delay(1);
-                (SignUpPage.Effect as BlurEffect).Radius += 0.2;
-                VerifyPage.Opacity += 0.04;
-            }
+                Verification.send(Email.Text);
 
-            Box1.Focus();
+                Style DisabledBorderStyle = new Style(typeof(Border));
+                DisabledBorderStyle.Setters.Add(new Setter(Border.IsEnabledProperty, false));
+                SignUpPage.Style = DisabledBorderStyle;
+
+                Panel.SetZIndex(VerifyPage, 0);
+
+                SignUpPage.Effect = new BlurEffect();
+                for (int i = 1; i <= 25; i++)
+                {
+                    await Task.Delay(1);
+                    (SignUpPage.Effect as BlurEffect).Radius += 0.2;
+                    VerifyPage.Opacity += 0.04;
+                }
+
+                Box1.Focus();
+            }
+            catch (Exception ex)
+            {
+                EmailError.Text = ex.Message;
+                await Task.Delay(1000);
+                EmailError.Text = "";
+            }
         }
 
         private void FocusNextBox(object sender, KeyEventArgs e)
@@ -319,6 +331,30 @@ namespace Wpf_View
             Box3.Text = "";
             Box4.Text = "";
             Box5.Text = "";
+        }
+
+        private void Verify_Click(object sender, RoutedEventArgs e)
+        {
+            string code = Box1.Text + Box2.Text + Box3.Text + Box4.Text + Box5.Text;
+
+            if (Verification.verify(code))
+            {
+                
+            }
+            else
+            {
+                Box1.Text = "";
+                Box2.Text = "";
+                Box3.Text = "";
+                Box4.Text = "";
+                Box5.Text = "";
+
+                Box1.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D10000"));
+                Box2.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D10000"));
+                Box3.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D10000"));
+                Box4.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D10000"));
+                Box5.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D10000"));
+            }
         }
     }
 }

@@ -16,7 +16,7 @@
         </Image>
 
         <Border x:Name="SignUpPage" Background="DarkCyan" CornerRadius="25" Width="625" Height="400"
-                Margin="0,50,0,0" VerticalAlignment="Top" Opacity="0">
+                Margin="0,50,0,0" VerticalAlignment="Top" Opacity="1">
             <StackPanel>
                 <TextBlock Text="Sing Up" FontWeight="SemiBold" FontFamily="Gabriola" FontSize="65" Foreground="White"
                            HorizontalAlignment="Center"/>
@@ -183,7 +183,6 @@
 
         <Border x:Name="VerifyPage" Background="#000075" CornerRadius="25" Width="270" Height="167"
                 Margin="0,0,0,32" Opacity="0" Panel.ZIndex="-1">
-            
             <StackPanel>
                 <TextBlock Text="We've sent a verification code &#x0a;              to your email" FontSize="15"
                            Foreground="White" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,20,0,10"/>
@@ -215,7 +214,6 @@
                             </Style>
                         </TextBox.Style>
                     </TextBox>
-                    
                     <TextBox x:Name="Box2" Width="25" Height="30" KeyDown="FocusNextBox" Margin="5"
                              TextAlignment="Center" FontSize="19">
                         <TextBox.Resources>
@@ -242,7 +240,6 @@
                             </Style>
                         </TextBox.Style>
                     </TextBox>
-                    
                     <TextBox x:Name="Box3" Width="25" Height="30" KeyDown="FocusNextBox" Margin="5"
                              TextAlignment="Center" FontSize="19">
                         <TextBox.Resources>
@@ -269,7 +266,6 @@
                             </Style>
                         </TextBox.Style>
                     </TextBox>
-                    
                     <TextBox x:Name="Box4" Width="25" Height="30" KeyDown="FocusNextBox" Margin="5"
                              TextAlignment="Center" FontSize="19">
                         <TextBox.Resources>
@@ -296,7 +292,6 @@
                             </Style>
                         </TextBox.Style>
                     </TextBox>
-                    
                     <TextBox x:Name="Box5" Width="25" Height="30" KeyDown="FocusNextBox" Margin="5"
                              TextAlignment="Center" FontSize="19">
                         <TextBox.Resources>
@@ -326,7 +321,6 @@
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" Margin="20,10">
-                    
                     <Button Content="Edit Email" FontWeight="SemiBold" Background="Transparent" BorderThickness="0"
                             FontSize="15" Margin="0,3,0,0" Click="Edit_Click">
                         <Button.Style>
@@ -355,8 +349,7 @@
                     </Button>
 
                     <Button FontWeight="SemiBold" Background="Blue" Foreground="White"
-                            Margin="18,0,0,0" Width="60">
-
+                            Margin="18,0,0,0" Width="60" Click="Verify_Click">
                         <TextBlock Text="Verify" FontSize="15" Margin="0,4,0,6"/>
 
                         <Button.Style>
