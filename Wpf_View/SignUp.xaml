@@ -16,7 +16,7 @@
         </Image>
 
         <Border x:Name="SignUpPage" Background="DarkCyan" CornerRadius="25" Width="625" Height="400"
-                Margin="0,50,0,0" VerticalAlignment="Top" Opacity="0">
+                Margin="0,50,0,0" VerticalAlignment="Top" Opacity="1">
             <StackPanel>
                 <TextBlock Text="Sing Up" FontWeight="SemiBold" FontFamily="Gabriola" FontSize="65" Foreground="White"
                            HorizontalAlignment="Center"/>
@@ -56,7 +56,6 @@
                         <ColumnDefinition/>
                         <ColumnDefinition Width="0.82*"/>
                     </Grid.ColumnDefinitions>
-                    
                     <TextBlock Grid.Column="0" x:Name="FirstnameError" HorizontalAlignment="Left"
                                Foreground="#D10000" FontSize="13.5" FontWeight="Bold"/>
 
@@ -124,34 +123,41 @@
                 <TextBlock x:Name="EmailError" HorizontalAlignment="Left" Foreground="#D10000"
                            FontSize="13.5" FontWeight="Bold" Margin="175,0"/>
 
-                <Button x:Name="ConfirmButton" FontWeight="SemiBold" Background="Blue" Foreground="White"
-                        Margin="275,6,275,0" IsEnabled="False" Opacity="0.4" Click="Confirm_Click">
+                <Grid>
+                    <Button x:Name="ConfirmButton" FontWeight="SemiBold" Background="Blue" Foreground="White"
+                            Width="75" IsEnabled="False" Opacity="0.4" Click="Confirm_Click">
 
-                    <TextBlock Text="Confirm" FontSize="15" Margin="0,5,0,8"/>
+                        <TextBlock Text="Confirm" FontSize="15" Margin="0,5,0,8"/>
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border x:Name="border" Background="{TemplateBinding Background}" 
+                                                    BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="13">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="border" Property="Background" Value="DarkOrange"/>
+                                                </Trigger>
+                                                <Trigger Property="IsPressed" Value="True">
+                                                    <Setter TargetName="border" Property="Background" Value="Transparent"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                    </Button>
 
-                    <Button.Style>
-                        <Style TargetType="Button">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="Button">
-                                        <Border x:Name="border" Background="{TemplateBinding Background}" 
-                                BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="13">
-                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                        </Border>
-                                        <ControlTemplate.Triggers>
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter TargetName="border" Property="Background" Value="DarkOrange"/>
-                                            </Trigger>
-                                            <Trigger Property="IsPressed" Value="True">
-                                                <Setter TargetName="border" Property="Background" Value="Transparent"/>
-                                            </Trigger>
-                                        </ControlTemplate.Triggers>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </Button.Style>
-                </Button>
+                    <Border x:Name="InternetError" HorizontalAlignment="Left" CornerRadius="15" Width="0"
+                            BorderBrush="#D10000" BorderThickness="2" Margin="365,0,0,0">
+                        
+                        <TextBlock Foreground="#D10000" FontSize="15" FontWeight="Bold" Margin="5"/>
+                    </Border>
+                </Grid>
 
                 <Button Content="Login" FontWeight="SemiBold" Background="Transparent" BorderThickness="0"
                         Margin="0,10,0,0" FontSize="14" Width="37" Click="Login_Click">
@@ -184,7 +190,7 @@
 
         <Border x:Name="VerifyPage" Background="#000075" CornerRadius="25" Width="270" Height="167"
                 Margin="0,0,0,32" Opacity="0" Panel.ZIndex="-1">
-            
+
             <StackPanel>
                 <TextBlock Text="We've sent a verification code &#x0a;              to your email" FontSize="15"
                            Foreground="White" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,20,0,10"/>
@@ -216,7 +222,7 @@
                             </Style>
                         </TextBox.Style>
                     </TextBox>
-                    
+
                     <TextBox x:Name="Box2" Width="25" Height="30" KeyDown="FocusNextBox" Margin="5"
                              TextAlignment="Center" FontSize="19">
                         <TextBox.Resources>
@@ -243,7 +249,7 @@
                             </Style>
                         </TextBox.Style>
                     </TextBox>
-                    
+
                     <TextBox x:Name="Box3" Width="25" Height="30" KeyDown="FocusNextBox" Margin="5"
                              TextAlignment="Center" FontSize="19">
                         <TextBox.Resources>
@@ -270,7 +276,7 @@
                             </Style>
                         </TextBox.Style>
                     </TextBox>
-                    
+
                     <TextBox x:Name="Box4" Width="25" Height="30" KeyDown="FocusNextBox" Margin="5"
                              TextAlignment="Center" FontSize="19">
                         <TextBox.Resources>
@@ -297,7 +303,7 @@
                             </Style>
                         </TextBox.Style>
                     </TextBox>
-                    
+
                     <TextBox x:Name="Box5" Width="25" Height="30" KeyDown="FocusNextBox" Margin="5"
                              TextAlignment="Center" FontSize="19">
                         <TextBox.Resources>
@@ -327,7 +333,7 @@
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" Margin="20,10">
-                    
+
                     <Button Content="Edit Email" FontWeight="SemiBold" Background="Transparent" BorderThickness="0"
                             FontSize="15" Margin="0,3,0,0" Click="Edit_Click">
                         <Button.Style>
@@ -356,8 +362,8 @@
                     </Button>
 
                     <Button FontWeight="SemiBold" Background="Blue" Foreground="White"
-                            Margin="18,0,0,0" Width="60">
 
+                            Margin="18,0,0,0" Width="60" Click="Verify_Click">
                         <TextBlock Text="Verify" FontSize="15" Margin="0,4,0,6"/>
 
                         <Button.Style>

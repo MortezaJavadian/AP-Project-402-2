@@ -11,6 +11,7 @@ namespace Backend.Models
     public abstract class User
     {
         public static List<User> Users = new List<User>();
+
         public string UserName { get; set; }
         public string Password { get; set; }
 
