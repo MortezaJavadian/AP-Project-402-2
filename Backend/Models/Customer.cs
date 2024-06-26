@@ -13,14 +13,14 @@ namespace Backend.Models
 
     public class Customer : User
     {
-        public int PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
         public string Address { get; set; } // optional
         public Gender gender { get; set; } // optional
 
-        public Customer(string username, string pass, int phone, string firstname, string lastname, string email, string addres) : base (username, pass)
+        public Customer(string username, string pass, string phone, string firstname, string lastname, string email, string addres) : base (username, pass)
         { 
             this.PhoneNumber = phone;
             this.FirstName = firstname;
@@ -46,7 +46,7 @@ namespace Backend.Models
                     if (user is Customer)
                     {
                         Customer customer = user as Customer;
-                        if (customer.PhoneNumber.ToString() == phonenumber) 
+                        if (customer.PhoneNumber == phonenumber) 
                             return (false, "Phone Number is used before");
                     }
                 }
@@ -107,7 +107,7 @@ namespace Backend.Models
         public string Profile_Info()
         {
             string Info = "";
-            Info += "Name: " + FirstName + " " + LastName + "\nPhone: " + PhoneNumber.ToString() +
+            Info += "Name: " + FirstName + " " + LastName + "\nPhone: " + PhoneNumber +
                 "\nUser name: " + UserName + "\nEmail" + Email;
             if (Address != null)
                 Info += "\nAdress: " + Address;
