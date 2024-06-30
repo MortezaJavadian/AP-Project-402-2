@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 namespace Backend.Models
 {
     public enum Gender { Male, Female, Unknown }
+    public enum SpecialService { Bronze , Silver , Gold , Normal}
 
     public class Customer : User
     {
@@ -19,6 +20,7 @@ namespace Backend.Models
         public string Email { get; set; }
         public string Address { get; set; } // optional
         public Gender gender { get; set; } // optional
+        public SpecialService SpecialService { get; set; }
 
         public Customer(string username, string pass, int phone, string firstname, string lastname, string email, string addres) : base (username, pass)
         { 
@@ -28,6 +30,7 @@ namespace Backend.Models
             this.Email = email;
             this.Address = addres;
             this.gender = Gender.Unknown;
+            this.SpecialService = SpecialService.Normal;
         }
 
         // Regex for a true phone number type

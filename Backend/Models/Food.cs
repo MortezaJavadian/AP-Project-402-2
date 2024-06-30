@@ -12,6 +12,7 @@ namespace Backend.Models
         public string Description { get; set; }
         public bool Available { get; set; }
         public int foodNum {  get; set; }
+        public int Price { get; set; }
         public List<string> foodComments {  get; set; }
 
         public Food(string name, string description, bool available, int num) 
