@@ -26,6 +26,61 @@ namespace Wpf_View.CustomerPanel
         {
             this.customer = customer;
             InitializeComponent();
+            StartPannel();
+            FristName.Text = customer.FirstName;
+            LastName.Text = customer.LastName;
+        }
+
+        private async void StartPannel()
+        {
+            for (int j = 1; j <= 50; j++)
+            {
+                await Task.Delay(15);
+                PannelBorder.Opacity += 0.02;
+            }
+        }
+
+        private async void SignOut_Click(object sender, RoutedEventArgs e)
+        {
+            for (int j = 1; j <= 25; j++)
+            {
+                await Task.Delay(5);
+                PannelBorder.Opacity -= 0.04;
+            }
+            (Application.Current.MainWindow as MainWindow).Content = new Login();
+        }
+
+        private void Click_Choices(object sender, MouseButtonEventArgs e)
+        {
+            Border border = sender as Border;
+            if (border.Name == "Profile")
+            {
+                Profile.Background = Brushes.Gray;
+                Reservation.Background = null;
+                History.Background = null;
+                Complaint.Background = null;
+            }
+            else if (border.Name == "Reservation")
+            {
+                Profile.Background = null;
+                Reservation.Background = Brushes.Gray;
+                History.Background = null;
+                Complaint.Background = null;
+            }
+            else if (border.Name == "History")
+            {
+                Profile.Background = null;
+                Reservation.Background = null;
+                History.Background = Brushes.Gray;
+                Complaint.Background = null;
+            }
+            else if (border.Name == "Complaint")
+            {
+                Profile.Background = null;
+                Reservation.Background = null;
+                History.Background = null;
+                Complaint.Background = Brushes.Gray;
+            }
         }
     }
 }

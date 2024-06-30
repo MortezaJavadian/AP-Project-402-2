@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using Backend.Models;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -25,6 +26,7 @@ namespace Wpf_View
 
         private async void ShowStartPage()
         {
+            this.Content = new CustomerPanel.Home(new Customer("", "", "", "Morteza", "Javadian", "")); return;
             char[] StartText = { 'R', 'e', 's', 't', 'a', 'u', 'r', 'a', 'n', 't', ' ',
                                  'M', 'a', 'n', 'a', 'g', 'e', 'm', 'e', 'n', 't' };
             for (int i = 0; i < StartText.Length; i++)

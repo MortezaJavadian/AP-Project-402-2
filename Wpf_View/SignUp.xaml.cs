@@ -43,8 +43,8 @@ namespace Wpf_View
         {
             for (int j = 1; j <= 25; j++)
             {
-                await Task.Delay(1);
-                SignUpPage.Height -= 16;
+                await Task.Delay(5);
+                SignUpPage.Opacity -= 0.04;
             }
             (Application.Current.MainWindow as MainWindow).Content = new Login();
         }
@@ -507,7 +507,7 @@ namespace Wpf_View
         private async void Submit_Click(object sender, RoutedEventArgs e)
         {
             new Customer(Username.Text, Password.Text, PhoneNumber.Text, Firstname.Text, Lastname.Text,
-                         Email.Text, "");
+                         Email.Text);
 
             for (int j = 1; j <= 25; j++)
             {

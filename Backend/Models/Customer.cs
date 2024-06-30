@@ -20,13 +20,13 @@ namespace Backend.Models
         public string Address { get; set; } // optional
         public Gender gender { get; set; } // optional
 
-        public Customer(string username, string pass, string phone, string firstname, string lastname, string email, string addres) : base (username, pass)
+        public Customer(string username, string pass, string phone, string firstname, string lastname, string email) : base (username, pass)
         { 
             this.PhoneNumber = phone;
             this.FirstName = firstname;
             this.LastName = lastname;
             this.Email = email;
-            this.Address = addres;
+            this.Address = "";
             this.gender = Gender.Unknown;
         }
 
