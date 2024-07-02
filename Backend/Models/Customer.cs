@@ -14,6 +14,7 @@ namespace Backend.Models
 
     public class Customer : User
     {
+        public int Customer_Id { get; set; }
         public int PhoneNumber { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -21,9 +22,13 @@ namespace Backend.Models
         public string Address { get; set; } // optional
         public Gender gender { get; set; } // optional
         public SpecialService SpecialService { get; set; }
+        public List <Reservation > reservations { get; set; }
+        public List <Orders > orders { get; set; }
+        public List <Complaint> complaints { get; set; }
 
         public Customer(string username, string pass, int phone, string firstname, string lastname, string email, string addres) : base (username, pass)
-        { 
+        {
+            this.Customer_Id = User.customers.Count + 1 ;
             this.PhoneNumber = phone;
             this.FirstName = firstname;
             this.LastName = lastname;
@@ -31,6 +36,9 @@ namespace Backend.Models
             this.Address = addres;
             this.gender = Gender.Unknown;
             this.SpecialService = SpecialService.Normal;
+            reservations = new List<Reservation>();
+            orders = new List<Orders>();
+            complaints = new List<Complaint>();
         }
 
         // Regex for a true phone number type
@@ -44,7 +52,7 @@ namespace Backend.Models
                 return (false, "Phone Number is not in a true format");
             else
             {
-                foreach (var user in User.Users)
+                foreach (var user in User.customers)
                 {
                     if (user is Customer)
                     {
@@ -105,48 +113,6 @@ namespace Backend.Models
             if (address.Trim() == "" || address == null)
                 throw new Exception("Address could not be Empty");
             Address = address.Trim();
-        }
-
-        public string Profile_Info()
-        {
-            string Info = "";
-            Info += "Name: " + FirstName + " " + LastName + "\nPhone: " + PhoneNumber.ToString() +
-                "\nUser name: " + UserName + "\nEmail" + Email;
-            if (Address != null)
-                Info += "\nAdress: " + Address;
-
-            if (gender == Gender.Unknown)
-                return Info;
-
-            if (gender == Gender.Female)
-                Info += "\nGender: " + Gender.Female;
-            else
-                Info += "\nGender: " + Gender.Male;
-            return Info;
-        }
-
-
-        public string withoutFilter_search()
-        {
-            string search = "";
-            foreach (var user in User.Users)
-            {
-                if (user is RestaurantManager)
-                {
-                    RestaurantManager resturan = user as RestaurantManager;
-                    search += "Name: " + resturan.NameOfRestaurant + "\nAddress: " + resturan.City + " " + resturan.Address;
-                    if (resturan.Delivery && resturan.Dine_in)
-                        search += "\nDistribution: Delivery and Dine_in";
-                    else if (resturan.Delivery)
-                        search += "\nDistribution: Delivery";
-                    else if (resturan.Dine_in)
-                        search += "\nDistribution: Dine_in";
-                    else
-                        search += "There is no distribution consist for restaurant";
-                    search += "\nScore of restaurant: " + resturan.Score.ToString() + "/5\n\n";
-                }
-            }
-            return search;
         }
     }
 }
