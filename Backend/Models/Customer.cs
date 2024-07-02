@@ -114,5 +114,33 @@ namespace Backend.Models
                 throw new Exception("Address could not be Empty");
             Address = address.Trim();
         }
+
+        public List<RestaurantManager> SearchRestaurants(string city = null, string restaurantName = null, bool? delivery = null, bool? dineIn = null, double? minAverageRating = null)
+        {
+            List<RestaurantManager> filteredRestaurants = new List<RestaurantManager>();
+
+            // Filter by city
+            if (!string.IsNullOrEmpty(city))
+                filteredRestaurants = restaurantManagers.Where(r => r.City == city).ToList();
+            else
+                filteredRestaurants = restaurantManagers.ToList(); 
+            
+            // Filter by restaurant name
+            if (!string.IsNullOrEmpty(restaurantName))
+                filteredRestaurants = filteredRestaurants.Where(r => r.NameOfRestaurant.Contains(restaurantName)).ToList();
+            
+            // Filter by delivery or dine in
+            if (delivery != null)
+                filteredRestaurants = filteredRestaurants.Where(r => r.Delivery == delivery.Value).ToList();
+
+            if (dineIn != null)
+                filteredRestaurants = filteredRestaurants.Where(r => r.Dine_in == dineIn.Value).ToList();
+            
+            // Filter by average score
+            if (minAverageRating != null)
+                filteredRestaurants = filteredRestaurants.Where(r => r.Score >= minAverageRating.Value).ToList();
+
+            return filteredRestaurants;
+        }
     }
 }
