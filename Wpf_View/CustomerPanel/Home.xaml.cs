@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,8 +28,18 @@ namespace Wpf_View.CustomerPanel
             this.customer = customer;
             InitializeComponent();
             StartPannel();
-            FristName.Text = customer.FirstName;
+            FirstName.Text = customer.FirstName;
             LastName.Text = customer.LastName;
+
+            ProfilePage.Firstname.Text = customer.FirstName;
+            ProfilePage.Lastname.Text = customer.LastName;
+            ProfilePage.Username.Text = customer.UserName;
+            ProfilePage.PhoneNumber.Text = customer.PhoneNumber;
+            ProfilePage.Email.Text = customer.Email;
+            ProfilePage.Gender.Text = customer.gender.ToString();
+            ProfilePage.Address.Text = customer.Address;
+
+            User.Users.Add(new RestaurantManager("dsf", "sdf", "sdf", "sdf", "sdf", true, false));
         }
 
         private async void StartPannel()
@@ -59,6 +70,9 @@ namespace Wpf_View.CustomerPanel
                 Reservation.Background = null;
                 History.Background = null;
                 Complaint.Background = null;
+
+                ProfilePage.Visibility = Visibility.Visible;
+                RestaurantsPage.Visibility = Visibility.Collapsed;
             }
             else if (border.Name == "Reservation")
             {
@@ -66,6 +80,9 @@ namespace Wpf_View.CustomerPanel
                 Reservation.Background = Brushes.Gray;
                 History.Background = null;
                 Complaint.Background = null;
+
+                ProfilePage.Visibility = Visibility.Collapsed;
+                RestaurantsPage.Visibility = Visibility.Visible;
             }
             else if (border.Name == "History")
             {
@@ -82,5 +99,14 @@ namespace Wpf_View.CustomerPanel
                 Complaint.Background = Brushes.Gray;
             }
         }
+
+        public static void Gender_Changed()
+            => ((Application.Current.MainWindow as MainWindow).Content as Home).customer.gender =
+                Enum.Parse<Gender>(
+                    ((Application.Current.MainWindow as MainWindow).Content as Home).ProfilePage.Gender.Text);
+
+        public static void Address_Changed()
+            => ((Application.Current.MainWindow as MainWindow).Content as Home).customer.Address =
+                ((Application.Current.MainWindow as MainWindow).Content as Home).ProfilePage.Address.Text;
     }
 }

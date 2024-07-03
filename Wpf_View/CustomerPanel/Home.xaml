@@ -18,22 +18,22 @@
         <Border x:Name="PannelBorder" Background="#0000A3" Margin="40,30" CornerRadius="20" Opacity="0">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="200"/>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="215"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <Border Grid.Column="0" Background="#050A30" CornerRadius="20">
+                <Border Grid.Column="0" Background="#050A30" CornerRadius="20" Margin="5">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="50"/>
                         </Grid.RowDefinitions>
-                        
+
                         <StackPanel Grid.Row="0">
                             <TextBlock Text="Customer" FontWeight="SemiBold" FontFamily="Gabriola" FontSize="40"
                                        Margin="0,10,0,-10" Foreground="White" HorizontalAlignment="Center"/>
 
-                            <TextBlock x:Name="FristName" Text="Morteza" FontFamily="Gabriola" FontSize="28"
+                            <TextBlock x:Name="FirstName" Text="Morteza" FontFamily="Gabriola" FontSize="28"
                                        Foreground="White" HorizontalAlignment="Center"/>
                             <TextBlock x:Name="LastName" Text="Javadian" FontFamily="Gabriola" FontSize="28"
                                        Foreground="White" Margin="0,-24,0,10" HorizontalAlignment="Center"/>
@@ -89,6 +89,9 @@
                         </Button>
                     </Grid>
                 </Border>
+
+                <local:Profile x:Name="ProfilePage" Grid.Column="1" Visibility="Collapsed"/>
+                <local:Restaurants x:Name="RestaurantsPage" Grid.Column="1" Visibility="Collapsed"/>
             </Grid>
         </Border>
     </Grid>
