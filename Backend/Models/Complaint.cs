@@ -34,6 +34,9 @@ namespace Backend.Models
             Status = ComplaintStatus.UnderReview;
             CreateAt = DateTime.Now;
             Response = null;
+            customer.complaints.Add(this);
+            restaurant.complaints.Add(this);
+            Admin.complaints.Add(this);
         }
 
 

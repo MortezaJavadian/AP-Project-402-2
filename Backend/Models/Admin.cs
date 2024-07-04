@@ -16,6 +16,7 @@ namespace Backend.Models
         {
             AdminId = User.admins.Count + 1;
             complaints = new List<Complaint>();
+            admins.Add(this);
         }
 
         public void RegisterRestaurant(string initialUsername, string initialPassword)

@@ -18,7 +18,7 @@
         <Border x:Name="SignUpPage" Background="DarkCyan" CornerRadius="25" Width="625" Height="400"
                 Margin="0,50,0,0" VerticalAlignment="Top" Opacity="0">
             <StackPanel>
-                <TextBlock Text="Sing Up" FontWeight="SemiBold" FontFamily="Gabriola" FontSize="65" Foreground="White"
+                <TextBlock Text="Sign Up" FontWeight="SemiBold" FontFamily="Gabriola" FontSize="65" Foreground="White"
                            HorizontalAlignment="Center"/>
 
                 <StackPanel Orientation="Horizontal">

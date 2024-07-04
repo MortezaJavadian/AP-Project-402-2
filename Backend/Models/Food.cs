@@ -6,8 +6,6 @@ using System.Threading.Tasks;
 
 namespace Backend.Models
 {
-    public enum Category { Main , Dessert , Drink }
-
     public class Food 
     {
         public int Food_Id { get; set; }
@@ -17,11 +15,11 @@ namespace Backend.Models
         public int foodNum {  get; set; }
         public int Price { get; set; }
         public float AverageRate { get; set; }
-        public Category Category { get; set; }
+        public string Category { get; set; }
         public List<Comment> foodComments {  get; set; }
         public RestaurantManager restaurant {  get; set; }
 
-        public Food(string name, string? description, bool available, int num, int price) 
+        public Food(RestaurantManager restaurant, string name, string? description, bool available, int num, int price) 
         {
             Food_Id = GenerateUniqueId();
             Available = available;
@@ -31,6 +29,9 @@ namespace Backend.Models
             Price = price;
             foodComments = new List<Comment>();
             AverageRate = 0;
+            Category = "";
+            this.restaurant = restaurant;
+            restaurant.foods.Add(this);
         }
 
         public static int GenerateUniqueId()

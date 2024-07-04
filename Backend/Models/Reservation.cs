@@ -15,8 +15,10 @@ namespace Backend.Models
         public int Rating { get; set; } // Rating from 1 to 5
         public bool IsCanceled { get; private set; }
         public DateTime CreatedAt { get; private set; }
+        public float TotalPrice { get; set; }
+        public List<Food> Items { get; set; }
 
-        public Reservation(int reservationId, Customer customer, RestaurantManager restaurant, DateTime reservationTime)
+        public Reservation(int reservationId, Customer customer, RestaurantManager restaurant, DateTime reservationTime, List<Food> items)
         {
             if (!restaurant.Dine_in)
                 throw new Exception("Restaurant does not offer dine-in service");
@@ -33,6 +35,20 @@ namespace Backend.Models
             ReservationTime = reservationTime;
             IsCanceled = false;
             CreatedAt = DateTime.Now;
+            Items = items;
+            TotalPrice = CalculateTotalPrice(items);
+            customer.reservations.Add(this);
+            restaurant.reservation.Add(this);
+        }
+
+        public float CalculateTotalPrice(List<Food> items)
+        {
+            float total = 0;
+            foreach (var item in items)
+            {
+                total += item.Price;
+            }
+            return total;
         }
 
         public void CancelReservation()
@@ -123,6 +139,5 @@ namespace Backend.Models
 
             return true;
         }
-
     }
 }

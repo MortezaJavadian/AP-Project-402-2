@@ -43,6 +43,7 @@ namespace Backend.Models
             orders = new List<Orders>();
             complaints = new List<Complaint>();
             comments = new List<Comment>();
+            customers.Add(this);
         }
 
         // Regex for a true phone number type
@@ -119,7 +120,7 @@ namespace Backend.Models
             Address = address.Trim();
         }
 
-        public List<RestaurantManager> SearchRestaurants(string city, string restaurantName, bool? delivery = null, bool? dineIn = null, float? minAverageRating = null)
+        public static List<RestaurantManager> SearchRestaurants(string city, string restaurantName, bool? delivery = null, bool? dineIn = null, float? minAverageRating = null)
         {
             List<RestaurantManager> filteredRestaurants = new List<RestaurantManager>();
 

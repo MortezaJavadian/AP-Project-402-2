@@ -13,9 +13,9 @@ namespace Backend.Models
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; } // if updated
         public bool IsDeleted { get; set; }
-
         public Customer customer { get; set; }
         public Food food { get; set; }
+        public List<Comment> Replies { get; set; } = new List<Comment>();
 
         public Comment(Food food, Customer customer, string content)
         {
@@ -26,6 +26,7 @@ namespace Backend.Models
             this.customer = customer;
             this.food = food;
             food.foodComments.Add(this);
+            customer.comments.Add(this);
         }
 
 
