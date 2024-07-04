@@ -136,7 +136,7 @@ namespace Wpf_View
         {
             for (int j = 1; j <= 25; j++)
             {
-                await Task.Delay(1);
+                await Task.Delay(5);
                 LoginPage.Height -= 15;
                 LoginPage.Width -= 13;
                 LoginPage.CornerRadius = new CornerRadius(25 + 3 * j);

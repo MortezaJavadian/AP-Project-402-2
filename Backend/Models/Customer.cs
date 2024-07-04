@@ -17,26 +17,26 @@ namespace Backend.Models
     public class Customer : User
     {
         public int Customer_Id { get; set; }
-        public int PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
         public string Address { get; set; } // optional
         public Gender gender { get; set; } // optional
         public SpecialService SpecialService { get; set; }
-        public List<Reservation> reservations { get; set; }
-        public List<Orders> orders { get; set; }
-        public List<Complaint> complaints { get; set; }
+        public List <Reservation > reservations { get; set; }
+        public List <Orders > orders { get; set; }
+        public List <Complaint> complaints { get; set; }
         public List<Comment> comments { get; set; }
 
-        public Customer(string username, string pass, int phone, string firstname, string lastname, string email, string addres) : base(username, pass)
+        public Customer(string username, string pass, string phone, string firstname, string lastname, string email) : base (username, pass)
         {
-            this.Customer_Id = User.customers.Count + 1;
+            this.Customer_Id = User.customers.Count + 1 ;
             this.PhoneNumber = phone;
             this.FirstName = firstname;
             this.LastName = lastname;
             this.Email = email;
-            this.Address = addres;
+            this.Address = "";
             this.gender = Gender.Unknown;
             this.SpecialService = SpecialService.Normal;
             reservations = new List<Reservation>();
@@ -46,7 +46,7 @@ namespace Backend.Models
         }
 
         // Regex for a true phone number type
-        public static (bool Valid, string Message) IsValidPhonenumber(string phonenumber)
+        public static (bool Valid, string Message) IsValidPhonenumber(string phonenumber) 
         {
             if (phonenumber == "")
                 return (false, "Phone Number can not be empty");
@@ -119,20 +119,20 @@ namespace Backend.Models
             Address = address.Trim();
         }
 
-        public List<RestaurantManager> SearchRestaurants(string city = "", string restaurantName = null, bool? delivery = null, bool? dineIn = null, float? minAverageRating = null)
+        public List<RestaurantManager> SearchRestaurants(string city, string restaurantName, bool? delivery = null, bool? dineIn = null, float? minAverageRating = null)
         {
             List<RestaurantManager> filteredRestaurants = new List<RestaurantManager>();
 
             // Filter by city
-            if (!string.IsNullOrEmpty(city))
-                filteredRestaurants = restaurantManagers.Where(r => r.City == city).ToList();
+            if (city != "")
+                filteredRestaurants = restaurantManagers.Where(r => r.City.StartsWith(city)).ToList();
             else
-                filteredRestaurants = restaurantManagers.ToList();
-
+                filteredRestaurants = restaurantManagers.ToList(); 
+            
             // Filter by restaurant name
-            if (!string.IsNullOrEmpty(restaurantName))
-                filteredRestaurants = filteredRestaurants.Where(r => r.NameOfRestaurant.Contains(restaurantName)).ToList();
-
+            if (restaurantName != "")
+                filteredRestaurants = filteredRestaurants.Where(r => r.NameOfRestaurant.StartsWith(restaurantName)).ToList();
+            
             // Filter by delivery or dine in
             if (delivery != null)
                 filteredRestaurants = filteredRestaurants.Where(r => r.Delivery == delivery.Value).ToList();

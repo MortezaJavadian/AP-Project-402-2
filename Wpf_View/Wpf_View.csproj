@@ -9,7 +9,13 @@
 
   <ItemGroup>
     <None Remove="Resource\background.jpg" />
+<<<<<<< HEAD
     <None Remove="Resource\UserInfo\email.png" />
+=======
+    <None Remove="Resource\UserInfo\address.png" />
+    <None Remove="Resource\UserInfo\email.png" />
+    <None Remove="Resource\UserInfo\gender.png" />
+>>>>>>> develop
     <None Remove="Resource\UserInfo\password.png" />
     <None Remove="Resource\UserInfo\phonenumber.png" />
     <None Remove="Resource\UserInfo\username.png" />
@@ -17,7 +23,13 @@
 
   <ItemGroup>
     <Resource Include="Resource\background.jpg" />
+<<<<<<< HEAD
     <Resource Include="Resource\UserInfo\email.png" />
+=======
+    <Resource Include="Resource\UserInfo\address.png" />
+    <Resource Include="Resource\UserInfo\email.png" />
+    <Resource Include="Resource\UserInfo\gender.png" />
+>>>>>>> develop
     <Resource Include="Resource\UserInfo\password.png" />
     <Resource Include="Resource\UserInfo\phonenumber.png" />
     <Resource Include="Resource\UserInfo\username.png" />
