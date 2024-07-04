@@ -20,7 +20,7 @@ namespace Backend.Models
         public int Order_Id { get; set; }
         public Customer customer { get; set; }
         public RestaurantManager Restaurant { get; set; }
-        public double TotalPrice { get; set; }
+        public float TotalPrice { get; set; }
         public PaymentMethod PaymentMethod { get; set; }
         public OrderStatus Status { get; set; }
         public int Rating { get; set; } // Rating from 1 to 5
@@ -36,11 +36,13 @@ namespace Backend.Models
             dataTime = DateTime.Now;
             Items = items;
             TotalPrice = CalculateTotalPrice(items);
+            customer.orders.Add(this);
+            restaurant.orders.Add(this);
         }
 
-        public double CalculateTotalPrice(List<Food> items)
+        public float CalculateTotalPrice(List<Food> items)
         {
-            double total = 0;
+            float total = 0;
             foreach (var item in items)
             {
                 total += item.Price;

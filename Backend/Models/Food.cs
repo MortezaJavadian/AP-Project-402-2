@@ -10,33 +10,42 @@ namespace Backend.Models
     {
         public int Food_Id { get; set; }
         public string Name { get; set; }
-        public string Description { get; set; }
+        public string? Description { get; set; }
         public bool Available { get; set; }
         public int foodNum {  get; set; }
         public int Price { get; set; }
-        public double AverageRate { get; set; }
-        public List<string> foodComments {  get; set; }
+        public float AverageRate { get; set; }
+        public string Category { get; set; }
+        public List<Comment> foodComments {  get; set; }
         public RestaurantManager restaurant {  get; set; }
 
-        public Food(string name, string description, bool available, int num, int price) 
+        public Food(RestaurantManager restaurant, string name, string? description, bool available, int num, int price) 
         {
-            Food_Id = find_ID();
+            Food_Id = GenerateUniqueId();
             Available = available;
             Name = name;
             Description = description;
             Available = available;
             Price = price;
-            foodComments = new List<string>();
+            foodComments = new List<Comment>();
+            AverageRate = 0;
+            Category = "";
+            this.restaurant = restaurant;
+            restaurant.foods.Add(this);
         }
 
-        public static int find_ID()
+        public static int GenerateUniqueId()
         {
-            int count = 0;
-            foreach (var rest in User.restaurantManagers)
+            List<Food> AllFoods = RestaurantManager.GetAllFoods();
+            int newId = AllFoods.Count + 1;
+
+            // چک کردن وجود آی‌دی در لیست غذاها
+            while (AllFoods.Any(f => f.Food_Id == newId))
             {
-                count += rest.foods.Count;
+                newId++;
             }
-            return (count+1);
+
+            return newId;
         }
     }
 }

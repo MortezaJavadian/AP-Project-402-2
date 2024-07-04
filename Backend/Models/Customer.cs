@@ -1,8 +1,10 @@
-﻿using System;
+using Backend.NetWork;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http.Headers;
+using System.Runtime.InteropServices.Marshalling;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -10,8 +12,7 @@ using System.Threading.Tasks;
 namespace Backend.Models
 {
     public enum Gender { Male, Female, Unknown }
-
-    public enum SpecialService { Normal, Bronze , Silver , Gold }
+    public enum SpecialService { Bronze , Silver , Gold , Normal}
 
     public class Customer : User
     {
@@ -26,6 +27,7 @@ namespace Backend.Models
         public List <Reservation > reservations { get; set; }
         public List <Orders > orders { get; set; }
         public List <Complaint> complaints { get; set; }
+        public List<Comment> comments { get; set; }
 
         public Customer(string username, string pass, string phone, string firstname, string lastname, string email) : base (username, pass)
         {
@@ -40,6 +42,8 @@ namespace Backend.Models
             reservations = new List<Reservation>();
             orders = new List<Orders>();
             complaints = new List<Complaint>();
+            comments = new List<Comment>();
+            customers.Add(this);
         }
 
         // Regex for a true phone number type
@@ -58,7 +62,7 @@ namespace Backend.Models
                     if (user is Customer)
                     {
                         Customer customer = user as Customer;
-                        if (customer.PhoneNumber.ToString() == phonenumber) 
+                        if (customer.PhoneNumber.ToString() == phonenumber)
                             return (false, "Phone Number is used before");
                     }
                 }
@@ -108,7 +112,7 @@ namespace Backend.Models
             IsValidEmail(eamil);
             Email = eamil;
         }
-        
+
         public void ChangeAddress(string address)
         {
             if (address.Trim() == "" || address == null)
@@ -116,8 +120,7 @@ namespace Backend.Models
             Address = address.Trim();
         }
 
-
-        public static List<RestaurantManager> SearchRestaurants(string city, string restaurantName, bool? delivery = null, bool? dineIn = null, double? minAverageRating = null)
+        public static List<RestaurantManager> SearchRestaurants(string city, string restaurantName, bool? delivery = null, bool? dineIn = null, float? minAverageRating = null)
         {
             List<RestaurantManager> filteredRestaurants = new List<RestaurantManager>();
 
@@ -137,12 +140,71 @@ namespace Backend.Models
 
             if (dineIn != null)
                 filteredRestaurants = filteredRestaurants.Where(r => r.Dine_in == dineIn.Value).ToList();
-            
+
             // Filter by average score
             if (minAverageRating != null)
                 filteredRestaurants = filteredRestaurants.Where(r => r.Score >= minAverageRating.Value).ToList();
 
             return filteredRestaurants;
         }
+
+        public static List<Comment> GetAllComments()
+        {
+            List<Comment> allComments = new List<Comment>();
+
+            foreach (var custom in customers)
+            {
+                if (custom.comments != null && custom.comments.Count > 0)
+                {
+                    allComments.AddRange(custom.comments);
+                }
+            }
+
+            return allComments;
+        }
+
+        public void AddComplaint(RestaurantManager restaurant, string title, string description)
+        {
+            var complaint = new Complaint(this, title, description, restaurant);
+
+            complaints.Add(complaint);
+            restaurant.complaints.Add(complaint);
+        }
+
+        public void GetMoneyForService(int service)
+        {
+            switch (service)
+            {
+                case 1:
+                    Verification.sendAnEmail_Text(this, "You choose Bronze sercive, if you want this service you should pay 100." +
+                                                                "\nWith this service you can reserve 2 times in this month");
+                    break;
+                case 2:
+                    Verification.sendAnEmail_Text(this, "You choose Silver sercive, if you want this service you should pay 150." +
+                                                                "\nWith this service you can reserve 5 times in this month");
+                    break;
+                case 3:
+                    Verification.sendAnEmail_Text(this, "You choose Gold sercive, if you want this service you should pay 300." +
+                                                                "\nWith this service you can reserve 15 times in this month");
+                    break;
+            }
+        }
+
+        public void ChangeSpecialService(int service)
+        {
+            switch (service)
+            {
+                case 1:
+                    SpecialService = SpecialService.Bronze;
+                    break;
+                case 2:
+                    SpecialService = SpecialService.Silver;
+                    break;
+                case 3:
+                    SpecialService = SpecialService.Gold;
+                    break;
+            }
+        }
+>>>>>>> AmirAbas
     }
 }
