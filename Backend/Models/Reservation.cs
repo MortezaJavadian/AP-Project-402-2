@@ -12,6 +12,7 @@ namespace Backend.Models
         public Customer Customer { get; set; }
         public RestaurantManager Restaurant { get; set; }
         public DateTime ReservationTime { get; set; }
+        public int Rating { get; set; } // Rating from 1 to 5
         public bool IsCanceled { get; private set; }
         public DateTime CreatedAt { get; private set; }
 
