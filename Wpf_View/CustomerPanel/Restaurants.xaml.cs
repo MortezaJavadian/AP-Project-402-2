@@ -27,11 +27,15 @@ namespace Wpf_View.CustomerPanel
         public Restaurants()
         {
             InitializeComponent();
+            User.restaurantManagers.Add(new RestaurantManager("mor", "", "mor", "qqq", "dami",false,false));
+            User.restaurantManagers.Add(new RestaurantManager("mor", "jo", "mor", "jo", "djdj",true,false));
+            User.restaurantManagers.Add(new RestaurantManager("kdsk", "joo", "asdd", "jo", "dami",false,true));
+            RestaurantsList.DataContext = User.restaurantManagers;
         }
 
         private void Score_input(object sender, TextCompositionEventArgs e)
         {
-            e.Handled = (new Regex("[^0-9.-]+").IsMatch(e.Text));
+            e.Handled = (Score.Text.Length != 0 || new Regex("[^0-5.-]+").IsMatch(e.Text));
         }
 
         private void listView_Click(object sender, RoutedEventArgs e)
@@ -43,6 +47,13 @@ namespace Wpf_View.CustomerPanel
             }
         }
 
+        private void Set_Fillter(object sender, EventArgs e)
+        {
+            RestaurantsList.DataContext = Customer.SearchRestaurants(City.Text, Name.Text,
+                (Delivery.Text != "") ? ((Delivery.Text == "Yes") ? true : false) : null,
+                (Dine_in.Text != "") ? ((Dine_in.Text == "Yes") ? true : false) : null,
+                (Score.Text != "") ? double.Parse(Score.Text) : null);
+        }
     }
 
     public class BooleanToYesNoConverter : IValueConverter

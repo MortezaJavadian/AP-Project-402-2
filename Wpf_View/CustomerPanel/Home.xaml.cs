@@ -38,6 +38,7 @@ namespace Wpf_View.CustomerPanel
             ProfilePage.Email.Text = customer.Email;
             ProfilePage.Gender.Text = customer.gender.ToString();
             ProfilePage.Address.Text = customer.Address;
+            ProfilePage.SpecialService.Text = customer.SpecialService.ToString();
         }
 
         private async void StartPannel()
@@ -71,6 +72,8 @@ namespace Wpf_View.CustomerPanel
 
                 ProfilePage.Visibility = Visibility.Visible;
                 RestaurantsPage.Visibility = Visibility.Collapsed;
+                HistoryPage.Visibility = Visibility.Collapsed;
+                ComplaintPage.Visibility = Visibility.Collapsed;
             }
             else if (border.Name == "Reservation")
             {
@@ -81,6 +84,8 @@ namespace Wpf_View.CustomerPanel
 
                 ProfilePage.Visibility = Visibility.Collapsed;
                 RestaurantsPage.Visibility = Visibility.Visible;
+                HistoryPage.Visibility = Visibility.Collapsed;
+                ComplaintPage.Visibility = Visibility.Collapsed;
             }
             else if (border.Name == "History")
             {
@@ -88,6 +93,11 @@ namespace Wpf_View.CustomerPanel
                 Reservation.Background = null;
                 History.Background = Brushes.Gray;
                 Complaint.Background = null;
+
+                ProfilePage.Visibility = Visibility.Collapsed;
+                RestaurantsPage.Visibility = Visibility.Collapsed;
+                HistoryPage.Visibility = Visibility.Visible;
+                ComplaintPage.Visibility = Visibility.Collapsed;
             }
             else if (border.Name == "Complaint")
             {
@@ -95,6 +105,11 @@ namespace Wpf_View.CustomerPanel
                 Reservation.Background = null;
                 History.Background = null;
                 Complaint.Background = Brushes.Gray;
+
+                ProfilePage.Visibility = Visibility.Collapsed;
+                RestaurantsPage.Visibility = Visibility.Collapsed;
+                HistoryPage.Visibility = Visibility.Collapsed;
+                ComplaintPage.Visibility = Visibility.Visible;
             }
         }
 
@@ -106,5 +121,22 @@ namespace Wpf_View.CustomerPanel
         public static void Address_Changed()
             => ((Application.Current.MainWindow as MainWindow).Content as Home).customer.Address =
                 ((Application.Current.MainWindow as MainWindow).Content as Home).ProfilePage.Address.Text;
+
+        public static void BuySpecialService()
+        {
+            Home HomePage = ((Application.Current.MainWindow as MainWindow).Content as Home);
+
+            if (Enum.Parse<SpecialService>(HomePage.ProfilePage.SpecialService.Text) <=
+                HomePage.customer.SpecialService)
+            {
+                HomePage.ProfilePage.SpecialService.Text = HomePage.customer.SpecialService.ToString();
+                MessageBox.Show("Your service is allready above of this service");
+            }
+            else
+            {
+                HomePage.customer.SpecialService =
+                    Enum.Parse<SpecialService>(HomePage.ProfilePage.SpecialService.Text);
+            }
+        }
     }
 }

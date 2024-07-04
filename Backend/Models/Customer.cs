@@ -11,7 +11,7 @@ namespace Backend.Models
 {
     public enum Gender { Male, Female, Unknown }
 
-    public enum SpecialService { Bronze , Silver , Gold , Normal}
+    public enum SpecialService { Normal, Bronze , Silver , Gold }
 
     public class Customer : User
     {
@@ -116,19 +116,19 @@ namespace Backend.Models
             Address = address.Trim();
         }
 
-        public List<RestaurantManager> SearchRestaurants(string city = "", string restaurantName = null, bool? delivery = null, bool? dineIn = null, double? minAverageRating = null)
+        public static List<RestaurantManager> SearchRestaurants(string city, string restaurantName, bool? delivery = null, bool? dineIn = null, double? minAverageRating = null)
         {
             List<RestaurantManager> filteredRestaurants = new List<RestaurantManager>();
 
             // Filter by city
-            if (!string.IsNullOrEmpty(city))
-                filteredRestaurants = restaurantManagers.Where(r => r.City == city).ToList();
+            if (city != "")
+                filteredRestaurants = restaurantManagers.Where(r => r.City.StartsWith(city)).ToList();
             else
                 filteredRestaurants = restaurantManagers.ToList(); 
             
             // Filter by restaurant name
-            if (!string.IsNullOrEmpty(restaurantName))
-                filteredRestaurants = filteredRestaurants.Where(r => r.NameOfRestaurant.Contains(restaurantName)).ToList();
+            if (restaurantName != "")
+                filteredRestaurants = filteredRestaurants.Where(r => r.NameOfRestaurant.StartsWith(restaurantName)).ToList();
             
             // Filter by delivery or dine in
             if (delivery != null)

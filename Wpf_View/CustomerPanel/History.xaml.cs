@@ -16,22 +16,18 @@ using System.Windows.Shapes;
 namespace Wpf_View.CustomerPanel
 {
     /// <summary>
-    /// Interaction logic for Profile.xaml
+    /// Interaction logic for History.xaml
     /// </summary>
-    public partial class Profile : UserControl
+    public partial class History : UserControl
     {
-        public Profile()
+        public History()
         {
             InitializeComponent();
         }
 
-        private void Gender_Changed(object sender, EventArgs e)
-            => Home.Gender_Changed();
+        private void OrdersList_Click(object sender, MouseButtonEventArgs e)
+        {
 
-        private void Address_Change(object sender, KeyEventArgs e)
-            => Home.Address_Changed();
-
-        private void SpecialService_Buy(object sender, EventArgs e)
-            => Home.BuySpecialService();
+        }
     }
 }

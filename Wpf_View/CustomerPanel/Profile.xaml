@@ -125,6 +125,27 @@
                                      Margin="4,5" Width="530" PreviewKeyUp="Address_Change"/>
                     </StackPanel>
                 </Border>
+
+                <TextBlock Text="Special Service" Foreground="LightGreen" FontWeight="SemiBold" FontSize="20"
+                           HorizontalAlignment="Center" Margin="0,5,430,0"/>
+                    
+                <Border Background="#E8E8E8" BorderThickness="1.7,2.2,2.2,2.2"
+                        CornerRadius="16,10,10,16" Margin="0,0,307,0" Width="270">
+                    <StackPanel Orientation="Horizontal">
+                        <Border CornerRadius="14" BorderBrush="Black" BorderThickness="1.5">
+                            <Image Source="\Resource\UserInfo\username.png" Height="20" Width="20" Margin="7,5"/>
+                        </Border>
+
+                        <ComboBox x:Name="SpecialService" FontSize="17" Background="#E8E8E8"
+                                      Margin="-2,2,4,2" Width="227" BorderThickness="0" Panel.ZIndex="-1"
+                                      DropDownClosed="SpecialService_Buy">
+                            <ComboBoxItem>Normal</ComboBoxItem>
+                            <ComboBoxItem>Bronze</ComboBoxItem>
+                            <ComboBoxItem>Silver</ComboBoxItem>
+                            <ComboBoxItem>Gold</ComboBoxItem>
+                        </ComboBox>
+                    </StackPanel>
+                </Border>
             </StackPanel>
         </Border>
     </Grid>

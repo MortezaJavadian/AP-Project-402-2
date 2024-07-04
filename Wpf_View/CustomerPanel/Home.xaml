@@ -92,6 +92,8 @@
 
                 <local:Profile x:Name="ProfilePage" Grid.Column="1" Visibility="Collapsed"/>
                 <local:Restaurants x:Name="RestaurantsPage" Grid.Column="1" Visibility="Collapsed"/>
+                <local:History x:Name="HistoryPage" Grid.Column="1" Visibility="Collapsed"/>
+                <local:Complaint x:Name="ComplaintPage" Grid.Column="1" Visibility="Collapsed"/>
             </Grid>
         </Border>
     </Grid>

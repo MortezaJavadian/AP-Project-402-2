@@ -26,7 +26,7 @@ namespace Wpf_View
 
         private async void ShowStartPage()
         {
-            this.Content = new AdminPanel.Home(new Admin("1", "1")); return;
+            this.Content = new CustomerPanel.Home(new Customer("1", "1", "1", "1", "1", "1")); return;
             char[] StartText = { 'R', 'e', 's', 't', 'a', 'u', 'r', 'a', 'n', 't', ' ',
                                  'M', 'a', 'n', 'a', 'g', 'e', 'm', 'e', 'n', 't' };
             for (int i = 0; i < StartText.Length; i++)
