@@ -56,6 +56,7 @@
                         <ColumnDefinition/>
                         <ColumnDefinition Width="0.82*"/>
                     </Grid.ColumnDefinitions>
+                    
                     <TextBlock Grid.Column="0" x:Name="FirstnameError" HorizontalAlignment="Left"
                                Foreground="#D10000" FontSize="13.5" FontWeight="Bold"/>
 
@@ -209,6 +210,7 @@
                                     <Setter.Value>
                                         <ControlTemplate TargetType="TextBox">
                                             <Border Name="border" BorderThickness="2" BorderBrush="Black" Background="{TemplateBinding Background}">
+
                                                 <ScrollViewer x:Name="PART_ContentHost"/>
                                             </Border>
                                             <ControlTemplate.Triggers>
@@ -236,6 +238,7 @@
                                     <Setter.Value>
                                         <ControlTemplate TargetType="TextBox">
                                             <Border Name="border" BorderThickness="2" BorderBrush="Black" Background="{TemplateBinding Background}">
+
                                                 <ScrollViewer x:Name="PART_ContentHost"/>
                                             </Border>
                                             <ControlTemplate.Triggers>
@@ -263,6 +266,7 @@
                                     <Setter.Value>
                                         <ControlTemplate TargetType="TextBox">
                                             <Border Name="border" BorderThickness="2" BorderBrush="Black" Background="{TemplateBinding Background}">
+
                                                 <ScrollViewer x:Name="PART_ContentHost"/>
                                             </Border>
                                             <ControlTemplate.Triggers>
@@ -290,6 +294,7 @@
                                     <Setter.Value>
                                         <ControlTemplate TargetType="TextBox">
                                             <Border Name="border" BorderThickness="2" BorderBrush="Black" Background="{TemplateBinding Background}">
+
                                                 <ScrollViewer x:Name="PART_ContentHost"/>
                                             </Border>
                                             <ControlTemplate.Triggers>
@@ -317,6 +322,7 @@
                                     <Setter.Value>
                                         <ControlTemplate TargetType="TextBox">
                                             <Border Name="border" BorderThickness="2" BorderBrush="Black" Background="{TemplateBinding Background}">
+
                                                 <ScrollViewer x:Name="PART_ContentHost"/>
                                             </Border>
                                             <ControlTemplate.Triggers>
@@ -333,8 +339,8 @@
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" Margin="20,10">
-
                     <Button Content="Edit Info" FontWeight="SemiBold" Background="Transparent" BorderThickness="0"
+
                             FontSize="15" Margin="0,3,0,0" Click="Edit_Click">
                         <Button.Style>
                             <Style TargetType="Button">
@@ -363,6 +369,7 @@
 
                     <Button FontWeight="SemiBold" Background="Blue" Foreground="White"
                             Margin="27,0,0,0" Width="60" Click="Verify_Click">
+
                         <TextBlock Text="Verify" FontSize="15" Margin="0,4,0,6"/>
 
                         <Button.Style>
@@ -412,7 +419,7 @@
                                  PreviewKeyUp="Clear_PasswordError"/>
                     </StackPanel>
                 </Border>
-                
+
                 <TextBlock x:Name="PasswordError" HorizontalAlignment="Left" Margin="35,0"
                     Foreground="#D10000" FontSize="13.5" FontWeight="Bold"/>
 
@@ -465,7 +472,7 @@
                     <Button x:Name="SubmitButton" FontWeight="SemiBold" Background="Blue"
                             Foreground="White" Margin="43,0,0,0" Width="70" IsEnabled="False" Opacity="0.4"
                             Click="Submit_Click">
-                        
+
                         <TextBlock Text="Submit" FontSize="15" Margin="0,4,0,6"/>
 
                         <Button.Style>

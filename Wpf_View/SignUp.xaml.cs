@@ -56,6 +56,7 @@ namespace Wpf_View
         bool ClearEmail = true;
         bool ClearPassword = true;
         bool ClearConfirmPassword = true;
+
         private void Clear_HintText(object sender, RoutedEventArgs e)
         {
             TextBox textBox = sender as TextBox;

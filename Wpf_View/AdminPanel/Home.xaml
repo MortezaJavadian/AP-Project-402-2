@@ -35,7 +35,7 @@
 
                             <TextBlock x:Name="Username" FontFamily="Gabriola" FontSize="28"
                                        Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,10"/>
-                            
+
                             <Rectangle Width="190" Height="2" Fill="LightGray"/>
 
                             <Border x:Name="Sign_Up" CornerRadius="7" Margin="7,25,7,4"

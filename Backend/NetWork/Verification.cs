@@ -20,7 +20,7 @@ namespace Backend.NetWork
 
                 MailMessage mail = new MailMessage("restaurantmanagement.ma@gmail.com", ReciverEmail);
                 mail.Subject = "Verification";
-                mail.Body = Code;
+                mail.Body = "Code for verify : " + Code;
 
                 SmtpClient smtpServer = new SmtpClient("smtp.gmail.com", 587);
                 smtpServer.Credentials = new NetworkCredential("restaurant.management.ap@gmail.com", "bfcn xyfe pggm udju") as ICredentialsByHost;
