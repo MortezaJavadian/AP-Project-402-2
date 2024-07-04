@@ -115,7 +115,7 @@ namespace Backend.Models
             Address = address.Trim();
         }
 
-        public List<RestaurantManager> SearchRestaurants(string city = null, string restaurantName = null, bool? delivery = null, bool? dineIn = null, double? minAverageRating = null)
+        public List<RestaurantManager> SearchRestaurants(string city = "", string restaurantName = null, bool? delivery = null, bool? dineIn = null, double? minAverageRating = null)
         {
             List<RestaurantManager> filteredRestaurants = new List<RestaurantManager>();
 
