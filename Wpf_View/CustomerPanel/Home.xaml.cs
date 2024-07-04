@@ -38,8 +38,6 @@ namespace Wpf_View.CustomerPanel
             ProfilePage.Email.Text = customer.Email;
             ProfilePage.Gender.Text = customer.gender.ToString();
             ProfilePage.Address.Text = customer.Address;
-
-            User.Users.Add(new RestaurantManager("dsf", "sdf", "sdf", "sdf", "sdf", true, false));
         }
 
         private async void StartPannel()

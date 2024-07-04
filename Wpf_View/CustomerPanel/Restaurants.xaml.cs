@@ -27,12 +27,6 @@ namespace Wpf_View.CustomerPanel
         public Restaurants()
         {
             InitializeComponent();
-
-            RestaurantsList.DataContext = new ObservableCollection<RestaurantManager>
-            {
-                new RestaurantManager("morts", "hdduruhf", "morimorimori", "javadianhhhhhh", "yarane", false, true),
-                new RestaurantManager("morts", "hdduruhf", "morisdi", "anhhhhhh", "ransdbore", true, true)
-            };
         }
 
         private void Score_input(object sender, TextCompositionEventArgs e)

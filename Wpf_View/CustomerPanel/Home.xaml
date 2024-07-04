@@ -33,9 +33,9 @@
                             <TextBlock Text="Customer" FontWeight="SemiBold" FontFamily="Gabriola" FontSize="40"
                                        Margin="0,10,0,-10" Foreground="White" HorizontalAlignment="Center"/>
 
-                            <TextBlock x:Name="FirstName" Text="Morteza" FontFamily="Gabriola" FontSize="28"
+                            <TextBlock x:Name="FirstName" FontFamily="Gabriola" FontSize="28"
                                        Foreground="White" HorizontalAlignment="Center"/>
-                            <TextBlock x:Name="LastName" Text="Javadian" FontFamily="Gabriola" FontSize="28"
+                            <TextBlock x:Name="LastName" FontFamily="Gabriola" FontSize="28"
                                        Foreground="White" Margin="0,-24,0,10" HorizontalAlignment="Center"/>
                             <Rectangle Width="190" Height="2" Fill="LightGray"/>
 

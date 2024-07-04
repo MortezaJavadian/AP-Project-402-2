@@ -10,7 +10,7 @@
         <local:BooleanToYesNoConverter x:Key="BooleanToYesNoConverter"/>
     </UserControl.Resources>
     <Grid>
-        <Border Background="#007575" CornerRadius="20" Margin="5">
+        <Border x:Name="RestaurantsBorder" Background="#007575" CornerRadius="20" Margin="5">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"/>
@@ -104,5 +104,8 @@
                 </ListView>
             </Grid>
         </Border>
+
+        <Border x:Name="Menu" Background="#007575" CornerRadius="20" Margin="5" Visibility="Collapsed">
+        </Border> 
     </Grid>
 </UserControl>
