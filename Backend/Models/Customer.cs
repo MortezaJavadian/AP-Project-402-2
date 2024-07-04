@@ -147,7 +147,6 @@ namespace Backend.Models
             return filteredRestaurants;
         }
 
-
         public static List<Comment> GetAllComments()
         {
             List<Comment> allComments = new List<Comment>();

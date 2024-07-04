@@ -12,7 +12,7 @@ namespace Backend.Models
 
         public int AdminId { get; set; }
 
-        public Admin(string username, string pass) : base(username, pass)
+        public Admin(string username, string pass) : base(username,pass) 
         {
             AdminId = User.admins.Count + 1;
             complaints = new List<Complaint>();
@@ -83,7 +83,6 @@ namespace Backend.Models
                 .ToList();
             return result;
         }
-
 
         public void RespondToUnresolvedComplaints(string index , string response) // here first show the complaint with the last method and with index of that we can response to it 
         {

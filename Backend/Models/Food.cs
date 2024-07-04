@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace Backend.Models
 {
     public enum Category { Main , Dessert , Drink }
+
     public class Food 
     {
         public int Food_Id { get; set; }
@@ -45,6 +46,5 @@ namespace Backend.Models
 
             return newId;
         }
-
     }
 }
