@@ -29,7 +29,7 @@ namespace Backend.NetWork
                 smtpServer.Send(mail);
                 smtpServer.Dispose();
             }
-            catch (Exception ex)
+            catch
             {
                 throw new Exception("Your internet is not connected");
             }
