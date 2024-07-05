@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 
 namespace Backend.Models
 {
     public enum OrderStatus
     {
-        Delivered, Cancelled
+        Delivered, Cancelled 
     }
     public enum PaymentMethod
     {
-        Cash, Online
+        Cash, Online, None
     }
     public class Orders
     {
@@ -26,29 +27,36 @@ namespace Backend.Models
         public int Rating { get; set; } // Rating from 1 to 5
         public string Comment { get; set; }
         public DateTime dataTime { get; set; }
-        public List<Food> Items { get; set; }
+        public ObservableCollection<CartItem> CartItems { get; set; } = new ObservableCollection<CartItem>();
 
-        public Orders(int order_Id, Customer customer, RestaurantManager restaurant, List<Food> items)
+        public Orders(Customer customer, RestaurantManager restaurant, ObservableCollection<CartItem> items)
         {
-            Order_Id = order_Id;
+            Order_Id = GenerateUniqueIdOrder();
             this.customer = customer;
             Restaurant = restaurant;
             dataTime = DateTime.Now;
-            Items = items;
+            CartItems = items;
             TotalPrice = CalculateTotalPrice(items);
             customer.orders.Add(this);
             restaurant.orders.Add(this);
         }
 
-        public float CalculateTotalPrice(List<Food> items)
+        public static int GenerateUniqueIdOrder()
         {
-            float total = 0;
-            foreach (var item in items)
+            ObservableCollection<Orders> AllOrders = Customer.GetAllOrders();
+            int newId = AllOrders.Count + 1;
+
+            while (AllOrders.Any(f => f.Order_Id == newId))
             {
-                total += item.Price;
+                newId++;
             }
-            return total;
+
+            return newId;
         }
+
+        public float CalculateTotalPrice(ObservableCollection<CartItem> items)
+            => items.Sum(i => i.Food.Price * i.Quantity);
+
 
         public void ChangeStatus(OrderStatus newStatus)
         {

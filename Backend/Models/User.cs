@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -10,9 +11,9 @@ namespace Backend.Models
 {
     public abstract class User
     {
-        public static List<RestaurantManager> restaurantManagers {  get; set; } = new List<RestaurantManager>();
-        public static List<Customer> customers { get; set; } = new List<Customer>();
-        public static List<Admin> admins { get; set; } = new List<Admin>();
+        public static ObservableCollection<RestaurantManager> restaurantManagers {  get; set; } = new ObservableCollection<RestaurantManager>();
+        public static ObservableCollection<Customer> customers { get; set; } = new ObservableCollection<Customer>();
+        public static ObservableCollection<Admin> admins { get; set; } = new ObservableCollection<Admin>();
         public string UserName { get; set; }
         public string Password { get; set; }
 
