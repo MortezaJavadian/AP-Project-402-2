@@ -59,7 +59,8 @@ namespace Wpf_View.AdminPanel
                 Reservation.Background = null;
                 Complaint.Background = null;
 
-   
+                SignUpPage.Visibility = Visibility.Visible;
+                RestaurantsPage.Visibility = Visibility.Collapsed;
             }
             else if (border.Name == "Reservation")
             {
@@ -67,7 +68,8 @@ namespace Wpf_View.AdminPanel
                 Reservation.Background = Brushes.Gray;
                 Complaint.Background = null;
 
-               
+                SignUpPage.Visibility = Visibility.Collapsed;
+                RestaurantsPage.Visibility = Visibility.Visible;
             }
             else if (border.Name == "History")
             {

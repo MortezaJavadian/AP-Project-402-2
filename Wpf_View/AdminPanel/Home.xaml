@@ -83,6 +83,9 @@
                         </Button>
                     </Grid>
                 </Border>
+
+                <local:SignUpRestaurant x:Name="SignUpPage" Grid.Column="1" Visibility="Collapsed"/>
+                <local:Restaurants x:Name="RestaurantsPage" Grid.Column="1" Visibility="Collapsed"/>
             </Grid>
         </Border>
     </Grid>

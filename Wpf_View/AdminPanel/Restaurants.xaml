@@ -1,0 +1,100 @@
+﻿<UserControl x:Class="Wpf_View.AdminPanel.Restaurants"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Wpf_View.AdminPanel"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <local:BooleanToYesNoConverter x:Key="BooleanToYesNoConverter"/>
+    </UserControl.Resources>
+    <Grid>
+        <Border x:Name="RestaurantsBorder" Background="#007575" CornerRadius="20" Margin="5">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="2*"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="18,15,0,1">
+                        <TextBlock Text="Name:" Foreground="LightGreen" FontWeight="SemiBold" FontSize="20"
+                                   Margin="0,0,185,0"/>
+
+                        <TextBlock Text="City:" Foreground="LightGreen" FontWeight="SemiBold" FontSize="20"
+                                   Margin="0,0,203,0"/>
+                        <TextBlock Text="Score:" Foreground="LightGreen" FontWeight="SemiBold" FontSize="20"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="15,0">
+                        <Border Background="#E8E8E8" CornerRadius="10">
+                            <TextBox x:Name="Name" FontSize="17" Background="#E8E8E8"
+                                     Margin="4,5" Width="200" BorderThickness="0" PreviewKeyUp="Set_Fillter"/>
+                        </Border>
+
+                        <Border Background="#E8E8E8" CornerRadius="10" Margin="35,0">
+                            <TextBox x:Name="City" FontSize="17" Background="#E8E8E8"
+                                     Margin="4,5" Width="200" BorderThickness="0" PreviewKeyUp="Set_Fillter"/>
+                        </Border>
+
+                        <Border Background="#E8E8E8" CornerRadius="10">
+                            <TextBox x:Name="Score" FontSize="17" Background="#E8E8E8"
+                                     Margin="4,5" Width="200" BorderThickness="0" PreviewTextInput="Score_input"
+                                     PreviewKeyUp="Set_Fillter"/>
+                        </Border>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="18,7,0,1">
+                        <TextBlock Text="Complaint Status:" Foreground="LightGreen" FontWeight="SemiBold"
+                                   FontSize="20"
+                                   Margin="0,0,165,0"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="15,0">
+                        <Border Background="#E8E8E8" CornerRadius="10">
+                            <ComboBox x:Name="Delivery" FontSize="17" Background="#E8E8E8"
+                                      Margin="4,5" Width="200" BorderThickness="0"
+                                      DropDownClosed="Set_Fillter">
+                                <ComboBoxItem></ComboBoxItem>
+                                <ComboBoxItem>UnderReview</ComboBoxItem>
+                                <ComboBoxItem>Reviewed</ComboBoxItem>
+                            </ComboBox>
+                        </Border>
+                    </StackPanel>
+                </StackPanel>
+                <ListView Grid.Row="1" x:Name="RestaurantsList" FontSize="17" Margin="10" ItemsSource="{Binding}"
+                          Background="DarkKhaki" Foreground="Black" PreviewMouseLeftButtonUp="listView_Click">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+
+                    <ListView.View>
+                        <GridView AllowsColumnReorder="False">
+                            <GridViewColumn Header=" Name " DisplayMemberBinding="{Binding NameOfRestaurant}" Width="Auto"/>
+                            <GridViewColumn Header=" City " DisplayMemberBinding="{Binding City}" Width="Auto"/>
+                            <GridViewColumn Header=" Score " DisplayMemberBinding="{Binding Score}" Width="Auto"/>
+
+                            <GridViewColumn Header=" Delivery " Width="Auto">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Delivery, Converter={StaticResource BooleanToYesNoConverter}}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header=" Dine in " Width="Auto">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Dine_in, Converter={StaticResource BooleanToYesNoConverter}}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header=" Address " DisplayMemberBinding="{Binding Address}" Width="Auto"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
+        </Border>
+        
+    </Grid>
+</UserControl>
