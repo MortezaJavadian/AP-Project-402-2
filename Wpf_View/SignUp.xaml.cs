@@ -73,6 +73,7 @@ namespace Wpf_View
                 textBox.Text = "";
                 textBox.Foreground = Brushes.Black;
                 ClearLastname = false;
+
                 LastnameError.Text = "Lastname can not be empty";
                 LastnameBorder.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D10000"));
             }
@@ -81,6 +82,7 @@ namespace Wpf_View
                 textBox.Text = "";
                 textBox.Foreground = Brushes.Black;
                 ClearUsername = false;
+
                 UsernameError.Text = "Username can not be empty";
                 UsernameBorder.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D10000"));
             }
@@ -89,6 +91,7 @@ namespace Wpf_View
                 textBox.Text = "";
                 textBox.Foreground = Brushes.Black;
                 ClearPhoneNumber = false;
+
                 PhoneNumberError.Text = "Phone Number can not be empty";
                 PhoneNumberBorder.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D10000"));
             }
@@ -97,6 +100,7 @@ namespace Wpf_View
                 textBox.Text = "";
                 textBox.Foreground = Brushes.Black;
                 ClearEmail = false;
+
                 EmailError.Text = "Email can not be empty";
                 EmailBorder.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D10000"));
             }
@@ -105,6 +109,7 @@ namespace Wpf_View
                 textBox.Text = "";
                 textBox.Foreground = Brushes.Black;
                 ClearPassword = false;
+
                 PasswordError.Text = "Password can not be empty";
                 PasswordBorder.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D10000"));
             }
@@ -113,6 +118,7 @@ namespace Wpf_View
                 textBox.Text = "";
                 textBox.Foreground = Brushes.Black;
                 ClearConfirmPassword = false;
+
                 ConfirmPasswordError.Text = "Confirm Password can not be empty";
                 ConfirmPasswordBorder.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D10000"));
             }

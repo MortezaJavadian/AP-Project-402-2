@@ -68,7 +68,6 @@ namespace Backend.Models
             string pattern = @"^(?=.*[A-Za-z].*[A-Za-z].*[A-Za-z])[A-Za-z\d]*$";
             if (!Regex.IsMatch(userName, pattern))
                 return (false, "Username is not in a true format");
-
             else
             {
                 foreach (var admin in admins)
