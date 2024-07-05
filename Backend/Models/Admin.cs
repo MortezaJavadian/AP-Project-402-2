@@ -3,19 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 
 namespace Backend.Models
 {
     public class Admin : User
     {
-        public static List<Complaint> complaints { get; set; }
+        public static ObservableCollection<Complaint> complaints { get; set; }
 
         public int AdminId { get; set; }
 
         public Admin(string username, string pass) : base(username,pass) 
         {
             AdminId = User.admins.Count + 1;
-            complaints = new List<Complaint>();
+            complaints = new ObservableCollection<Complaint>();
             admins.Add(this);
         }
 
@@ -24,47 +25,42 @@ namespace Backend.Models
             RestaurantManager newRestaurant = new RestaurantManager(initialUsername, initialPassword);
         }
 
-        public List<RestaurantManager> SearchRestaurants(string cityName, string restaurantName, string minRate, bool unresolvedComplaints)
+        public ObservableCollection<RestaurantManager> SearchRestaurants(string cityName, string restaurantName, string minRate, string unresolvedComplaints)
         {
-            List<RestaurantManager> filteredRestaurants = new List<RestaurantManager>();
+            // Start with the full list of restaurant managers
+            var filteredRestaurants = User.restaurantManagers.AsQueryable();
 
-            double minRating = double.Parse(minRate);
-            foreach (var restaurant in User.restaurantManagers)
+            // Filter by city name
+            if (!string.IsNullOrEmpty(cityName))
             {
-                bool match = true;
-
-                // Filter by city name
-                if (!string.IsNullOrEmpty(cityName) && !restaurant.City.Equals(cityName, StringComparison.OrdinalIgnoreCase))
-                {
-                    match = false;
-                }
-
-                // Filter by restaurant name
-                if (!string.IsNullOrEmpty(restaurantName) && !restaurant.NameOfRestaurant.Contains(restaurantName, StringComparison.OrdinalIgnoreCase))
-                    match = false;
-
-
-                // Filter by minimum rating
-                if (restaurant.Score < minRating)
-                    match = false;
-
-
-                // Filter by unresolved complaints
-                if (unresolvedComplaints)
-                {
-                    bool hasUnresolvedComplaints = restaurant.complaints.Any(c => c.Status == ComplaintStatus.UnderReview);
-                    if (!hasUnresolvedComplaints)
-                        match = false;
-                }
-
-                if (match)
-                    filteredRestaurants.Add(restaurant);
+                filteredRestaurants = filteredRestaurants.Where(r => r.City.Equals(cityName, StringComparison.OrdinalIgnoreCase));
             }
 
-            return filteredRestaurants;
+            // Filter by restaurant name
+            if (!string.IsNullOrEmpty(restaurantName))
+            {
+                filteredRestaurants = filteredRestaurants.Where(r => r.NameOfRestaurant.Contains(restaurantName, StringComparison.OrdinalIgnoreCase));
+            }
+
+            // Filter by minimum rating
+            if (minRate != "" && minRate != null)
+            {
+                float minRating = float.TryParse(minRate, out float parsedRating) ? parsedRating : 0;
+                filteredRestaurants = filteredRestaurants.Where(r => r.Score >= minRating);
+            }
+
+            // Filter by unresolved complaints
+            if (unresolvedComplaints !=  "")
+            {
+                if(Enum.Parse<ComplaintStatus>(unresolvedComplaints) == ComplaintStatus.UnderReview)
+                    filteredRestaurants = filteredRestaurants.Where(r => r.complaints.Any(c => c.Status == ComplaintStatus.UnderReview));
+            }
+
+            return new ObservableCollection<RestaurantManager>(filteredRestaurants.ToList());
         }
 
-        public List<Complaint> SearchComplaints(string username , string title, string firstName, string lastName, string restaurantName, ComplaintStatus? status)
+
+        public List<Complaint> SearchComplaints(string username , string title, string firstName, string lastName, string restaurantName, string? status)
         {
             var result = complaints
                 .Where(c => (username == "" || c.Customer.UserName == username) &&
@@ -72,7 +68,7 @@ namespace Backend.Models
                             (firstName == "" || c.Customer.FirstName == firstName) &&
                             (lastName == "" || c.Customer.LastName == lastName) &&
                             (restaurantName == "" || c.Restaurant.NameOfRestaurant == restaurantName) &&
-                            (status == null || c.Status == status))
+                            (status == "" || c.Status == Enum.Parse<ComplaintStatus>(status)))
                 .ToList();
             return result;
         }

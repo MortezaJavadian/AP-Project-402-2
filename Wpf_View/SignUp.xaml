@@ -248,7 +248,6 @@
                             </Style>
                         </TextBox.Style>
                     </TextBox>
-
                     <TextBox x:Name="Box3" Width="25" Height="30" KeyDown="FocusNextBox" Margin="5"
                              TextAlignment="Center" FontSize="19">
                         <TextBox.Resources>
@@ -275,7 +274,6 @@
                             </Style>
                         </TextBox.Style>
                     </TextBox>
-
                     <TextBox x:Name="Box4" Width="25" Height="30" KeyDown="FocusNextBox" Margin="5"
                              TextAlignment="Center" FontSize="19">
                         <TextBox.Resources>
@@ -302,7 +300,6 @@
                             </Style>
                         </TextBox.Style>
                     </TextBox>
-
                     <TextBox x:Name="Box5" Width="25" Height="30" KeyDown="FocusNextBox" Margin="5"
                              TextAlignment="Center" FontSize="19">
                         <TextBox.Resources>

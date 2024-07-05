@@ -8,6 +8,8 @@ using System.Runtime.InteropServices.Marshalling;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Collections.ObjectModel;
+using System.Xml.Linq;
 
 namespace Backend.Models
 {
@@ -24,10 +26,11 @@ namespace Backend.Models
         public string Address { get; set; } // optional
         public Gender gender { get; set; } // optional
         public SpecialService SpecialService { get; set; }
-        public List <Reservation > reservations { get; set; }
-        public List <Orders > orders { get; set; }
-        public List <Complaint> complaints { get; set; }
-        public List<Comment> comments { get; set; }
+        public ObservableCollection<Reservation > reservations { get; set; }
+        public ObservableCollection<Orders > orders { get; set; }
+        public ObservableCollection<Complaint> complaints { get; set; }
+        public ObservableCollection<Comment> comments { get; set; }
+        public ShoppingCart shoppingCart { get; set; }
 
         public Customer(string username, string pass, string phone, string firstname, string lastname, string email) : base (username, pass)
         {
@@ -39,10 +42,11 @@ namespace Backend.Models
             this.Address = "";
             this.gender = Gender.Unknown;
             this.SpecialService = SpecialService.Normal;
-            reservations = new List<Reservation>();
-            orders = new List<Orders>();
-            complaints = new List<Complaint>();
-            comments = new List<Comment>();
+            reservations = new ObservableCollection<Reservation>();
+            orders = new ObservableCollection<Orders>();
+            complaints = new ObservableCollection<Complaint>();
+            comments = new ObservableCollection<Comment>();
+            shoppingCart = new ShoppingCart();
             customers.Add(this);
         }
 
@@ -120,7 +124,7 @@ namespace Backend.Models
             Address = address.Trim();
         }
 
-        public static List<RestaurantManager> SearchRestaurants(string city, string restaurantName, bool? delivery = null, bool? dineIn = null, float? minAverageRating = null)
+        public static ObservableCollection<RestaurantManager> SearchRestaurants(string city, string restaurantName, bool? delivery = null, bool? dineIn = null, string? minAverageRating = null)
         {
             List<RestaurantManager> filteredRestaurants = new List<RestaurantManager>();
 
@@ -142,26 +146,18 @@ namespace Backend.Models
                 filteredRestaurants = filteredRestaurants.Where(r => r.Dine_in == dineIn.Value).ToList();
 
             // Filter by average score
-            if (minAverageRating != null)
-                filteredRestaurants = filteredRestaurants.Where(r => r.Score >= minAverageRating.Value).ToList();
-
-            return filteredRestaurants;
-        }
-
-        public static List<Comment> GetAllComments()
-        {
-            List<Comment> allComments = new List<Comment>();
-
-            foreach (var custom in customers)
+            if (minAverageRating != "" && minAverageRating != null)
             {
-                if (custom.comments != null && custom.comments.Count > 0)
-                {
-                    allComments.AddRange(custom.comments);
-                }
+                float rate = float.Parse(minAverageRating);
+                filteredRestaurants = filteredRestaurants.Where(r => r.Score >= rate).ToList();
             }
-
-            return allComments;
+            return new ObservableCollection<RestaurantManager>(filteredRestaurants.ToList());
         }
+
+        public static ObservableCollection<Comment> GetAllComments()
+            => new ObservableCollection<Comment>(customers
+                .Where(customer => customer.comments != null && customer.comments.Count > 0)
+                .SelectMany(customer => customer.comments).ToList());
 
         public void AddComplaint(RestaurantManager restaurant, string title, string description)
         {
@@ -205,6 +201,118 @@ namespace Backend.Models
                     break;
             }
         }
->>>>>>> AmirAbas
+
+        public void AddToCart(Food food, int quantity)
+        {
+            if (food.Available && quantity <= food.foodNum)
+            {
+                shoppingCart.AddItem(food, quantity);
+            }
+            else
+            {
+                throw new Exception("Requested quantity not available.");
+            }
+        }
+
+        public void RemoveFromCart(Food food)
+        {
+            shoppingCart.RemoveItem(food);
+        }
+
+        public void ChangeCartItemQuantity(Food food, int quantity)
+        {
+            if (quantity <= food.foodNum)
+                shoppingCart.ChangeItemQuantity(food, quantity);
+            else
+                throw new Exception("Requested quantity not available.");
+        }
+
+        
+        public Orders PlaceOrder(RestaurantManager restaurant, int i) // i == 1 & 2 => pay & deliver / i == 3 => None and Cancel
+        {
+            var order = new Orders(customer: this, restaurant: restaurant, items: shoppingCart.items);
+            
+            if(i == 1)
+            {
+                order.PaymentMethod = PaymentMethod.Online;
+                order.Status = OrderStatus.Delivered;
+            }
+            else if(i == 2)
+            {
+                order.PaymentMethod = PaymentMethod.Cash;
+                order.Status = OrderStatus.Delivered;
+            }
+            else if(i == 3)
+            {
+                order.PaymentMethod = PaymentMethod.None;
+                order.Status = OrderStatus.Cancelled;
+            }
+
+            orders.Add(order);
+            restaurant.orders.Add(order);
+            shoppingCart.ClearCart();
+            return order;
+        }
+        public void sendEmailPay_Order(RestaurantManager restaurant)
+        {
+            string text = "Hello " + this.FirstName + this.LastName + "\nYou have an order from restaurant " + restaurant.NameOfRestaurant +
+                "\nYour ordered food :" + shoppingCart.CartOrdered() + "\n\nThe payable amount for the order is " + shoppingCart.RecalculateTotalPrice() +
+                "\nIf you are sure about your order put the verification code in program. \n\n\n";
+            Verification.sendAnEmail_Text(this, text);
+        }
+
+
+        public static ObservableCollection<Orders> GetAllOrders()
+        {
+            List<Orders> allOrders = new List<Orders>();
+
+            foreach (var custom in customers)
+            {
+                if (custom.orders != null && custom.orders.Count > 0)
+                    allOrders.AddRange(custom.orders);
+            }
+
+            return new ObservableCollection<Orders>(allOrders.ToList());
+        }
+
+        public static ObservableCollection<Reservation> GetAllReservations()
+        {
+            List<Reservation> allReservations = new List<Reservation>();
+
+            foreach (var custom in customers)
+            {
+                if (custom.reservations != null && custom.reservations.Count > 0)
+                    allReservations.AddRange(custom.reservations);
+            }
+
+            return new ObservableCollection<Reservation>(allReservations.ToList());
+        }
+
+
+        public void AddComment(Food food, string content, int parentCommentId = 0)
+        {
+            var comment = new Comment(food, this, content, parentCommentId);
+            food.foodComments.Add(comment);
+            comments.Add(comment);
+        }
+
+        public void DeleteComment(Food food, int commentId)
+        {
+            var comment = comments.FirstOrDefault(c => c.CommentId == commentId);
+            if (comment != null)
+            {
+                food.DeleteComment(commentId);
+                comments.Remove(comment);
+            }
+        }
+
+        public void EditComment(Food food, int commentId, string newContent)
+        {
+            var comment = comments.FirstOrDefault(c => c.CommentId == commentId);
+            if (comment != null)
+            {
+                food.EditComment(commentId, newContent);
+            }
+        }
     }
 }

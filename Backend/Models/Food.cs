@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 
 namespace Backend.Models
 {
@@ -16,8 +17,8 @@ namespace Backend.Models
         public int Price { get; set; }
         public float AverageRate { get; set; }
         public string Category { get; set; }
-        public List<Comment> foodComments {  get; set; }
         public RestaurantManager restaurant {  get; set; }
+        public ObservableCollection<Comment> foodComments {  get; set; }
 
         public Food(RestaurantManager restaurant, string name, string? description, bool available, int num, int price) 
         {
@@ -27,7 +28,7 @@ namespace Backend.Models
             Description = description;
             Available = available;
             Price = price;
-            foodComments = new List<Comment>();
+            foodComments = new ObservableCollection<Comment>();
             AverageRate = 0;
             Category = "";
             this.restaurant = restaurant;
@@ -36,16 +37,40 @@ namespace Backend.Models
 
         public static int GenerateUniqueId()
         {
-            List<Food> AllFoods = RestaurantManager.GetAllFoods();
+            ObservableCollection<Food> AllFoods = RestaurantManager.GetAllFoods();
             int newId = AllFoods.Count + 1;
 
             // چک کردن وجود آی‌دی در لیست غذاها
             while (AllFoods.Any(f => f.Food_Id == newId))
-            {
                 newId++;
-            }
 
             return newId;
+        }
+
+        public void DeleteComment(int commentId)
+        {
+            var comment = foodComments.FirstOrDefault(c => c.CommentId == commentId);
+            if (comment != null)
+            {
+                // حذف پاسخ‌های کامنت
+                var replies = foodComments.Where(c => c.ParentCommentId == commentId).ToList();
+                foreach (var reply in replies)
+                {
+                    foodComments.Remove(reply);
+                }
+                foodComments.Remove(comment);
+            }
+        }
+
+        public void EditComment(int commentId, string newContent)
+        {
+            var comment = foodComments.FirstOrDefault(c => c.CommentId == commentId);
+            if (comment != null)
+            {
+                comment.Content = newContent;
+                comment.IsEdited = true;
+                comment.EditedAt = DateTime.Now;
+            }
         }
     }
 }
