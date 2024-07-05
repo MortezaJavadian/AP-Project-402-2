@@ -56,32 +56,32 @@ namespace Wpf_View.AdminPanel
             if (border.Name == "Sign_Up")
             {
                 Sign_Up.Background = Brushes.Gray;
-                Reservation.Background = null;
-                Complaint.Background = null;
+                Restaurants.Background = null;
+                Complaints.Background = null;
 
                 SignUpPage.Visibility = Visibility.Visible;
                 RestaurantsPage.Visibility = Visibility.Collapsed;
+                ComplaintsPage.Visibility = Visibility.Collapsed;
             }
-            else if (border.Name == "Reservation")
+            else if (border.Name == "Restaurants")
             {
                 Sign_Up.Background = null;
-                Reservation.Background = Brushes.Gray;
-                Complaint.Background = null;
+                Restaurants.Background = Brushes.Gray;
+                Complaints.Background = null;
 
                 SignUpPage.Visibility = Visibility.Collapsed;
                 RestaurantsPage.Visibility = Visibility.Visible;
+                ComplaintsPage.Visibility = Visibility.Collapsed;
             }
-            else if (border.Name == "History")
+            else if (border.Name == "Complaints")
             {
                 Sign_Up.Background = null;
-                Reservation.Background = null;
-                Complaint.Background = null;
-            }
-            else if (border.Name == "Complaint")
-            {
-                Sign_Up.Background = null;
-                Reservation.Background = null;
-                Complaint.Background = Brushes.Gray;
+                Restaurants.Background = null;
+                Complaints.Background = Brushes.Gray;
+
+                SignUpPage.Visibility = Visibility.Collapsed;
+                RestaurantsPage.Visibility = Visibility.Collapsed;
+                ComplaintsPage.Visibility = Visibility.Visible;
             }
         }
     }

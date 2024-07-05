@@ -65,7 +65,7 @@
 
                 <Button x:Name="SubmitButton" FontWeight="SemiBold" Background="Blue"
                         Foreground="White" Width="70" IsEnabled="False" Opacity="0.4"
-                        Click="Submit_Click">
+                        Click="Submit_Click" Margin="0,15">
 
                     <TextBlock Text="Submit" FontSize="15" Margin="0,4,0,6"/>
 
@@ -92,6 +92,9 @@
                         </Style>
                     </Button.Style>
                 </Button>
+                               
+                <TextBlock x:Name="AddRestaurantMessage" HorizontalAlignment="Center"
+                           Foreground="#00D100" FontSize="13.5" FontWeight="Bold"/>
             </StackPanel>
         </Border>
     </Grid>

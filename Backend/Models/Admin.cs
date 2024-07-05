@@ -25,7 +25,7 @@ namespace Backend.Models
             RestaurantManager newRestaurant = new RestaurantManager(initialUsername, initialPassword);
         }
 
-        public List<RestaurantManager> SearchRestaurants(string cityName, string restaurantName, string minRate, bool unresolvedComplaints)
+        public static List<RestaurantManager> SearchRestaurants(string cityName, string restaurantName, string minRate, string StateComplaints)
         {
             List<RestaurantManager> filteredRestaurants = new List<RestaurantManager>();
 
@@ -51,9 +51,9 @@ namespace Backend.Models
 
 
                 // Filter by unresolved complaints
-                if (unresolvedComplaints)
+                if (!string.IsNullOrEmpty(StateComplaints))
                 {
-                    bool hasUnresolvedComplaints = restaurant.complaints.Any(c => c.Status == ComplaintStatus.UnderReview);
+                    bool hasUnresolvedComplaints = restaurant.complaints.Any(c => c.Status == Enum.Parse<ComplaintStatus>(StateComplaints));
                     if (!hasUnresolvedComplaints)
                         match = false;
                 }
@@ -65,7 +65,7 @@ namespace Backend.Models
             return filteredRestaurants;
         }
 
-        public List<Complaint> SearchComplaints(string username , string title, string firstName, string lastName, string restaurantName, ComplaintStatus? status)
+        public static List<Complaint> SearchComplaints(string username , string title, string firstName, string lastName, string restaurantName, ComplaintStatus? status)
         {
             var result = complaints
                 .Where(c => (username == "" || c.Customer.UserName == username) &&

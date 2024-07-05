@@ -146,10 +146,36 @@ namespace Wpf_View.AdminPanel
             }
         }
 
-        private void Submit_Click(object sender, RoutedEventArgs e)
+        private async void Submit_Click(object sender, RoutedEventArgs e)
         {
-            
+            SubmitButton.IsEnabled = false;
+            SubmitButton.Opacity = 0.4;
 
+            new RestaurantManager(Username.Text, Password.Text);
+
+            AddRestaurantMessage.Text = "This restaurant want added";
+
+            await Task.Delay(3000);
+
+            AddRestaurantMessage.Text = "";
+
+            Username.Foreground = Brushes.DimGray;
+            Username.Text = "Username";
+            ClearUsername = true;
+            UsernameError.Text = "";
+            UsernameBorder.BorderBrush = null;
+
+            Password.Foreground = Brushes.DimGray;
+            Password.Text = "Password";
+            ClearPassword = true;
+            PasswordError.Text = "";
+            PasswordBorder.BorderBrush = null;
+
+            ConfirmPassword.Foreground = Brushes.DimGray;
+            ConfirmPassword.Text = "Confirm Password";
+            ClearConfirmPassword = true;
+            ConfirmPasswordError.Text = "";
+            ConfirmPasswordBorder.BorderBrush = null;
         }
     }
 }
