@@ -11,8 +11,6 @@ using System.Threading.Tasks;
 using CsvHelper;
 using System.IO;
 
-
-
 namespace Backend.Models
 {
     public class RestaurantManager : User
@@ -58,7 +56,6 @@ namespace Backend.Models
             orders = new ObservableCollection<Orders>();
             User.restaurantManagers.Add(this);
         }
-
 
         public static ObservableCollection<Food> GetAllFoods()
         {
@@ -296,7 +293,6 @@ namespace Backend.Models
 
             if (endDate != null)
                 filteredReservations = filteredReservations.Where(reservation => reservation.CreatedAt <= endDate.Value);
-
 
             return new ObservableCollection<Reservation>(filteredReservations.ToList());
         }

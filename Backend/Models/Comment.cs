@@ -58,7 +58,7 @@ namespace Backend.Models
         public void EditComment(string newContent)
         {
             Content = newContent;
-            UpdatedAt = DateTime.UtcNow;
+            EditedAt = DateTime.UtcNow;
         }
     }
 }

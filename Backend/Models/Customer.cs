@@ -1,4 +1,4 @@
-﻿using Backend.NetWork;
+using Backend.NetWork;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -158,7 +158,6 @@ namespace Backend.Models
             => new ObservableCollection<Comment>(customers
                 .Where(customer => customer.comments != null && customer.comments.Count > 0)
                 .SelectMany(customer => customer.comments).ToList());
-
 
         public void AddComplaint(RestaurantManager restaurant, string title, string description)
         {

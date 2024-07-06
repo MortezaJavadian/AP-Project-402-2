@@ -56,7 +56,6 @@
                         <ColumnDefinition/>
                         <ColumnDefinition Width="0.82*"/>
                     </Grid.ColumnDefinitions>
-
                     <TextBlock Grid.Column="0" x:Name="FirstnameError" HorizontalAlignment="Left"
                                Foreground="#D10000" FontSize="13.5" FontWeight="Bold"/>
 
@@ -208,7 +207,6 @@
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="TextBox">
-
                                             <Border Name="border" BorderThickness="2" BorderBrush="Black" Background="{TemplateBinding Background}">
                                                 <ScrollViewer x:Name="PART_ContentHost"/>
                                             </Border>

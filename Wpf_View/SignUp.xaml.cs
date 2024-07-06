@@ -104,7 +104,6 @@ namespace Wpf_View
                 EmailError.Text = "Email can not be empty";
                 EmailBorder.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D10000"));
             }
-
             else if (ClearPassword && textBox.Name == "Password")
             {
                 textBox.Text = "";

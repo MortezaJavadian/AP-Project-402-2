@@ -57,7 +57,6 @@ namespace Backend.Models
         public float CalculateTotalPrice(ObservableCollection<CartItem> items)
             => items.Sum(i => i.Food.Price * i.Quantity);
 
-
         public void ChangeStatus(OrderStatus newStatus)
         {
             Status = newStatus;
