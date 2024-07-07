@@ -37,15 +37,29 @@ namespace Backend.Models
             Response = null;
             customer.complaints.Add(this);
             restaurant.complaints.Add(this);
-            Admin.complaints.Add(this);
+            Admin.Complaints.Add(this);
         }
 
+        public Complaint( int complaintId, Customer customer, RestaurantManager restaurant, Admin admin, string title,
+                        string description, ComplaintStatus status, string response, DateTime createAt, DateTime? responseAt)
+        {
+            ComplaintId = complaintId;
+            Customer = customer;
+            Restaurant = restaurant;
+            Admin = admin;
+            Title = title;
+            Description = description;
+            Status = status;
+            Response = response;
+            CreateAt = createAt;
+            ResponseAt = responseAt;
+        }
 
         public static int GenerateUniqueIdComplaint()
         {
-            int newId = Admin.complaints.Count + 1;
+            int newId = Admin.Complaints.Count + 1;
 
-            while (Admin.complaints.Any(f => f.ComplaintId == newId))
+            while (Admin.Complaints.Any(f => f.ComplaintId == newId))
                 newId++;
             
             return newId;

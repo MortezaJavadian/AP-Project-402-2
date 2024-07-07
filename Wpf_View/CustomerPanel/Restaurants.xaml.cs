@@ -52,7 +52,7 @@ namespace Wpf_View.CustomerPanel
             RestaurantsList.DataContext = Customer.SearchRestaurants(City.Text, Name.Text,
                 (Delivery.Text != "") ? ((Delivery.Text == "Yes") ? true : false) : null,
                 (Dine_in.Text != "") ? ((Dine_in.Text == "Yes") ? true : false) : null,
-                (Score.Text != "") ? float.Parse(Score.Text) : null);
+                (Score.Text != "") ? (Score.Text) : null);
         }
     }
 

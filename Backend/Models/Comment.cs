@@ -37,6 +37,15 @@ namespace Backend.Models
             customer.comments.Add(this);
         }
 
+        public Comment(int commentId, string content, DateTime createdAt, DateTime? editedAt, bool? isEdited, int? parentCommentId)
+        {
+            CommentId = commentId;
+            Content = content;
+            CreatedAt = createdAt;
+            EditedAt = editedAt;
+            IsEdited = isEdited;
+            ParentCommentId = parentCommentId;
+        }
 
         public static int GenerateUniqueIdComment()
         {

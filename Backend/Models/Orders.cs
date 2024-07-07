@@ -41,6 +41,17 @@ namespace Backend.Models
             restaurant.orders.Add(this);
         }
 
+        public Orders(int orderId, float totalPrice, PaymentMethod paymentMethod, OrderStatus status, int rating, string comment, DateTime dataTime)
+        {
+            Order_Id = orderId;
+            TotalPrice = totalPrice;
+            PaymentMethod = paymentMethod;
+            Status = status;
+            Rating = rating;
+            Comment = comment;
+            this.dataTime = dataTime;
+        }
+
         public static int GenerateUniqueIdOrder()
         {
             ObservableCollection<Orders> AllOrders = Customer.GetAllOrders();

@@ -57,6 +57,28 @@ namespace Backend.Models
             User.restaurantManagers.Add(this);
         }
 
+        // Constructor for getting information from server
+        public RestaurantManager(
+            int restaurantId, string userName, string password, string nameOfRestaurant,
+            string city, string address, float score, float serviceScore, bool isReserveService,
+            bool delivery, bool dineIn, ObservableCollection<string> categories) : base (userName, password)
+        {
+            Restaurant_Id = restaurantId;
+            NameOfRestaurant = nameOfRestaurant;
+            City = city;
+            Address = address;
+            Score = score;
+            ServiceScore = serviceScore;
+            IsReserveService = isReserveService;
+            Delivery = delivery;
+            Dine_in = dineIn;
+            this.foods = new ObservableCollection<Food>();
+            this.complaints = new ObservableCollection<Complaint>();
+            this.reservation = new ObservableCollection<Reservation>();
+            this.orders = new ObservableCollection<Orders>();
+            this.categories = categories;
+        }
+
         public static ObservableCollection<Food> GetAllFoods()
         {
             var allFoodsList = restaurantManagers

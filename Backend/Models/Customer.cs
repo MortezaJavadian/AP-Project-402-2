@@ -26,6 +26,7 @@ namespace Backend.Models
         public string Address { get; set; } // optional
         public Gender gender { get; set; } // optional
         public SpecialService SpecialService { get; set; }
+        public DateTime? CreatedService { get; set; }
         public ObservableCollection<Reservation > reservations { get; set; }
         public ObservableCollection<Orders > orders { get; set; }
         public ObservableCollection<Complaint> complaints { get; set; }
@@ -48,6 +49,27 @@ namespace Backend.Models
             comments = new ObservableCollection<Comment>();
             shoppingCart = new ShoppingCart();
             customers.Add(this);
+        }
+
+        // Constructor for getting information from server
+        public Customer( 
+        int customerId, string userName, string password, string phoneNumber,
+        string firstName, string lastName, string email, string address,
+        Gender gender, SpecialService specialService, DateTime? createdService) : base (userName , password)
+        {
+            Customer_Id = customerId;
+            PhoneNumber = phoneNumber;
+            FirstName = firstName;
+            LastName = lastName;
+            Email = email;
+            Address = address;
+            this.gender = gender;
+            SpecialService = specialService;
+            CreatedService = createdService;
+            this.reservations = new ObservableCollection<Reservation>();
+            this.orders = new ObservableCollection<Orders>();
+            this.complaints = new ObservableCollection<Complaint>();
+            this.comments = new ObservableCollection<Comment>();
         }
 
         // Regex for a true phone number type
@@ -200,6 +222,7 @@ namespace Backend.Models
                     SpecialService = SpecialService.Gold;
                     break;
             }
+            CreatedService = DateTime.Now;
         }
 
         public void AddToCart(Food food, int quantity)
