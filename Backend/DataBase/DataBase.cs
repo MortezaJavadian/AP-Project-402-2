@@ -14,105 +14,105 @@ namespace Backend.DataBase
     {
         public static string connectionString = "your_connection_string_here";
 
-        public static ObservableCollection<Customer> GetAllCustomers()
-        {
-            ObservableCollection<Customer> customers = new ObservableCollection<Customer>();
+        //public static ObservableCollection<Customer> GetAllCustomers()
+        //{
+        //    ObservableCollection<Customer> customers = new ObservableCollection<Customer>();
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand("SELECT * FROM Customers", conn);
-                SqlDataReader reader = cmd.ExecuteReader();
+        //    using (SqlConnection conn = new SqlConnection(connectionString))
+        //    {
+        //        conn.Open();
+        //        SqlCommand cmd = new SqlCommand("SELECT * FROM Customers", conn);
+        //        SqlDataReader reader = cmd.ExecuteReader();
 
-                while (reader.Read())
-                {
-                    Customer customer = new Customer(
-                        (int)reader["Customer_Id"],
-                        reader["UserName"].ToString(),
-                        reader["Password"].ToString(),
-                        reader["PhoneNumber"].ToString(),
-                        reader["FirstName"].ToString(),
-                        reader["LastName"].ToString(),
-                        reader["Email"].ToString(),
-                        reader["Address"].ToString(),
-                        (Gender)Enum.Parse(typeof(Gender), reader["Gender"].ToString()),
-                        (SpecialService)Enum.Parse(typeof(SpecialService), reader["SpecialService"].ToString()),
-                        reader["CreatedService"] != DBNull.Value ? (DateTime?)reader["CreatedService"] : null
-                        //GetReservationsByCustomerId((int)reader["Customer_Id"]),
-                        //GetOrdersByCustomerId((int)reader["Customer_Id"]),
-                        //GetComplaintsByCustomerId((int)reader["Customer_Id"]),
-                        //GetCommentsByCustomerId((int)reader["Customer_Id"])
-                    );
+        //        while (reader.Read())
+        //        {
+        //            Customer customer = new Customer(
+        //                (int)reader["Customer_Id"],
+        //                reader["UserName"].ToString(),
+        //                reader["Password"].ToString(),
+        //                reader["PhoneNumber"].ToString(),
+        //                reader["FirstName"].ToString(),
+        //                reader["LastName"].ToString(),
+        //                reader["Email"].ToString(),
+        //                reader["Address"].ToString(),
+        //                (Gender)Enum.Parse(typeof(Gender), reader["Gender"].ToString()),
+        //                (SpecialService)Enum.Parse(typeof(SpecialService), reader["SpecialService"].ToString()),
+        //                reader["CreatedService"] != DBNull.Value ? (DateTime?)reader["CreatedService"] : null
+        //                //GetReservationsByCustomerId((int)reader["Customer_Id"]),
+        //                //GetOrdersByCustomerId((int)reader["Customer_Id"]),
+        //                //GetComplaintsByCustomerId((int)reader["Customer_Id"]),
+        //                //GetCommentsByCustomerId((int)reader["Customer_Id"])
+        //            );
 
-                    customers.Add(customer);
-                }
-            }
-            return customers;
-        }
-
-
-        public static ObservableCollection<RestaurantManager> GetAllRestaurantManagers()
-        {
-            ObservableCollection<RestaurantManager> restaurantManagers = new ObservableCollection<RestaurantManager>();
-
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand("SELECT * FROM RestaurantManagers", conn);
-                SqlDataReader reader = cmd.ExecuteReader();
-
-                while (reader.Read())
-                {
-                    RestaurantManager manager = new RestaurantManager(
-                        (int)reader["Restaurant_Id"],
-                        reader["UserName"].ToString(),
-                        reader["Password"].ToString(),
-                        reader["NameOfRestaurant"].ToString(),
-                        reader["City"].ToString(),
-                        reader["Address"].ToString(),
-                        (float)reader["Score"],
-                        (float)reader["ServiceScore"],
-                        (bool)reader["IsReserveService"],
-                        (bool)reader["Delivery"],
-                        (bool)reader["Dine_in"],
-                        //GetFoodsByRestaurantId((int)reader["Restaurant_Id"]),
-                        //GetComplaintsByRestaurantId((int)reader["Restaurant_Id"]),
-                        //GetReservationsByRestaurantId((int)reader["Restaurant_Id"]),
-                        //GetOrdersByRestaurantId((int)reader["Restaurant_Id"]),
-                        new ObservableCollection<string>(reader["Categories"].ToString().Split(','))
-                    );
-
-                    restaurantManagers.Add(manager);
-                }
-            }
-            return restaurantManagers;
-        }
+        //            customers.Add(customer);
+        //        }
+        //    }
+        //    return customers;
+        //}
 
 
-        public static ObservableCollection<Admin> GetAllAdmins()
-        {
-            ObservableCollection<Admin> admins = new ObservableCollection<Admin>();
+        //public static ObservableCollection<RestaurantManager> GetAllRestaurantManagers()
+        //{
+        //    ObservableCollection<RestaurantManager> restaurantManagers = new ObservableCollection<RestaurantManager>();
+
+        //    using (SqlConnection conn = new SqlConnection(connectionString))
+        //    {
+        //        conn.Open();
+        //        SqlCommand cmd = new SqlCommand("SELECT * FROM RestaurantManagers", conn);
+        //        SqlDataReader reader = cmd.ExecuteReader();
+
+        //        while (reader.Read())
+        //        {
+        //            RestaurantManager manager = new RestaurantManager(
+        //                (int)reader["Restaurant_Id"],
+        //                reader["UserName"].ToString(),
+        //                reader["Password"].ToString(),
+        //                reader["NameOfRestaurant"].ToString(),
+        //                reader["City"].ToString(),
+        //                reader["Address"].ToString(),
+        //                (float)reader["Score"],
+        //                (float)reader["ServiceScore"],
+        //                (bool)reader["IsReserveService"],
+        //                (bool)reader["Delivery"],
+        //                (bool)reader["Dine_in"],
+        //                //GetFoodsByRestaurantId((int)reader["Restaurant_Id"]),
+        //                //GetComplaintsByRestaurantId((int)reader["Restaurant_Id"]),
+        //                //GetReservationsByRestaurantId((int)reader["Restaurant_Id"]),
+        //                //GetOrdersByRestaurantId((int)reader["Restaurant_Id"]),
+        //                new ObservableCollection<string>(reader["Categories"].ToString().Split(','))
+        //            );
+
+        //            restaurantManagers.Add(manager);
+        //        }
+        //    }
+        //    return restaurantManagers;
+        //}
+
+
+        //public static ObservableCollection<Admin> GetAllAdmins()
+        //{
+        //    ObservableCollection<Admin> admins = new ObservableCollection<Admin>();
             
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand("SELECT * FROM Admins", conn);
-                SqlDataReader reader = cmd.ExecuteReader();
+        //    using (SqlConnection conn = new SqlConnection(connectionString))
+        //    {
+        //        conn.Open();
+        //        SqlCommand cmd = new SqlCommand("SELECT * FROM Admins", conn);
+        //        SqlDataReader reader = cmd.ExecuteReader();
             
-                while (reader.Read())
-                {
-                    Admin admin = new Admin(
-                        (int)reader["AdminId"],
-                        reader["UserName"].ToString(),
-                        reader["Password"].ToString()
-                        //GetComplaintsByAdminId((int)reader["AdminId"])
-                    );
+        //        while (reader.Read())
+        //        {
+        //            Admin admin = new Admin(
+        //                (int)reader["AdminId"],
+        //                reader["UserName"].ToString(),
+        //                reader["Password"].ToString()
+        //                //GetComplaintsByAdminId((int)reader["AdminId"])
+        //            );
             
-                    admins.Add(admin);
-                }
-            }
-            return admins;
-        }
+        //            admins.Add(admin);
+        //        }
+        //    }
+        //    return admins;
+        //}
 
 
         public static void InsertCustomer(Customer customer)
