@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -10,8 +11,9 @@ namespace Backend.Models
 {
     public abstract class User
     {
-        public static List<User> Users = new List<User>();
-
+        public static ObservableCollection<RestaurantManager> restaurantManagers {  get; set; } = new ObservableCollection<RestaurantManager>();
+        public static ObservableCollection<Customer> customers { get; set; } = new ObservableCollection<Customer>();
+        public static ObservableCollection<Admin> admins { get; set; } = new ObservableCollection<Admin>();
         public string UserName { get; set; }
         public string Password { get; set; }
 
@@ -19,22 +21,40 @@ namespace Backend.Models
         {
             UserName = username;
             Password = pass;
-
-            Users.Add(this);
         }
 
         public static bool Exist_UserName(string username)
-            => Users.Any(user => user.UserName == username);
-
+        {
+            User user = admins.Where(admin => admin.UserName == username).FirstOrDefault();
+            if(user == null)
+                user = restaurantManagers.Where(manager => manager.UserName == username).FirstOrDefault();
+            if(user == null)
+                user = customers.Where(customer => customer.UserName == username).FirstOrDefault();
+            if (user == null)
+                return false;
+            return true;
+        }
         public static User LoginUser(string username, string password)
         {
             if (username == "" || password == "")
                 throw new Exception("Fields can not be empty");
 
-            foreach (var user in Users)
+            foreach (var admin in admins)
             {
-                if (user.UserName == username && user.Password == password)
-                    return user;
+                if (admin.UserName == username && admin.Password == password)
+                    return admin;
+            }
+
+            foreach (var manager in restaurantManagers)
+            {
+                if (manager.UserName == username && manager.Password == password)
+                    return manager;
+            }
+
+            foreach (var customer in customers)
+            {
+                if (customer.UserName == username && customer.Password == password)
+                    return customer;
             }
 
             throw new Exception("Username or Password is not valid");
@@ -49,9 +69,15 @@ namespace Backend.Models
             string pattern = @"^(?=.*[A-Za-z].*[A-Za-z].*[A-Za-z])[A-Za-z\d]*$";
             if (!Regex.IsMatch(userName, pattern))
                 return (false, "Username is not in a true format");
-            else 
-                foreach(var user in Users)
-                    { if (user.UserName == userName) return (false, "Username is used before"); }
+            else
+            {
+                foreach (var admin in admins)
+                { if (admin.UserName == userName) return (false, "Username is used as an admin"); }
+                foreach (var manager in restaurantManagers)
+                { if (manager.UserName == userName) return (false, "Username is used as a manager"); }
+                foreach (var customer in customers)
+                { if (customer.UserName == userName) return (false, "Username is used as a customer"); }
+            }
 
             return (true, "Username is valid");
         }

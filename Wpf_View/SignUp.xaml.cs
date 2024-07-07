@@ -43,8 +43,8 @@ namespace Wpf_View
         {
             for (int j = 1; j <= 25; j++)
             {
-                await Task.Delay(1);
-                SignUpPage.Height -= 16;
+                await Task.Delay(5);
+                SignUpPage.Opacity -= 0.04;
             }
             (Application.Current.MainWindow as MainWindow).Content = new Login();
         }
@@ -54,6 +54,9 @@ namespace Wpf_View
         bool ClearUsername = true;
         bool ClearPhoneNumber = true;
         bool ClearEmail = true;
+        bool ClearPassword = true;
+        bool ClearConfirmPassword = true;
+
         private void Clear_HintText(object sender, RoutedEventArgs e)
         {
             TextBox textBox = sender as TextBox;
@@ -101,6 +104,25 @@ namespace Wpf_View
                 EmailError.Text = "Email can not be empty";
                 EmailBorder.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D10000"));
             }
+
+            else if (ClearPassword && textBox.Name == "Password")
+            {
+                textBox.Text = "";
+                textBox.Foreground = Brushes.Black;
+                ClearPassword = false;
+
+                PasswordError.Text = "Password can not be empty";
+                PasswordBorder.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D10000"));
+            }
+            else if (ClearConfirmPassword && textBox.Name == "ConfirmPassword")
+            {
+                textBox.Text = "";
+                textBox.Foreground = Brushes.Black;
+                ClearConfirmPassword = false;
+
+                ConfirmPasswordError.Text = "Confirm Password can not be empty";
+                ConfirmPasswordBorder.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D10000"));
+            }
         }
 
         private void Set_HintText(object sender, RoutedEventArgs e)
@@ -147,6 +169,22 @@ namespace Wpf_View
                     ClearEmail = true;
                     EmailError.Text = "";
                     EmailBorder.BorderBrush = null;
+                }
+                else if (textBox.Name == "Password")
+                {
+                    textBox.Foreground = Brushes.DimGray;
+                    textBox.Text = "Password";
+                    ClearPassword = true;
+                    PasswordError.Text = "";
+                    PasswordBorder.BorderBrush = null;
+                }
+                else if (textBox.Name == "ConfirmPassword")
+                {
+                    textBox.Foreground = Brushes.DimGray;
+                    textBox.Text = "Confirm Password";
+                    ClearConfirmPassword = true;
+                    ConfirmPasswordError.Text = "";
+                    ConfirmPasswordBorder.BorderBrush = null;
                 }
             }
         }
@@ -242,7 +280,7 @@ namespace Wpf_View
                 DisabledBorderStyle.Setters.Add(new Setter(Border.IsEnabledProperty, false));
                 SignUpPage.Style = DisabledBorderStyle;
 
-                Panel.SetZIndex(VerifyPage, 0);
+                Panel.SetZIndex(VerifyPage, 1);
 
                 SignUpPage.Effect = new BlurEffect();
                 for (int i = 1; i <= 25; i++)
@@ -256,9 +294,20 @@ namespace Wpf_View
             }
             catch (Exception ex)
             {
-                EmailError.Text = ex.Message;
-                await Task.Delay(1000);
-                EmailError.Text = "";
+                (InternetError.Child as TextBlock).Text = ex.Message;
+                for (int i = 1; i <= 25; i++)
+                {
+                    await Task.Delay(10);
+                    InternetError.Width += 9.1;
+                }
+
+                await Task.Delay(6000);
+
+                for (int i = 1; i <= 25; i++)
+                {
+                    await Task.Delay(10);
+                    InternetError.Width -= 9.1;
+                }
             }
         }
 
@@ -317,44 +366,164 @@ namespace Wpf_View
             EnabledBorderStyle.Setters.Add(new Setter(Border.IsEnabledProperty, true));
             SignUpPage.Style = EnabledBorderStyle;
 
-            Panel.SetZIndex(VerifyPage, -1);
-
-            for (int i = 1; i <= 25; i++)
+            if (Panel.GetZIndex(VerifyPage) == 1)
             {
-                await Task.Delay(1);
-                (SignUpPage.Effect as BlurEffect).Radius -= 0.4;
-                VerifyPage.Opacity -= 0.04;
-            }
+                Panel.SetZIndex(VerifyPage, -1);
 
-            Box1.Text = "";
-            Box2.Text = "";
-            Box3.Text = "";
-            Box4.Text = "";
-            Box5.Text = "";
-        }
+                for (int i = 1; i <= 25; i++)
+                {
+                    await Task.Delay(1);
+                    (SignUpPage.Effect as BlurEffect).Radius -= 0.4;
+                    VerifyPage.Opacity -= 0.04;
+                }
 
-        private void Verify_Click(object sender, RoutedEventArgs e)
-        {
-            string code = Box1.Text + Box2.Text + Box3.Text + Box4.Text + Box5.Text;
-
-            if (Verification.verify(code))
-            {
-                
-            }
-            else
-            {
                 Box1.Text = "";
                 Box2.Text = "";
                 Box3.Text = "";
                 Box4.Text = "";
                 Box5.Text = "";
-
-                Box1.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D10000"));
-                Box2.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D10000"));
-                Box3.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D10000"));
-                Box4.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D10000"));
-                Box5.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D10000"));
             }
+            else
+            {
+                Panel.SetZIndex(PasswordPage, -1);
+
+                for (int i = 1; i <= 25; i++)
+                {
+                    await Task.Delay(1);
+                    (SignUpPage.Effect as BlurEffect).Radius -= 0.4;
+                    PasswordPage.Opacity -= 0.04;
+                }
+
+                Password.Text = "";
+                ConfirmPassword.Text = "";
+            }
+        }
+
+        private async void Verify_Click(object sender, RoutedEventArgs e)
+        {
+            string code = Box1.Text + Box2.Text + Box3.Text + Box4.Text + Box5.Text;
+
+            if (Verification.verify(code))
+            {
+                Box1.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#00D100"));
+                await Task.Delay(150);
+                Box2.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#00D100"));
+                await Task.Delay(150);
+                Box3.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#00D100"));
+                await Task.Delay(150);
+                Box4.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#00D100"));
+                await Task.Delay(150);
+                Box5.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#00D100"));
+                await Task.Delay(1000);
+
+                Box1.Text = "";
+                Box1.Background = Brushes.White;
+                Box2.Text = "";
+                Box2.Background = Brushes.White;
+                Box3.Text = "";
+                Box3.Background = Brushes.White;
+                Box4.Text = "";
+                Box4.Background = Brushes.White;
+                Box5.Text = "";
+                Box5.Background = Brushes.White;
+
+                Panel.SetZIndex(VerifyPage, -1);
+                Panel.SetZIndex(PasswordPage, 1);
+
+                for (int i = 1; i <= 25; i++)
+                {
+                    await Task.Delay(1);
+                    VerifyPage.Opacity -= 0.04;
+                    PasswordPage.Opacity += 0.04;
+                }
+            }
+            else
+            {
+                Box1.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D10000"));
+                await Task.Delay(150);
+                Box2.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D10000"));
+                await Task.Delay(150);
+                Box3.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D10000"));
+                await Task.Delay(150);
+                Box4.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D10000"));
+                await Task.Delay(150);
+                Box5.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D10000"));
+                await Task.Delay(700);
+
+                Box1.Text = "";
+                Box1.Background = Brushes.White;
+                await Task.Delay(150);
+                Box2.Text = "";
+                Box2.Background = Brushes.White;
+                await Task.Delay(150);
+                Box3.Text = "";
+                Box3.Background = Brushes.White;
+                await Task.Delay(150);
+                Box4.Text = "";
+                Box4.Background = Brushes.White;
+                await Task.Delay(150);
+                Box5.Text = "";
+                Box5.Background = Brushes.White;
+
+                Box1.Focus();
+            }
+        }
+
+        bool ValidPassword = false;
+        bool ValidCofirmPassword = false;
+        private void Clear_PasswordError(object sender, KeyEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+            if (textBox.Name == "Password")
+            {
+                (ValidPassword, string Message) = Customer.IsValidPassword(textBox.Text);
+                PasswordBorder.BorderBrush = (ValidPassword) ?
+                                      new SolidColorBrush((Color)ColorConverter.ConvertFromString("#00D100")) :
+                                      new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D10000"));
+                PasswordError.Foreground = (ValidPassword) ?
+                                      new SolidColorBrush((Color)ColorConverter.ConvertFromString("#00D100")) :
+                                      new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D10000"));
+
+                PasswordError.Text = Message;
+            }
+            else if (textBox.Name == "ConfirmPassword")
+            {
+                (ValidCofirmPassword, string Message) = (textBox.Text == Password.Text) ? 
+                                      (true, "Password match") : (false, "Password doesn't match");
+                ConfirmPasswordBorder.BorderBrush = (ValidCofirmPassword) ?
+                                      new SolidColorBrush((Color)ColorConverter.ConvertFromString("#00D100")) :
+                                      new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D10000"));
+                ConfirmPasswordError.Foreground = (ValidCofirmPassword) ?
+                                      new SolidColorBrush((Color)ColorConverter.ConvertFromString("#00D100")) :
+                                      new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D10000"));
+
+                ConfirmPasswordError.Text = Message;
+            }
+
+            if (ValidPassword && ValidCofirmPassword)
+            {
+                SubmitButton.IsEnabled = true;
+                SubmitButton.Opacity = 1;
+            }
+            else
+            {
+                SubmitButton.IsEnabled = false;
+                SubmitButton.Opacity = 0.4;
+            }
+        }
+
+        private async void Submit_Click(object sender, RoutedEventArgs e)
+        {
+            new Customer(Username.Text, Password.Text, PhoneNumber.Text, Firstname.Text, Lastname.Text,
+                         Email.Text);
+
+            for (int j = 1; j <= 25; j++)
+            {
+                await Task.Delay(1);
+                SignUpPage.Opacity -= 0.04;
+                PasswordPage.Opacity -= 0.04;
+            }
+            (Application.Current.MainWindow as MainWindow).Content = new Login();
         }
     }
 }
