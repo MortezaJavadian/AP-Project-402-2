@@ -15,7 +15,7 @@
             </Image.Effect>
         </Image>
 
-        <Border x:Name="PannelBorder" Background="#0000A3" Margin="40,30" CornerRadius="20" Opacity="1">
+        <Border x:Name="PannelBorder" Background="#0000A3" Margin="40,30" CornerRadius="20" Opacity="0">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="215"/>
@@ -43,14 +43,14 @@
                                 <TextBlock Text="Sign Up Restaurant" Foreground="White" FontSize="20" Margin="7,5"/>
                             </Border>
                             <Rectangle Height="2" Width="182" Fill="Gray"/>
-                            <Border x:Name="Reservation" CornerRadius="7" Margin="7,4"
-                            MouseLeftButtonDown="Click_Choices">
+                            <Border x:Name="Restaurants" CornerRadius="7" Margin="7,4"
+                                    MouseLeftButtonDown="Click_Choices">
                                 <TextBlock Text="Restaurants" Foreground="White" FontSize="20" Margin="7,5"/>
                             </Border>
                             <Rectangle Height="2" Width="182" Fill="Gray"/>
-                            <Border x:Name="Complaint" CornerRadius="7" Margin="7,4"
-                            MouseLeftButtonDown="Click_Choices">
-                                <TextBlock Text="Complaint" Foreground="White" FontSize="20" Margin="7,5"/>
+                            <Border x:Name="Complaints" CornerRadius="7" Margin="7,4"
+                                    MouseLeftButtonDown="Click_Choices">
+                                <TextBlock Text="Complaints" Foreground="White" FontSize="20" Margin="7,5"/>
                             </Border>
                         </StackPanel>
 
@@ -83,6 +83,10 @@
                         </Button>
                     </Grid>
                 </Border>
+
+                <local:SignUpRestaurant x:Name="SignUpPage" Grid.Column="1" Visibility="Collapsed"/>
+                <local:Restaurants x:Name="RestaurantsPage" Grid.Column="1" Visibility="Collapsed"/>
+                <local:Complaints x:Name="ComplaintsPage" Grid.Column="1" Visibility="Collapsed"/>
             </Grid>
         </Border>
     </Grid>

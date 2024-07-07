@@ -109,7 +109,8 @@ namespace Wpf_View
                 textBox.Text = "";
                 textBox.Foreground = Brushes.Black;
                 ClearPassword = false;
-                PasswordError.Text = "Email can not be empty";
+
+                PasswordError.Text = "Password can not be empty";
                 PasswordBorder.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D10000"));
             }
             else if (ClearConfirmPassword && textBox.Name == "ConfirmPassword")
@@ -117,7 +118,8 @@ namespace Wpf_View
                 textBox.Text = "";
                 textBox.Foreground = Brushes.Black;
                 ClearConfirmPassword = false;
-                ConfirmPasswordError.Text = "Email can not be empty";
+
+                ConfirmPasswordError.Text = "Confirm Password can not be empty";
                 ConfirmPasswordBorder.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D10000"));
             }
         }
@@ -167,7 +169,6 @@ namespace Wpf_View
                     EmailError.Text = "";
                     EmailBorder.BorderBrush = null;
                 }
-
                 else if (textBox.Name == "Password")
                 {
                     textBox.Foreground = Brushes.DimGray;
@@ -179,7 +180,7 @@ namespace Wpf_View
                 else if (textBox.Name == "ConfirmPassword")
                 {
                     textBox.Foreground = Brushes.DimGray;
-                    textBox.Text = "Email";
+                    textBox.Text = "Confirm Password";
                     ClearConfirmPassword = true;
                     ConfirmPasswordError.Text = "";
                     ConfirmPasswordBorder.BorderBrush = null;

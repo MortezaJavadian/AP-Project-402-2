@@ -1,8 +1,10 @@
-using Backend.Models;
+﻿using Backend.Models;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -17,33 +19,50 @@ using System.Windows.Shapes;
 namespace Wpf_View.AdminPanel
 {
     /// <summary>
-    /// Interaction logic for SignUpRestaurant.xaml
+    /// Interaction logic for Restaurants.xaml
     /// </summary>
-    public partial class SignUpRestaurant : UserControl
+    public partial class Restaurants : UserControl
     {
-        public SignUpRestaurant()
+        public Restaurants()
         {
             InitializeComponent();
+
+            RestaurantsList.DataContext = User.restaurantManagers;
         }
 
-        bool ClearUsername = true;
+        private void Score_input(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = (Score.Text.Length != 0 || new Regex("[^0-5.-]+").IsMatch(e.Text));
+        }
+
+        RestaurantManager RestaurantSelect;
+        private async void listView_Click(object sender, RoutedEventArgs e)
+        {
+            RestaurantSelect = (sender as ListView).SelectedItem as RestaurantManager;
+
+            if (RestaurantSelect != null)
+            {
+                Panel.SetZIndex(ChangePasswordPage, 1);
+                for (int i = 1; i <= 25; i++)
+                {
+                    await Task.Delay(1);
+                    ChangePasswordPage.Opacity += 0.04;
+                }
+            }
+        }
+
+        private void Set_Fillter(object sender, EventArgs e)
+        {
+            RestaurantsList.DataContext = Admin.SearchRestaurants(City.Text, Name.Text, Score.Text,
+                                                                  ComplaintStatus.Text);
+        }
+
         bool ClearPassword = true;
         bool ClearConfirmPassword = true;
-        bool ClearName = true;
-        bool ClearCity = true;
-        bool ClearAddress = true;
         private void Clear_HintText(object sender, RoutedEventArgs e)
         {
             TextBox textBox = sender as TextBox;
-            if (ClearUsername && textBox.Name == "Username")
-            {
-                textBox.Text = "";
-                textBox.Foreground = Brushes.Black;
-                ClearUsername = false;
-                UsernameError.Text = "Username can not be empty";
-                UsernameBorder.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D10000"));
-            }
-            else if (ClearPassword && textBox.Name == "Password")
+            if (ClearPassword && textBox.Name == "Password")
             {
                 textBox.Text = "";
                 textBox.Foreground = Brushes.Black;
@@ -59,24 +78,6 @@ namespace Wpf_View.AdminPanel
                 ConfirmPasswordError.Text = "Confirm Password can not be empty";
                 ConfirmPasswordBorder.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D10000"));
             }
-            else if (ClearName && textBox.Name == "Name")
-            {
-                textBox.Text = "";
-                textBox.Foreground = Brushes.Black;
-                ClearName = false;
-            }
-            else if (ClearCity && textBox.Name == "City")
-            {
-                textBox.Text = "";
-                textBox.Foreground = Brushes.Black;
-                ClearCity = false;
-            }
-            else if (ClearAddress && textBox.Name == "Address")
-            {
-                textBox.Text = "";
-                textBox.Foreground = Brushes.Black;
-                ClearAddress = false;
-            }
         }
 
         private void Set_HintText(object sender, RoutedEventArgs e)
@@ -84,15 +85,7 @@ namespace Wpf_View.AdminPanel
             TextBox textBox = sender as TextBox;
             if (textBox.Text == "")
             {
-                if (textBox.Name == "Username")
-                {
-                    textBox.Foreground = Brushes.DimGray;
-                    textBox.Text = "Username";
-                    ClearUsername = true;
-                    UsernameError.Text = "";
-                    UsernameBorder.BorderBrush = null;
-                }
-                else if (textBox.Name == "Password")
+                if (textBox.Name == "Password")
                 {
                     textBox.Foreground = Brushes.DimGray;
                     textBox.Text = "Password";
@@ -108,46 +101,15 @@ namespace Wpf_View.AdminPanel
                     ConfirmPasswordError.Text = "";
                     ConfirmPasswordBorder.BorderBrush = null;
                 }
-                else if (textBox.Name == "Name")
-                {
-                    textBox.Foreground = Brushes.DimGray;
-                    textBox.Text = "Name";
-                    ClearName = true;
-                }
-                else if (textBox.Name == "City")
-                {
-                    textBox.Foreground = Brushes.DimGray;
-                    textBox.Text = "City";
-                    ClearCity = true;
-                }
-                else if (textBox.Name == "Address")
-                {
-                    textBox.Foreground = Brushes.DimGray;
-                    textBox.Text = "Address";
-                    ClearAddress = true;
-                }
             }
         }
 
-        bool ValidUsername = false;
         bool ValidPassword = false;
         bool ValidCofirmPassword = false;
         private void Clear_Error(object sender, KeyEventArgs e)
         {
             TextBox textBox = sender as TextBox;
-            if (textBox.Name == "Username")
-            {
-                (ValidUsername, string Message) = User.IsValid_UserName(textBox.Text);
-                UsernameBorder.BorderBrush = (ValidUsername) ?
-                                      new SolidColorBrush((Color)ColorConverter.ConvertFromString("#00D100")) :
-                                      new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D10000"));
-                UsernameError.Foreground = (ValidUsername) ?
-                                      new SolidColorBrush((Color)ColorConverter.ConvertFromString("#00D100")) :
-                                      new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D10000"));
-
-                UsernameError.Text = Message;
-            }
-            else if (textBox.Name == "Password")
+            if (textBox.Name == "Password")
             {
                 (ValidPassword, string Message) = Customer.IsValidPassword(textBox.Text);
                 PasswordBorder.BorderBrush = (ValidPassword) ?
@@ -173,31 +135,45 @@ namespace Wpf_View.AdminPanel
                 ConfirmPasswordError.Text = Message;
             }
 
-            if (ValidUsername && ValidPassword && ValidCofirmPassword)
+            if (ValidPassword && ValidCofirmPassword)
             {
-                SubmitButton.IsEnabled = true;
-                SubmitButton.Opacity = 1;
+                ChangePassword.IsEnabled = true;
+                ChangePassword.Opacity = 1;
             }
             else
             {
-                SubmitButton.IsEnabled = false;
-                SubmitButton.Opacity = 0.4;
+                ChangePassword.IsEnabled = false;
+                ChangePassword.Opacity = 0.4;
             }
         }
 
-        private async void Submit_Click(object sender, RoutedEventArgs e)
+        private async void Cancel_Click(object sender, RoutedEventArgs e)
         {
-            new RestaurantManager(Username.Text, Password.Text, (!ClearName) ? Name.Text : "", (!ClearCity) ? City.Text : "",
-                                 (!ClearAddress) ? Address.Text : "", Delivery.Text == "Yes", Dine_in.Text == "Yes");
+            Password.Foreground = Brushes.DimGray;
+            Password.Text = "Password";
+            ClearPassword = true;
+            PasswordError.Text = "";
+            PasswordBorder.BorderBrush = null;
 
-            SubmitButton.IsEnabled = false;
-            SubmitButton.Opacity = 0.4;
+            ConfirmPassword.Foreground = Brushes.DimGray;
+            ConfirmPassword.Text = "Confirm Password";
+            ClearConfirmPassword = true;
+            ConfirmPasswordError.Text = "";
+            ConfirmPasswordBorder.BorderBrush = null;
 
-            Username.Foreground = Brushes.DimGray;
-            Username.Text = "Username";
-            ClearUsername = true;
-            UsernameError.Text = "";
-            UsernameBorder.BorderBrush = null;
+            Panel.SetZIndex(ChangePasswordPage, -1);
+            for (int i = 1; i <= 25; i++)
+            {
+                await Task.Delay(1);
+                ChangePasswordPage.Opacity -= 0.04;
+            }
+
+            RestaurantSelect = null;
+        }
+
+        private async void ChangePassword_Click(object sender, RoutedEventArgs e)
+        {
+            RestaurantSelect.Password = Password.Text;
 
             Password.Foreground = Brushes.DimGray;
             Password.Text = "Password";
@@ -211,26 +187,31 @@ namespace Wpf_View.AdminPanel
             ConfirmPasswordError.Text = "";
             ConfirmPasswordBorder.BorderBrush = null;
 
-            Name.Foreground = Brushes.DimGray;
-            Name.Text = "Name";
-            ClearName = true;
+            Panel.SetZIndex(ChangePasswordPage, -1);
+            for (int i = 1; i <= 25; i++)
+            {
+                await Task.Delay(1);
+                ChangePasswordPage.Opacity -= 0.04;
+            }
 
-            City.Foreground = Brushes.DimGray;
-            City.Text = "City";
-            ClearCity = true;
+            RestaurantSelect = null;
+        }
+    }
 
-            Address.Foreground = Brushes.DimGray;
-            Address.Text = "Address";
-            ClearAddress = true;
+    public class BooleanToYesNoConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is bool boolValue)
+            {
+                return boolValue ? "Yes" : "No";
+            }
+            return "No";
+        }
 
-            Delivery.Text = "No";
-            Dine_in.Text = "No";
-
-            AddRestaurantMessage.Text = "This restaurant want added";
-
-            await Task.Delay(3000);
-
-            AddRestaurantMessage.Text = "";
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
         }
     }
 }

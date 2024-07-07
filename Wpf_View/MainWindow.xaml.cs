@@ -26,6 +26,8 @@ namespace Wpf_View
 
         private async void ShowStartPage()
         {
+            new Admin("Morteza", "Javadian");
+            new Admin("AmirAbas", "Eeshghi");
             char[] StartText = { 'R', 'e', 's', 't', 'a', 'u', 'r', 'a', 'n', 't', ' ',
                                  'M', 'a', 'n', 'a', 'g', 'e', 'm', 'e', 'n', 't' };
             for (int i = 0; i < StartText.Length; i++)

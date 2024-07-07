@@ -14,7 +14,7 @@ using System.Xml.Linq;
 namespace Backend.Models
 {
     public enum Gender { Male, Female, Unknown }
-    public enum SpecialService { Bronze , Silver , Gold , Normal}
+    public enum SpecialService { Normal, Bronze, Silver, Gold }
 
     public class Customer : User
     {
@@ -207,11 +207,12 @@ namespace Backend.Models
             if (food.Available && quantity <= food.foodNum)
             {
                 shoppingCart.AddItem(food, quantity);
+                food.foodNum -= quantity;
             }
-            else
-            {
-                throw new Exception("Requested quantity not available.");
-            }
+            //else
+            //{
+            //    throw new Exception("Requested quantity not available.");
+            //}
         }
 
         public void RemoveFromCart(Food food)
@@ -248,8 +249,6 @@ namespace Backend.Models
                 order.Status = OrderStatus.Cancelled;
             }
 
-            orders.Add(order);
-            restaurant.orders.Add(order);
             shoppingCart.ClearCart();
             return order;
         }

@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 using CsvHelper;
 using System.IO;
 
-
 namespace Backend.Models
 {
     public class RestaurantManager : User
@@ -45,16 +44,7 @@ namespace Backend.Models
             complaints = new ObservableCollection<Complaint>();
             reservation = new ObservableCollection<Reservation>();
             orders = new ObservableCollection<Orders>();
-            restaurantManagers.Add(this);
-        }
 
-        public RestaurantManager(string username, string pass) : base(username, pass)
-        {
-            Restaurant_Id = User.restaurantManagers.Count + 1;
-            foods = new ObservableCollection<Food>();
-            complaints = new ObservableCollection<Complaint>();
-            reservation = new ObservableCollection<Reservation>();
-            orders = new ObservableCollection<Orders>();
             User.restaurantManagers.Add(this);
         }
 
@@ -69,15 +59,16 @@ namespace Backend.Models
         }
 
 
-        public ObservableCollection<Food> GetMenuByCategory(RestaurantManager restaurant) // For Customer Panel that want to see Menu with Categories
+        public ObservableCollection<Food> GetMenuByCategory() // For Customer Panel that want to see Menu with Categories
         {
             // Create an ObservableCollection from the ordered list
             return new ObservableCollection<Food>(
-                restaurant.foods.OrderBy(food => string.IsNullOrEmpty(food.Category))
+                           foods.OrderBy(food => string.IsNullOrEmpty(food.Category))
                                 .ThenBy(food => food.Category)
                                 .ToList()
             );
-        }// این متد اول اونهایی که دسته بندی دارند رو در لیست میچینه و سپس اونهایی که دسته بندی ندارند
+        }// این متد اول او
+         // نهایی که دسته بندی دارند رو در لیست میچینه و سپس اونهایی که دسته بندی ندارند
 
         public void CalculateAllAvergeRating()
         {
@@ -234,13 +225,13 @@ namespace Backend.Models
             var filteredOrders = orders.AsQueryable();
 
             if (customerUserName != "")
-                filteredOrders = filteredOrders.Where(order => order.customer.UserName == customerUserName);
+                filteredOrders = filteredOrders.Where(order => order.customer.UserName.StartsWith(customerUserName));
 
             if (customerPhoneNumber != "")
-                filteredOrders = filteredOrders.Where(order => order.customer.PhoneNumber == customerPhoneNumber);
+                filteredOrders = filteredOrders.Where(order => order.customer.PhoneNumber.StartsWith(customerPhoneNumber));
 
             if (foodName != "")
-                filteredOrders = filteredOrders.Where(order => order.CartItems.Any(x => x.Food.Name == foodName));
+                filteredOrders = filteredOrders.Where(order => order.CartItems.Any(x => x.Food.Name.StartsWith(foodName)));
 
             if (minPrice != "")
             {
@@ -250,7 +241,7 @@ namespace Backend.Models
 
             if (maxPrice != "")
             {
-                float price = float.Parse(minPrice);
+                float price = float.Parse(maxPrice);
                 filteredOrders = filteredOrders.Where(order => order.TotalPrice <= price);
             }
 
@@ -268,13 +259,13 @@ namespace Backend.Models
             var filteredReservations = reservation.AsQueryable();
 
             if (customerUserName != "")
-                filteredReservations = filteredReservations.Where(reservation => reservation.Customer.UserName == customerUserName);
+                filteredReservations = filteredReservations.Where(reservation => reservation.Customer.UserName.StartsWith(customerUserName));
 
             if (customerPhoneNumber != "")
-                filteredReservations = filteredReservations.Where(reservation => reservation.Customer.PhoneNumber == customerPhoneNumber);
+                filteredReservations = filteredReservations.Where(reservation => reservation.Customer.PhoneNumber.StartsWith(customerPhoneNumber));
 
             if (foodName != "")
-                filteredReservations = filteredReservations.Where(reservation => reservation.CartItems.Any(x => x.Food.Name == foodName));
+                filteredReservations = filteredReservations.Where(reservation => reservation.CartItems.Any(x => x.Food.Name.StartsWith(foodName)));
 
             if (minPrice != "")
             {
@@ -300,7 +291,7 @@ namespace Backend.Models
 
 
         // Get orders to CSV
-        public void ExportFilteredOrdersToCsv(ObservableCollection<Orders> filteredOrders, string filePath)
+        public static void ExportFilteredOrdersToCsv(ObservableCollection<Orders> filteredOrders, string filePath)
         {
             using (var writer = new StreamWriter(filePath))
             using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
@@ -310,7 +301,7 @@ namespace Backend.Models
         }
 
         // Get reservations to CSV
-        public void ExportFilteredReservationsToCsv(ObservableCollection<Reservation> filteredReservations, string filePath)
+        public static void ExportFilteredReservationsToCsv(ObservableCollection<Reservation> filteredReservations, string filePath)
         {
             using (var writer = new StreamWriter(filePath))
             using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
