@@ -14,7 +14,7 @@ using System.Xml.Linq;
 namespace Backend.Models
 {
     public enum Gender { Male, Female, Unknown }
-    public enum SpecialService { Bronze , Silver , Gold , Normal}
+    public enum SpecialService { Normal, Bronze, Silver, Gold }
 
     public class Customer : User
     {
@@ -49,27 +49,6 @@ namespace Backend.Models
             comments = new ObservableCollection<Comment>();
             shoppingCart = new ShoppingCart();
             customers.Add(this);
-        }
-
-        // Constructor for getting information from server
-        public Customer( 
-        int customerId, string userName, string password, string phoneNumber,
-        string firstName, string lastName, string email, string address,
-        Gender gender, SpecialService specialService, DateTime? createdService) : base (userName , password)
-        {
-            Customer_Id = customerId;
-            PhoneNumber = phoneNumber;
-            FirstName = firstName;
-            LastName = lastName;
-            Email = email;
-            Address = address;
-            this.gender = gender;
-            SpecialService = specialService;
-            CreatedService = createdService;
-            this.reservations = new ObservableCollection<Reservation>();
-            this.orders = new ObservableCollection<Orders>();
-            this.complaints = new ObservableCollection<Complaint>();
-            this.comments = new ObservableCollection<Comment>();
         }
 
         // Regex for a true phone number type
@@ -230,11 +209,12 @@ namespace Backend.Models
             if (food.Available && quantity <= food.foodNum)
             {
                 shoppingCart.AddItem(food, quantity);
+                food.foodNum -= quantity;
             }
-            else
-            {
-                throw new Exception("Requested quantity not available.");
-            }
+            //else
+            //{
+            //    throw new Exception("Requested quantity not available.");
+            //}
         }
 
         public void RemoveFromCart(Food food)
@@ -271,8 +251,6 @@ namespace Backend.Models
                 order.Status = OrderStatus.Cancelled;
             }
 
-            orders.Add(order);
-            restaurant.orders.Add(order);
             shoppingCart.ClearCart();
             return order;
         }

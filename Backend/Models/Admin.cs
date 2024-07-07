@@ -9,31 +9,17 @@ namespace Backend.Models
 {
     public class Admin : User
     {
-        public static ObservableCollection<Complaint> Complaints { get; set; }
-
+        public static ObservableCollection<Complaint> complaints { get; set; }
         public int AdminId { get; set; }
 
-        public Admin(string username, string pass) : base(username, pass)
+        public Admin(string username, string pass) : base(username,pass) 
         {
             AdminId = User.admins.Count + 1;
-            Complaints = new ObservableCollection<Complaint>();
+            complaints = new ObservableCollection<Complaint>();
             admins.Add(this);
         }
 
-        public Admin(int adminId, string userName, string password) : base (userName , password)
-        {
-            AdminId = adminId;
-            UserName = userName;
-            Password = password;
-            Complaints = new ObservableCollection<Complaint>();
-        }
-
-        public void RegisterRestaurant(string initialUsername, string initialPassword)
-        {
-            RestaurantManager newRestaurant = new RestaurantManager(initialUsername, initialPassword);
-        }
-
-        public ObservableCollection<RestaurantManager> SearchRestaurants(string cityName, string restaurantName, string minRate, string unresolvedComplaints)
+        public static ObservableCollection<RestaurantManager> SearchRestaurants(string cityName, string restaurantName, string minRate, string unresolvedComplaints)
         {
             // Start with the full list of restaurant managers
             var filteredRestaurants = User.restaurantManagers.AsQueryable();
@@ -41,13 +27,13 @@ namespace Backend.Models
             // Filter by city name
             if (!string.IsNullOrEmpty(cityName))
             {
-                filteredRestaurants = filteredRestaurants.Where(r => r.City.Equals(cityName, StringComparison.OrdinalIgnoreCase));
+                filteredRestaurants = filteredRestaurants.Where(r => r.City.StartsWith(cityName));
             }
 
             // Filter by restaurant name
             if (!string.IsNullOrEmpty(restaurantName))
             {
-                filteredRestaurants = filteredRestaurants.Where(r => r.NameOfRestaurant.Contains(restaurantName, StringComparison.OrdinalIgnoreCase));
+                filteredRestaurants = filteredRestaurants.Where(r => r.NameOfRestaurant.StartsWith(restaurantName));
             }
 
             // Filter by minimum rating
@@ -67,31 +53,30 @@ namespace Backend.Models
             return new ObservableCollection<RestaurantManager>(filteredRestaurants.ToList());
         }
 
-
-        public List<Complaint> SearchComplaints(string username , string title, string firstName, string lastName, string restaurantName, string? status)
+        public static ObservableCollection<Complaint> SearchComplaints(string username , string title, string firstName, string lastName, string restaurantName, string? status)
         {
-            var result = Complaints
+            var result = new ObservableCollection<Complaint>(complaints
                 .Where(c => (username == "" || c.Customer.UserName == username) &&
                             (title == "" || c.Title == title) &&
                             (firstName == "" || c.Customer.FirstName == firstName) &&
                             (lastName == "" || c.Customer.LastName == lastName) &&
                             (restaurantName == "" || c.Restaurant.NameOfRestaurant == restaurantName) &&
                             (status == "" || c.Status == Enum.Parse<ComplaintStatus>(status)))
-                .ToList();
+                .ToList());
             return result;
         }
 
-        public List<Complaint> GetUnresolvedComplaints()
+        public ObservableCollection<Complaint> GetUnresolvedComplaints()
         {
-            var result = Complaints
+            var result = new ObservableCollection<Complaint>(complaints
                 .Where(c => c.Status == ComplaintStatus.UnderReview)
-                .ToList();
+                .ToList());
             return result;
         }
 
         public void RespondToUnresolvedComplaints(string index , string response) // here first show the complaint with the last method and with index of that we can response to it 
         {
-            var unresolvedComplaints = Complaints.Where(c => c.Status == ComplaintStatus.UnderReview).ToList();
+            var unresolvedComplaints = complaints.Where(c => c.Status == ComplaintStatus.UnderReview).ToList();
         
             int selectedIndex = int.Parse(index) - 1;
         

@@ -11,11 +11,13 @@ namespace Backend.Models
     {
         public Food Food { get; set; }
         public int Quantity { get; set; }
+        public int TotalPrice { get; set; }
 
         public CartItem(Food food, int quantity) 
         {
             Food = food;
             Quantity = quantity;
+            TotalPrice = food.Price * Quantity;
         }
     }
 

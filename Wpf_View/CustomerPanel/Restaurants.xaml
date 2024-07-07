@@ -16,12 +16,10 @@
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="2*"/>
                 </Grid.RowDefinitions>
-                
                 <StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="18,15,0,1">
                         <TextBlock Text="Name:" Foreground="LightGreen" FontWeight="SemiBold" FontSize="20"
                                    Margin="0,0,185,0"/>
-                        
                         <TextBlock Text="City:" Foreground="LightGreen" FontWeight="SemiBold" FontSize="20"
                                    Margin="0,0,203,0"/>
                         <TextBlock Text="Score:" Foreground="LightGreen" FontWeight="SemiBold" FontSize="20"/>
@@ -80,7 +78,6 @@
                             <Setter Property="HorizontalContentAlignment" Value="Center"/>
                         </Style>
                     </ListView.ItemContainerStyle>
-                    
                     <ListView.View>
                         <GridView AllowsColumnReorder="False">
                             <GridViewColumn Header=" Name " DisplayMemberBinding="{Binding NameOfRestaurant}" Width="Auto"/>
@@ -109,6 +106,353 @@
         </Border>
 
         <Border x:Name="Menu" Background="#007575" CornerRadius="20" Margin="5" Visibility="Collapsed">
-        </Border> 
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <ListView Grid.Row="0" x:Name="OrdersFood" FontSize="17" Margin="10,10,10,10" ItemsSource="{Binding}"
+                          Background="DarkKhaki" Foreground="Black" PreviewMouseLeftButtonUp="OrdersFood_PreviewMouseLeftButtonUp">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+
+                    <ListView.View>
+                        <GridView AllowsColumnReorder="False">
+                            <GridViewColumn Header=" Food Name " DisplayMemberBinding="{Binding Food.Name}" Width="Auto"/>
+                            <GridViewColumn Header=" Quantity " DisplayMemberBinding="{Binding Quantity}" Width="Auto"/>
+                            <GridViewColumn Header=" Total Price " DisplayMemberBinding="{Binding TotalPrice}" Width="Auto"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+
+                <StackPanel Grid.Row="1" Orientation="Horizontal">
+                    <Button x:Name="CashPayButton" FontWeight="SemiBold" Background="Blue"
+                            Foreground="White" Margin="15,0,0,0" Width="85" Click="PayOrders">
+
+                        <TextBlock Text="Cash Pay" FontSize="15" Margin="0,4,0,6"/>
+
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border x:Name="border" Background="{TemplateBinding Background}" 
+                                                BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="9">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="border" Property="Background" Value="DarkOrange"/>
+                                                </Trigger>
+                                                <Trigger Property="IsPressed" Value="True">
+                                                    <Setter TargetName="border" Property="Background" Value="Transparent"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                    
+                    <Button x:Name="OnlinePayButton" FontWeight="SemiBold" Background="Blue"
+                            Foreground="White" Margin="15,0,0,0" Width="85" Click="PayOrders">
+
+                        <TextBlock Text="Online Pay" FontSize="15" Margin="0,4,0,6"/>
+
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border x:Name="border" Background="{TemplateBinding Background}" 
+                                                    BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="9">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="border" Property="Background" Value="DarkOrange"/>
+                                                </Trigger>
+                                                <Trigger Property="IsPressed" Value="True">
+                                                    <Setter TargetName="border" Property="Background" Value="Transparent"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+
+                    <Border Grid.Column="1" x:Name="InternetError" HorizontalAlignment="Left" CornerRadius="15" Width="0"
+                            BorderBrush="#D10000" BorderThickness="2" Margin="20,0">
+
+                        <TextBlock Foreground="#D10000" FontSize="15" FontWeight="Bold" Margin="5"/>
+                    </Border>
+
+                    <TextBlock Text="Total Price Of Order: " Foreground="LightGreen" FontWeight="SemiBold" FontSize="20"/>
+
+                    <TextBlock x:Name="TotalPrice" Text="0" Foreground="LightGreen" FontWeight="SemiBold" FontSize="20"/>
+                </StackPanel>
+                
+                <ListView Grid.Row="2" x:Name="MenuFood" FontSize="17" Margin="10" ItemsSource="{Binding}"
+                          Background="DarkKhaki" Foreground="Black" PreviewMouseLeftButtonUp="MenuFood_PreviewMouseLeftButtonUp">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+
+                    <ListView.View>
+                        <GridView AllowsColumnReorder="False">
+                            <GridViewColumn Header=" Food Name " DisplayMemberBinding="{Binding Name}" Width="Auto"/>
+                            <GridViewColumn Header=" Description " DisplayMemberBinding="{Binding Description}" Width="Auto"/>
+                            <GridViewColumn Header=" Inventory " DisplayMemberBinding="{Binding foodNum}" Width="Auto"/>
+                            <GridViewColumn Header=" Price " DisplayMemberBinding="{Binding Price}" Width="Auto"/>
+                            <GridViewColumn Header=" Category " DisplayMemberBinding="{Binding Category}" Width="Auto"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+
+
+                <Button Grid.Row="3" Content="Back" FontWeight="SemiBold" Background="Transparent"
+                        BorderThickness="0" FontSize="18" Margin="20,0,0,7" HorizontalAlignment="Left"
+                        Click="Back_Click">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Foreground" Value="LightGreen"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="Transparent"/>
+                                                <Setter Property="Foreground" Value="Yellow"/>
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter Property="Foreground" Value="White"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </Grid>
+        </Border>
+
+        <Border x:Name="VerifyPage" Background="#000075" CornerRadius="25" Width="270" Height="167"
+                Margin="0,0,0,32" Opacity="0" Panel.ZIndex="-1">
+
+            <StackPanel>
+                <TextBlock Text="We've sent a verification code &#x0a;              to your email" FontSize="15"
+                           Foreground="White" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,20,0,10"/>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBox x:Name="Box1" Width="25" Height="30" KeyDown="FocusNextBox" Margin="5"
+                             TextAlignment="Center" FontSize="19">
+                        <TextBox.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="5"/>
+                            </Style>
+                        </TextBox.Resources>
+                        <TextBox.Style>
+                            <Style TargetType="TextBox">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="TextBox">
+                                            <Border Name="border" BorderThickness="2" BorderBrush="Black" Background="{TemplateBinding Background}">
+                                                <ScrollViewer x:Name="PART_ContentHost"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsFocused" Value="True">
+                                                    <Setter TargetName="border" Property="BorderBrush" Value="Yellow"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </TextBox.Style>
+                    </TextBox>
+
+                    <TextBox x:Name="Box2" Width="25" Height="30" KeyDown="FocusNextBox" Margin="5"
+                             TextAlignment="Center" FontSize="19">
+                        <TextBox.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="5"/>
+                            </Style>
+                        </TextBox.Resources>
+                        <TextBox.Style>
+                            <Style TargetType="TextBox">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="TextBox">
+                                            <Border Name="border" BorderThickness="2" BorderBrush="Black" Background="{TemplateBinding Background}">
+                                                <ScrollViewer x:Name="PART_ContentHost"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsFocused" Value="True">
+                                                    <Setter TargetName="border" Property="BorderBrush" Value="Yellow"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </TextBox.Style>
+                    </TextBox>
+
+                    <TextBox x:Name="Box3" Width="25" Height="30" KeyDown="FocusNextBox" Margin="5"
+                             TextAlignment="Center" FontSize="19">
+                        <TextBox.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="5"/>
+                            </Style>
+                        </TextBox.Resources>
+                        <TextBox.Style>
+                            <Style TargetType="TextBox">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="TextBox">
+                                            <Border Name="border" BorderThickness="2" BorderBrush="Black" Background="{TemplateBinding Background}">
+                                                <ScrollViewer x:Name="PART_ContentHost"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsFocused" Value="True">
+                                                    <Setter TargetName="border" Property="BorderBrush" Value="Yellow"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </TextBox.Style>
+                    </TextBox>
+
+                    <TextBox x:Name="Box4" Width="25" Height="30" KeyDown="FocusNextBox" Margin="5"
+                             TextAlignment="Center" FontSize="19">
+                        <TextBox.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="5"/>
+                            </Style>
+                        </TextBox.Resources>
+                        <TextBox.Style>
+                            <Style TargetType="TextBox">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="TextBox">
+                                            <Border Name="border" BorderThickness="2" BorderBrush="Black" Background="{TemplateBinding Background}">
+                                                <ScrollViewer x:Name="PART_ContentHost"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsFocused" Value="True">
+                                                    <Setter TargetName="border" Property="BorderBrush" Value="Yellow"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </TextBox.Style>
+                    </TextBox>
+
+                    <TextBox x:Name="Box5" Width="25" Height="30" KeyDown="FocusNextBox" Margin="5"
+                             TextAlignment="Center" FontSize="19">
+                        <TextBox.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="5"/>
+                            </Style>
+                        </TextBox.Resources>
+                        <TextBox.Style>
+                            <Style TargetType="TextBox">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="TextBox">
+                                            <Border Name="border" BorderThickness="2" BorderBrush="Black" Background="{TemplateBinding Background}">
+                                                <ScrollViewer x:Name="PART_ContentHost"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsFocused" Value="True">
+                                                    <Setter TargetName="border" Property="BorderBrush" Value="Yellow"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </TextBox.Style>
+                    </TextBox>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="20,10">
+                    <Button Content="Cancel" FontWeight="SemiBold" Background="Transparent" BorderThickness="0"
+                            FontSize="15" Margin="0,3,0,0" Click="Cancel_Click">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Foreground" Value="LightGreen"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="Transparent"/>
+                                                    <Setter Property="Foreground" Value="Yellow"/>
+                                                </Trigger>
+                                                <Trigger Property="IsPressed" Value="True">
+                                                    <Setter Property="Foreground" Value="White"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+
+                    <Button FontWeight="SemiBold" Background="Blue" Foreground="White"
+                            Margin="40,0,0,0" Width="60" Click="Verify_Click">
+
+                        <TextBlock Text="Verify" FontSize="15" Margin="0,4,0,6"/>
+
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border x:Name="border" Background="{TemplateBinding Background}" 
+                                                    BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="9">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="border" Property="Background" Value="DarkOrange"/>
+                                                </Trigger>
+                                                <Trigger Property="IsPressed" Value="True">
+                                                    <Setter TargetName="border" Property="Background" Value="Transparent"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+        </Border>
     </Grid>
 </UserControl>

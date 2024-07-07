@@ -8,6 +8,165 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Border Background="#007575" CornerRadius="20" Margin="5">
+            <StackPanel>
+                <TextBlock Text="Sign Up Restaurant" FontWeight="SemiBold" FontFamily="Gabriola" FontSize="65" Foreground="White"
+                           HorizontalAlignment="Center"/>
+                
+                <Border x:Name="UsernameBorder" Background="#E8E8E8" Margin="0,25,0,1" Width="330"
+                        BorderThickness="1.7,2.2,2.2,2.2" CornerRadius="16,10,10,16">
+                    <StackPanel Orientation="Horizontal">
+                        <Border CornerRadius="14" BorderBrush="Black" BorderThickness="1.5">
+                            <Image Source="\Resource\UserInfo\username.png" Height="20" Width="20" Margin="7,5"/>
+                        </Border>
+
+                        <TextBox FontSize="17" Foreground="DimGray" Background="#E8E8E8" Text="Username"
+                                 Margin="4,5" Width="220" BorderThickness="0" Name="Username"
+                                 GotFocus="Clear_HintText" LostFocus="Set_HintText"
+                                 PreviewKeyUp="Clear_Error"/>
+                    </StackPanel>
+                </Border>
+
+                <TextBlock Grid.Column="0" x:Name="UsernameError" HorizontalAlignment="Center"
+                           Foreground="#D10000" FontSize="13.5" FontWeight="Bold"/>
+
+                <Border x:Name="PasswordBorder" Background="#E8E8E8" Margin="0,5,0,1" Width="330"
+                        BorderThickness="1.7,2.2,2.2,2.2" CornerRadius="16,10,10,16">
+                    <StackPanel Orientation="Horizontal">
+                        <Border CornerRadius="14" BorderBrush="Black" BorderThickness="1.5">
+                            <Image Source="\Resource\UserInfo\password.png" Height="20" Width="20" Margin="7,5"/>
+                        </Border>
+
+                        <TextBox FontSize="17" Foreground="DimGray" Background="#E8E8E8" Text="Password"
+                                 Margin="4,5" Width="220" BorderThickness="0" Name="Password"
+                                 GotFocus="Clear_HintText" LostFocus="Set_HintText"
+                                 PreviewKeyUp="Clear_Error"/>
+                    </StackPanel>
+                </Border>
+
+                <TextBlock x:Name="PasswordError" HorizontalAlignment="Center"
+                           Foreground="#D10000" FontSize="13.5" FontWeight="Bold"/>
+
+                <Border x:Name="ConfirmPasswordBorder" Background="#E8E8E8" Margin="0,5,0,1" Width="330"
+                        BorderThickness="1.7,2.2,2.2,2.2" CornerRadius="16,10,10,16">
+                    <StackPanel Orientation="Horizontal">
+                        <Border CornerRadius="14" BorderBrush="Black" BorderThickness="1.5">
+                            <Image Source="\Resource\UserInfo\password.png" Height="20" Width="20" Margin="7,5"/>
+                        </Border>
+
+                        <TextBox FontSize="17" Foreground="DimGray" Background="#E8E8E8" Text="Confirm Password"
+                                 Margin="4,5" Width="220" BorderThickness="0" Name="ConfirmPassword"
+                                 GotFocus="Clear_HintText" LostFocus="Set_HintText"
+                                 PreviewKeyUp="Clear_Error"/>
+                    </StackPanel>
+                </Border>
+
+                <TextBlock x:Name="ConfirmPasswordError" HorizontalAlignment="Center"
+                           Foreground="#D10000" FontSize="13.5" FontWeight="Bold"/>
+
+                <StackPanel Orientation="Horizontal" Margin="12,0">
+                    <Border x:Name="NameBorder" Background="#E8E8E8" Margin="0,5,0,1" Width="230"
+                            BorderThickness="1.7,2.2,2.2,2.2" CornerRadius="16,10,10,16">
+                        <StackPanel Orientation="Horizontal">
+                            <Border CornerRadius="14" BorderBrush="Black" BorderThickness="1.5">
+                                <Image Source="\Resource\UserInfo\username.png" Height="20" Width="20" Margin="7,5"/>
+                            </Border>
+
+                            <TextBox FontSize="17" Foreground="DimGray" Background="#E8E8E8" Text="Name"
+                                     Margin="4,5" Width="180" BorderThickness="0" Name="Name"
+                                     GotFocus="Clear_HintText" LostFocus="Set_HintText"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Border x:Name="CityBorder" Background="#E8E8E8" Margin="15,5,0,1" Width="230"
+                            BorderThickness="1.7,2.2,2.2,2.2" CornerRadius="16,10,10,16">
+                        <StackPanel Orientation="Horizontal">
+                            <Border CornerRadius="14" BorderBrush="Black" BorderThickness="1.5">
+                                <Image Source="\Resource\UserInfo\address.png" Height="20" Width="20" Margin="7,5"/>
+                            </Border>
+
+                            <TextBox FontSize="17" Foreground="DimGray" Background="#E8E8E8" Text="City"
+                                     Margin="4,5" Width="180" BorderThickness="0" Name="City"
+                                     GotFocus="Clear_HintText" LostFocus="Set_HintText"/>
+                        </StackPanel>
+                    </Border>
+
+                    <StackPanel>
+                        <TextBlock Text="Delivery:" Foreground="LightGreen" FontWeight="SemiBold" FontSize="20"
+                                   Margin="28,-18,0,0"/>
+
+                        <Border Background="#E8E8E8" BorderThickness="1.7,2.2,2.2,2.2"
+                                CornerRadius="10" Margin="24,0,0,-10" Width="90">
+
+                            <ComboBox x:Name="Delivery" FontSize="17" Background="#E8E8E8"
+                                      Margin="0,1,-3,1" Width="70" BorderThickness="0" Panel.ZIndex="-1">
+                                <ComboBoxItem IsSelected="True">No</ComboBoxItem>
+                                <ComboBoxItem>Yes</ComboBoxItem>
+                            </ComboBox>
+                        </Border>
+                    </StackPanel>
+
+                    <StackPanel>
+                        <TextBlock Text="Dine In:" Foreground="LightGreen" FontWeight="SemiBold" FontSize="20"
+                                   Margin="28,-18,0,0"/>
+
+                        <Border Background="#E8E8E8" BorderThickness="1.7,2.2,2.2,2.2"
+                                CornerRadius="10" Margin="24,0,0,-10" Width="90">
+
+                            <ComboBox x:Name="Dine_in" FontSize="17" Background="#E8E8E8"
+                                      Margin="0,1,-3,1" Width="70" BorderThickness="0" Panel.ZIndex="-1">
+                                <ComboBoxItem IsSelected="True">No</ComboBoxItem>
+                                <ComboBoxItem>Yes</ComboBoxItem>
+                            </ComboBox>
+                        </Border>
+                    </StackPanel>
+                </StackPanel>
+
+                <Border Background="#E8E8E8" BorderThickness="1.7,2.2,2.2,2.2" HorizontalAlignment="Center"
+                        CornerRadius="16,10,10,16" Margin="0,15,0,0">
+                    <StackPanel Orientation="Horizontal">
+                        <Border CornerRadius="14" BorderBrush="Black" BorderThickness="1.5">
+                            <Image Source="\Resource\UserInfo\address.png" Height="23" Width="23" Margin="5,3,5,4"/>
+                        </Border>
+
+                        <TextBox FontSize="17" Foreground="DimGray" Background="#E8E8E8" Text="Address"
+                                 Margin="4,5" Width="530" BorderThickness="0" Name="Address"
+                                 GotFocus="Clear_HintText" LostFocus="Set_HintText"/>
+                    </StackPanel>
+                </Border>
+
+                <Button x:Name="SubmitButton" FontWeight="SemiBold" Background="Blue"
+                        Foreground="White" Width="70" IsEnabled="False" Opacity="0.4"
+                        Click="Submit_Click" Margin="0,14,0,5">
+
+                    <TextBlock Text="Submit" FontSize="15" Margin="0,4,0,6"/>
+
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border x:Name="border" Background="{TemplateBinding Background}" 
+                                                BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="9">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="border" Property="Background" Value="DarkOrange"/>
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter TargetName="border" Property="Background" Value="Transparent"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <TextBlock x:Name="AddRestaurantMessage" HorizontalAlignment="Center"
+                           Foreground="#00D100" FontSize="13.5" FontWeight="Bold"/>
+            </StackPanel>
         </Border>
     </Grid>
 </UserControl>

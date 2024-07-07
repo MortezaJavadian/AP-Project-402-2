@@ -1,0 +1,166 @@
+﻿<UserControl x:Class="Wpf_View.RestaurantManagerPanel.History"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Wpf_View.RestaurantManagerPanel"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Border Background="#007575" CornerRadius="20" Margin="5">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="2*"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="18,15,0,1">
+                        <TextBlock Text="Customer Username:" Foreground="LightGreen" FontWeight="SemiBold" FontSize="20"
+                                   Margin="0,0,40,0"/>
+
+                        <TextBlock Text="Phone Number:" Foreground="LightGreen" FontWeight="SemiBold" FontSize="20"
+                                   Margin="0,0,85,0"/>
+                        <TextBlock Text="Min Price:" Foreground="LightGreen" FontWeight="SemiBold" FontSize="20"
+                                   Margin="0,0,38,0"/>
+                        <TextBlock Text="Max Price:" Foreground="LightGreen" FontWeight="SemiBold"
+                                   FontSize="20"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="15,0">
+                        <Border Background="#E8E8E8" CornerRadius="10">
+                            <TextBox x:Name="CustomerUsername" FontSize="17" Background="#E8E8E8"
+                                     Margin="4,5" Width="200" BorderThickness="0" PreviewKeyUp="Set_Fillter"/>
+                        </Border>
+
+                        <Border Background="#E8E8E8" CornerRadius="10" Margin="20,0">
+                            <TextBox x:Name="PhoneNumber" FontSize="17" Background="#E8E8E8"
+                                     Margin="4,5" Width="200" BorderThickness="0" PreviewTextInput="Number_Input"
+                                     PreviewKeyUp="Set_Fillter"/>
+                        </Border>
+
+                        <Border Background="#E8E8E8" CornerRadius="10" Margin="0,0,20,0">
+                            <TextBox x:Name="MinPrice" FontSize="17" Background="#E8E8E8"
+                                     Margin="4,5" Width="100" BorderThickness="0" PreviewTextInput="Number_Input"
+                                     PreviewKeyUp="Set_Fillter"/>
+                        </Border>
+
+                        <Border Background="#E8E8E8" CornerRadius="10">
+                            <TextBox x:Name="MaxPrice" FontSize="17" Background="#E8E8E8"
+                                     Margin="4,5" Width="100" BorderThickness="0" PreviewTextInput="Number_Input"
+                                     PreviewKeyUp="Set_Fillter"/>
+                        </Border>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="18,7,0,1">
+
+                        <TextBlock Text="Food Name:" Foreground="LightGreen" FontWeight="SemiBold"
+                                   FontSize="20" Margin="0,0,17,0"/>
+                        
+                        <TextBlock Text="Start Month:" Foreground="LightGreen" FontWeight="SemiBold"
+                                   FontSize="20" Margin="0,0,15,0"/>
+
+                        <TextBlock Text="End Month:" Foreground="LightGreen" FontWeight="SemiBold"
+                                   FontSize="20" Margin="0,0,20,0"/>
+                        
+                        <TextBlock Text="Type:" Foreground="LightGreen" FontWeight="SemiBold"
+                                   FontSize="20"/>
+                    </StackPanel>
+                    
+                    <StackPanel Orientation="Horizontal" Margin="15,0">
+                        <Border Background="#E8E8E8" CornerRadius="10" Margin="0,0,20,0">
+                            <TextBox x:Name="FoodName" FontSize="17" Background="#E8E8E8"
+                                     Margin="4,5" Width="100" BorderThickness="0"
+                                     PreviewKeyUp="Set_Fillter"/>
+                        </Border>
+                        
+                        <Border Background="#E8E8E8" CornerRadius="10">
+                            <TextBox x:Name="StartMonth" FontSize="17" Background="#E8E8E8"
+                                     Margin="4,5" Width="100" BorderThickness="0" PreviewTextInput="Month_Input"
+                                     PreviewKeyUp="Set_Fillter"/>
+                        </Border>
+
+                        <Border Background="#E8E8E8" CornerRadius="10" Margin="20,0">
+                            <TextBox x:Name="EndMonth" FontSize="17" Background="#E8E8E8"
+                                     Margin="4,5" Width="100" BorderThickness="0" PreviewTextInput="Month_Input"
+                                     PreviewKeyUp="Set_Fillter"/>
+                        </Border>
+
+                        <Border Background="#E8E8E8" CornerRadius="10">
+                            <ComboBox x:Name="Type" FontSize="17" Background="#E8E8E8"
+                                      Margin="4,5" Width="200" BorderThickness="0" 
+                                      DropDownClosed="Set_Fillter">
+                                <ComboBoxItem IsSelected="True">Orders</ComboBoxItem>
+                                <ComboBoxItem>Reservations</ComboBoxItem>
+                            </ComboBox>
+                        </Border>
+
+                        <Button x:Name="CSVButton" FontWeight="SemiBold" Background="Blue"
+                                Foreground="White" Margin="25,0,0,0" Width="70" Click="CSVButton_Click">
+
+                            <TextBlock Text="CSV File" FontSize="15" Margin="0,4,0,6"/>
+
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border x:Name="border" Background="{TemplateBinding Background}" 
+                                                        BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="9">
+                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="border" Property="Background" Value="DarkOrange"/>
+                                                    </Trigger>
+                                                    <Trigger Property="IsPressed" Value="True">
+                                                        <Setter TargetName="border" Property="Background" Value="Transparent"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+                
+                <ListView Grid.Row="1" x:Name="OrdersList" FontSize="17" Margin="10" ItemsSource="{Binding}"
+                          Background="DarkKhaki" Foreground="Black" Visibility="Visible">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+
+                    <ListView.View>
+                        <GridView AllowsColumnReorder="False">
+                            <GridViewColumn Header=" Customer FirstName " DisplayMemberBinding="{Binding customer.FirstName}" Width="Auto"/>
+                            <GridViewColumn Header=" Phone Number " DisplayMemberBinding="{Binding customer.PhoneNumber}" Width="Auto"/>
+                            <GridViewColumn Header=" Total Price " DisplayMemberBinding="{Binding TotalPrice}" Width="Auto"/>
+                            <GridViewColumn Header=" Date " DisplayMemberBinding="{Binding dataTime}" Width="Auto"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+
+                <ListView Grid.Row="1" x:Name="ReservationList" FontSize="17" Margin="10" ItemsSource="{Binding}"
+                          Background="DarkKhaki" Foreground="Black" Visibility="Collapsed">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+
+                    <ListView.View>
+                        <GridView AllowsColumnReorder="False">
+                            <GridViewColumn Header=" Customer Username " DisplayMemberBinding="{Binding Customer.Username}" Width="Auto"/>
+                            <GridViewColumn Header=" Phone Number " DisplayMemberBinding="{Binding Customer.PhoneNumber}" Width="Auto"/>
+                            <GridViewColumn Header=" Price " DisplayMemberBinding="{Binding TotalPrice}" Width="Auto"/>
+                            <GridViewColumn Header=" Reservation Date " DisplayMemberBinding="{Binding ReservationTime}" Width="Auto"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

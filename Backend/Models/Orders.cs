@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Backend.Models
 {
@@ -66,7 +67,7 @@ namespace Backend.Models
         }
 
         public float CalculateTotalPrice(ObservableCollection<CartItem> items)
-            => items.Sum(i => i.Food.Price * i.Quantity);
+            => items.Sum(i => i.TotalPrice);
 
         public void ChangeStatus(OrderStatus newStatus)
         {
@@ -80,11 +81,13 @@ namespace Backend.Models
 
         public void RateOrder(int rating)
         {
-            if (rating < 1 || rating > 5)
-            {
-                throw new ArgumentException("Rating must be between 1 and 5.");
-            }
             Rating = rating;
+
+            customer.orders.Remove(this);
+            Restaurant.orders.Remove(this);
+
+            customer.orders.Add(this);
+            Restaurant.orders.Add(this);
         }
     }
 }

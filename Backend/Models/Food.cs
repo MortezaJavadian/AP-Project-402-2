@@ -20,19 +20,20 @@ namespace Backend.Models
         public RestaurantManager restaurant {  get; set; }
         public ObservableCollection<Comment> foodComments {  get; set; }
 
-        public Food(RestaurantManager restaurant, string name, string? description, bool available, int num, int price) 
+        public Food(RestaurantManager restaurant, string name, string? description, int num, int price, string category) 
         {
             Food_Id = GenerateUniqueId();
-            Available = available;
             Name = name;
             Description = description;
-            Available = available;
+            foodNum = num;
+            Available = foodNum != 0;
             Price = price;
             foodComments = new ObservableCollection<Comment>();
             AverageRate = 0;
-            Category = "";
+            Category = category;
             this.restaurant = restaurant;
             restaurant.foods.Add(this);
+            restaurant.categories.Add(category);
         }
 
         public static int GenerateUniqueId()

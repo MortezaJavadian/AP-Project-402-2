@@ -18,11 +18,15 @@ namespace Backend.Models
 
         public void AddItem(Food food, int quantity)
         {
-            var existingItem = items.FirstOrDefault(i => i.Food.Food_Id == food.Food_Id);
+            CartItem existingItem = items.FirstOrDefault(i => i.Food.Food_Id == food.Food_Id);
 
             if (existingItem != null)
             {
+
+                items.Remove(existingItem);
                 existingItem.Quantity += quantity;
+                existingItem.TotalPrice += food.Price * quantity;
+                items.Add(existingItem);
             }
             else
             {
@@ -37,6 +41,7 @@ namespace Backend.Models
             if (item != null)
             {
                 items.Remove(item);
+                food.foodNum += item.Quantity;
             }
         }
 
