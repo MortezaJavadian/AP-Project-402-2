@@ -31,8 +31,7 @@ namespace Wpf_View.AdminPanel
         private void Set_Fillter(object sender, EventArgs e)
         {
             ComplaintsList.DataContext = Admin.SearchComplaints(PlaintiffUsername.Text, Title.Text, PlaintiffFirstname.Text,
-                        PlaintiffLastname.Text, RestaurantName.Text,
-                       (ComplaintStatus.Text != "") ? Enum.Parse<ComplaintStatus>(ComplaintStatus.Text) : null);
+                        PlaintiffLastname.Text, RestaurantName.Text, ComplaintStatus.Text);
         }
 
         RestaurantManager RestaurantSelect;

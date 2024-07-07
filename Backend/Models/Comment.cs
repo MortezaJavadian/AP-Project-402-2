@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.ObjectModel;
+using System.Xml.Serialization;
+using System.Net.NetworkInformation;
 
 namespace Backend.Models
 {
@@ -11,18 +14,23 @@ namespace Backend.Models
         public int CommentId { get; set; }
         public string Content { get; set; }
         public DateTime CreatedAt { get; set; }
-        public DateTime? UpdatedAt { get; set; } // if updated
-        public bool IsDeleted { get; set; }
+        public DateTime? EditedAt { get; set; } // if updated
+        public bool? IsEdited { get; set; }
+        public int? ParentCommentId { get; set; } // برای مدیریت پاسخ‌ها
+        public Comment? ParentComment { get; set; } // مرجع به کامنت والد
         public Customer customer { get; set; }
         public Food food { get; set; }
-        public List<Comment> Replies { get; set; } = new List<Comment>();
+        public ObservableCollection<Comment> Replies { get; set; } = new ObservableCollection<Comment>();
 
-        public Comment(Food food, Customer customer, string content)
+        public Comment(Food food, Customer customer, string content, int parent)
         {
+
             CommentId = GenerateUniqueIdComment();
+            ParentComment = GetParent(parent);
+            ParentCommentId = (parent == 0) ? null : parent;
             Content = content;
+            IsEdited = false;
             CreatedAt = DateTime.UtcNow;
-            IsDeleted = false;
             this.customer = customer;
             this.food = food;
             food.foodComments.Add(this);
@@ -32,7 +40,7 @@ namespace Backend.Models
 
         public static int GenerateUniqueIdComment()
         {
-            List<Comment> comments = Customer.GetAllComments();
+            ObservableCollection<Comment> comments = Customer.GetAllComments();
             int newId = comments.Count + 1;
 
             while (comments.Any(f => f.CommentId == newId))
@@ -41,15 +49,16 @@ namespace Backend.Models
             return newId;
         }
 
+        public static Comment GetParent(int id)
+        {
+            ObservableCollection<Comment> comments = Customer.GetAllComments();
+            return comments.Where(x => x.CommentId == id).FirstOrDefault();
+        }
+
         public void EditComment(string newContent)
         {
             Content = newContent;
-            UpdatedAt = DateTime.UtcNow;
-        }
-
-        public void DeleteComment()
-        {
-            IsDeleted = true;
+            EditedAt = DateTime.UtcNow;
         }
     }
 }

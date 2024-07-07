@@ -29,6 +29,9 @@ namespace Wpf_View.AdminPanel
         bool ClearUsername = true;
         bool ClearPassword = true;
         bool ClearConfirmPassword = true;
+        bool ClearName = true;
+        bool ClearCity = true;
+        bool ClearAddress = true;
         private void Clear_HintText(object sender, RoutedEventArgs e)
         {
             TextBox textBox = sender as TextBox;
@@ -55,6 +58,24 @@ namespace Wpf_View.AdminPanel
                 ClearConfirmPassword = false;
                 ConfirmPasswordError.Text = "Confirm Password can not be empty";
                 ConfirmPasswordBorder.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D10000"));
+            }
+            else if (ClearName && textBox.Name == "Name")
+            {
+                textBox.Text = "";
+                textBox.Foreground = Brushes.Black;
+                ClearName = false;
+            }
+            else if (ClearCity && textBox.Name == "City")
+            {
+                textBox.Text = "";
+                textBox.Foreground = Brushes.Black;
+                ClearCity = false;
+            }
+            else if (ClearAddress && textBox.Name == "Address")
+            {
+                textBox.Text = "";
+                textBox.Foreground = Brushes.Black;
+                ClearAddress = false;
             }
         }
 
@@ -86,6 +107,24 @@ namespace Wpf_View.AdminPanel
                     ClearConfirmPassword = true;
                     ConfirmPasswordError.Text = "";
                     ConfirmPasswordBorder.BorderBrush = null;
+                }
+                else if (textBox.Name == "Name")
+                {
+                    textBox.Foreground = Brushes.DimGray;
+                    textBox.Text = "Name";
+                    ClearName = true;
+                }
+                else if (textBox.Name == "City")
+                {
+                    textBox.Foreground = Brushes.DimGray;
+                    textBox.Text = "City";
+                    ClearCity = true;
+                }
+                else if (textBox.Name == "Address")
+                {
+                    textBox.Foreground = Brushes.DimGray;
+                    textBox.Text = "Address";
+                    ClearAddress = true;
                 }
             }
         }
@@ -148,16 +187,11 @@ namespace Wpf_View.AdminPanel
 
         private async void Submit_Click(object sender, RoutedEventArgs e)
         {
+            new RestaurantManager(Username.Text, Password.Text, (!ClearName) ? Name.Text : "", (!ClearCity) ? City.Text : "",
+                                 (!ClearAddress) ? Address.Text : "", Delivery.Text == "Yes", Dine_in.Text == "Yes");
+
             SubmitButton.IsEnabled = false;
             SubmitButton.Opacity = 0.4;
-
-            new RestaurantManager(Username.Text, Password.Text);
-
-            AddRestaurantMessage.Text = "This restaurant want added";
-
-            await Task.Delay(3000);
-
-            AddRestaurantMessage.Text = "";
 
             Username.Foreground = Brushes.DimGray;
             Username.Text = "Username";
@@ -176,6 +210,27 @@ namespace Wpf_View.AdminPanel
             ClearConfirmPassword = true;
             ConfirmPasswordError.Text = "";
             ConfirmPasswordBorder.BorderBrush = null;
+
+            Name.Foreground = Brushes.DimGray;
+            Name.Text = "Name";
+            ClearName = true;
+
+            City.Foreground = Brushes.DimGray;
+            City.Text = "City";
+            ClearCity = true;
+
+            Address.Foreground = Brushes.DimGray;
+            Address.Text = "Address";
+            ClearAddress = true;
+
+            Delivery.Text = "No";
+            Dine_in.Text = "No";
+
+            AddRestaurantMessage.Text = "This restaurant want added";
+
+            await Task.Delay(3000);
+
+            AddRestaurantMessage.Text = "";
         }
     }
 }

@@ -8,6 +8,177 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Border Background="#007575" CornerRadius="20" Margin="5">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="2*"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="18,15,0,1">
+                            <TextBlock Text="Food Name:" Foreground="LightGreen" FontWeight="SemiBold" FontSize="20"
+                                       Margin="0,0,112,0"/>
+                            <TextBlock Text="Description:" Foreground="LightGreen" FontWeight="SemiBold" FontSize="20"
+                                       Margin="0,0,117,0"/>
+                            <TextBlock Text="Inventory:" Foreground="LightGreen" FontWeight="SemiBold" FontSize="20"
+                                       Margin="0,0,35,0"/>
+                            <TextBlock Text="Price:" Foreground="LightGreen" FontWeight="SemiBold"
+                                       FontSize="20"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="15,0">
+                            <Border Background="#E8E8E8" CornerRadius="10">
+                                <TextBox x:Name="FoodName" FontSize="17" Background="#E8E8E8"
+                                         Margin="4,5" Width="195" BorderThickness="0" PreviewKeyUp="EnableAddFood"/>
+                            </Border>
+
+                            <Border Background="#E8E8E8" CornerRadius="10" Margin="20,0">
+                                <TextBox x:Name="Description" FontSize="17" Background="#E8E8E8"
+                                         Margin="4,5" Width="195" BorderThickness="0"/>
+                            </Border>
+
+                            <Border Background="#E8E8E8" CornerRadius="10" Margin="0,0,20,0">
+                                <TextBox x:Name="Inventory" FontSize="17" Background="#E8E8E8"
+                                         Margin="4,5" Width="100" BorderThickness="0" PreviewTextInput="Number_Input"
+                                         PreviewKeyUp="EnableAddFood"/>
+                            </Border>
+
+                            <Border Background="#E8E8E8" CornerRadius="10">
+                                <TextBox x:Name="Price" FontSize="17" Background="#E8E8E8"
+                                         Margin="4,5" Width="100" BorderThickness="0" PreviewTextInput="Number_Input"
+                                         PreviewKeyUp="EnableAddFood"/>
+                            </Border>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="18,3,0,1">
+                            <TextBlock Text="Category:" Foreground="LightGreen" FontWeight="SemiBold" FontSize="20"
+                                       Margin="0,0,485,0"/>
+                            <TextBlock Text="Reservation:" Foreground="LightGreen" FontWeight="SemiBold" FontSize="20"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="15,0">
+                            <Border Background="#E8E8E8" CornerRadius="10">
+                                <TextBox x:Name="Category" FontSize="17" Background="#E8E8E8"
+                                         Margin="4,5" Width="195" BorderThickness="0"/>
+                            </Border>
+
+                            <Button x:Name="AddFoodButton" FontWeight="SemiBold" Background="Blue" IsEnabled="False" Opacity="0.4"
+                                    Foreground="White" Margin="15,0,0,0" Width="85" Click="AddFoodButton_Click">
+
+                                <TextBlock Text="Add Food" FontSize="15" Margin="0,4,0,6"/>
+
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="Button">
+                                                    <Border x:Name="border" Background="{TemplateBinding Background}" 
+                                                        BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="9">
+                                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter TargetName="border" Property="Background" Value="DarkOrange"/>
+                                                        </Trigger>
+                                                        <Trigger Property="IsPressed" Value="True">
+                                                            <Setter TargetName="border" Property="Background" Value="Transparent"/>
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+
+                            <Button x:Name="ChangeFoodButton" FontWeight="SemiBold" Background="Blue" IsEnabled="False" Opacity="0.4"
+                                    Foreground="White" Margin="15,0,0,0" Width="100" Click="ChangeFoodButton_Click">
+
+                                <TextBlock Text="Change Food" FontSize="15" Margin="0,4,0,6"/>
+
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="Button">
+                                                    <Border x:Name="border" Background="{TemplateBinding Background}" 
+                                                            BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="9">
+                                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter TargetName="border" Property="Background" Value="DarkOrange"/>
+                                                        </Trigger>
+                                                        <Trigger Property="IsPressed" Value="True">
+                                                            <Setter TargetName="border" Property="Background" Value="Transparent"/>
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+
+                            <Button x:Name="DeleteFoodButton" FontWeight="SemiBold" Background="Blue" IsEnabled="False" Opacity="0.4"
+                                    Foreground="White" Margin="15,0,0,0" Width="100" Click="DeleteFoodButton_Click">
+
+                                <TextBlock Text="Delete Food" FontSize="15" Margin="0,4,0,6"/>
+
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="Button">
+                                                    <Border x:Name="border" Background="{TemplateBinding Background}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="9">
+                                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter TargetName="border" Property="Background" Value="DarkOrange"/>
+                                                        </Trigger>
+                                                        <Trigger Property="IsPressed" Value="True">
+                                                            <Setter TargetName="border" Property="Background" Value="Transparent"/>
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+
+                            <Border Background="#E8E8E8" BorderThickness="1.7,2.2,2.2,2.2"
+                                    CornerRadius="10" Margin="38,0" Width="110">
+                                
+                                <ComboBox x:Name="Reservation" FontSize="17" Background="#E8E8E8"
+                                          Margin="0,1,-3,1" Width="90" BorderThickness="0" Panel.ZIndex="-1"
+                                          DropDownClosed="Reservation_DropDownClosed">
+                                    <ComboBoxItem>No</ComboBoxItem>
+                                    <ComboBoxItem>Yes</ComboBoxItem>
+                                </ComboBox>
+                            </Border>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <ListView Grid.Row="1" x:Name="MenuFood" FontSize="17" Margin="10" ItemsSource="{Binding}"
+                              Background="DarkKhaki" Foreground="Black" PreviewMouseLeftButtonUp="listView_Click">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+
+                        <ListView.View>
+                            <GridView AllowsColumnReorder="False">
+                                <GridViewColumn Header=" Food Name " DisplayMemberBinding="{Binding Name}" Width="Auto"/>
+                                <GridViewColumn Header=" Description " DisplayMemberBinding="{Binding Description}" Width="Auto"/>
+                                <GridViewColumn Header=" Inventory " DisplayMemberBinding="{Binding foodNum}" Width="Auto"/>
+                                <GridViewColumn Header=" Price " DisplayMemberBinding="{Binding Price}" Width="Auto"/>
+                                <GridViewColumn Header=" Category " DisplayMemberBinding="{Binding Category}" Width="Auto"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </Grid>
         </Border>
     </Grid>
 </UserControl>

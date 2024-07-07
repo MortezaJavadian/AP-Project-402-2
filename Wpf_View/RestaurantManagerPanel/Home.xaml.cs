@@ -25,7 +25,7 @@ namespace Wpf_View.RestaurantManagerPanel
     {
         public RestaurantManager restaurantManager;
 
-        public Home(RestaurantManager restaurantManager)
+        public  Home(RestaurantManager restaurantManager)
         {
             this.restaurantManager = restaurantManager;
             InitializeComponent();
@@ -57,51 +57,25 @@ namespace Wpf_View.RestaurantManagerPanel
             if (border.Name == "Menu")
             {
                 Menu.Background = Brushes.Gray;
-                Inventory.Background = null;
-                Reservation.Background = null;
                 History.Background = null;
 
                 MenuPage.Visibility = Visibility.Visible;
-                InventoryPage.Visibility = Visibility.Collapsed;
-                ReservationPage.Visibility = Visibility.Collapsed;
-                HistoryPage.Visibility = Visibility.Collapsed;
-            }
-            else if (border.Name == "Inventory")
-            {
-                Menu.Background = null;
-                Inventory.Background = Brushes.Gray;
-                Reservation.Background = null;
-                History.Background = null;
-
-                MenuPage.Visibility = Visibility.Collapsed;
-                InventoryPage.Visibility = Visibility.Visible;
-                ReservationPage.Visibility = Visibility.Collapsed;
-                HistoryPage.Visibility = Visibility.Collapsed;
-            }
-            else if (border.Name == "Reservation")
-            {
-                Menu.Background = null;
-                Inventory.Background = null;
-                Reservation.Background = Brushes.Gray;
-                History.Background = null;
-
-                MenuPage.Visibility = Visibility.Collapsed;
-                InventoryPage.Visibility = Visibility.Collapsed;
-                ReservationPage.Visibility = Visibility.Visible;
                 HistoryPage.Visibility = Visibility.Collapsed;
             }
             else if (border.Name == "History")
             {
                 Menu.Background = null;
-                Inventory.Background = null;
-                Reservation.Background = null;
                 History.Background = Brushes.Gray;
 
                 MenuPage.Visibility = Visibility.Collapsed;
-                InventoryPage.Visibility = Visibility.Collapsed;
-                ReservationPage.Visibility = Visibility.Collapsed;
                 HistoryPage.Visibility = Visibility.Visible;
             }
+        }
+
+        public void SetHistoryList(ListView OrdersList, ListView ReservationsList)
+        {
+            OrdersList.DataContext = restaurantManager.orders;
+            ReservationsList.DataContext = restaurantManager.reservation;
         }
     }
 }

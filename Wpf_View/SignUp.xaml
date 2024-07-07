@@ -159,7 +159,7 @@
                         <TextBlock Foreground="#D10000" FontSize="15" FontWeight="Bold" Margin="5"/>
                     </Border>
                 </Grid>
-
+                        
                 <Button Content="Login" FontWeight="SemiBold" Background="Transparent" BorderThickness="0"
                         Margin="0,10,0,0" FontSize="14" Width="37" Click="Login_Click">
                     <Button.Style>
@@ -210,7 +210,6 @@
                                     <Setter.Value>
                                         <ControlTemplate TargetType="TextBox">
                                             <Border Name="border" BorderThickness="2" BorderBrush="Black" Background="{TemplateBinding Background}">
-
                                                 <ScrollViewer x:Name="PART_ContentHost"/>
                                             </Border>
                                             <ControlTemplate.Triggers>
@@ -238,7 +237,6 @@
                                     <Setter.Value>
                                         <ControlTemplate TargetType="TextBox">
                                             <Border Name="border" BorderThickness="2" BorderBrush="Black" Background="{TemplateBinding Background}">
-
                                                 <ScrollViewer x:Name="PART_ContentHost"/>
                                             </Border>
                                             <ControlTemplate.Triggers>
@@ -266,7 +264,6 @@
                                     <Setter.Value>
                                         <ControlTemplate TargetType="TextBox">
                                             <Border Name="border" BorderThickness="2" BorderBrush="Black" Background="{TemplateBinding Background}">
-
                                                 <ScrollViewer x:Name="PART_ContentHost"/>
                                             </Border>
                                             <ControlTemplate.Triggers>
@@ -294,7 +291,6 @@
                                     <Setter.Value>
                                         <ControlTemplate TargetType="TextBox">
                                             <Border Name="border" BorderThickness="2" BorderBrush="Black" Background="{TemplateBinding Background}">
-
                                                 <ScrollViewer x:Name="PART_ContentHost"/>
                                             </Border>
                                             <ControlTemplate.Triggers>
@@ -322,7 +318,6 @@
                                     <Setter.Value>
                                         <ControlTemplate TargetType="TextBox">
                                             <Border Name="border" BorderThickness="2" BorderBrush="Black" Background="{TemplateBinding Background}">
-
                                                 <ScrollViewer x:Name="PART_ContentHost"/>
                                             </Border>
                                             <ControlTemplate.Triggers>
@@ -340,7 +335,6 @@
 
                 <StackPanel Orientation="Horizontal" Margin="20,10">
                     <Button Content="Edit Info" FontWeight="SemiBold" Background="Transparent" BorderThickness="0"
-
                             FontSize="15" Margin="0,3,0,0" Click="Edit_Click">
                         <Button.Style>
                             <Style TargetType="Button">
@@ -369,7 +363,7 @@
 
                     <Button FontWeight="SemiBold" Background="Blue" Foreground="White"
                             Margin="27,0,0,0" Width="60" Click="Verify_Click">
-
+                        
                         <TextBlock Text="Verify" FontSize="15" Margin="0,4,0,6"/>
 
                         <Button.Style>

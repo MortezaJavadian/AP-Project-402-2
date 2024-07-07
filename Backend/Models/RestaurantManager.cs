@@ -1,10 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Formats.Asn1;
+using System.Globalization;
 using System.Linq;
 using System.Net.Sockets;
 using System.Reflection.Emit;
+using System.Collections.ObjectModel;
 using System.Text;
 using System.Threading.Tasks;
+using CsvHelper;
+using System.IO;
 
 namespace Backend.Models
 {
@@ -19,11 +24,11 @@ namespace Backend.Models
         public bool IsReserveService { get; set; }
         public bool Delivery { get; set; }
         public bool Dine_in { get; set; }
-        public List<Food> foods { get; set; }
-        public List<Complaint> complaints { get; set; }
-        public List<Reservation> reservation { get; set; }
-        public List<Orders> orders { get; set; }
-        public List<string> categories { get; set; } = new List<string>();
+        public ObservableCollection<Food> foods { get; set; }
+        public ObservableCollection<Complaint> complaints { get; set; }
+        public ObservableCollection<Reservation> reservation { get; set; }
+        public ObservableCollection<Orders> orders { get; set; }
+        public ObservableCollection<string> categories { get; set; } = new ObservableCollection<string>();
 
         public RestaurantManager(string username, string pass, string nameofRest, string city, string address, bool delivey, bool dine_in) : base(username, pass)
         {
@@ -35,42 +40,34 @@ namespace Backend.Models
             Dine_in = dine_in;
             ServiceScore = 0;
             IsReserveService = false;
-            foods = new List<Food>();
-            complaints = new List<Complaint>();
-            reservation = new List<Reservation>();
-            orders = new List<Orders>();
-            restaurantManagers.Add(this);
-        }
-
-        public RestaurantManager(string username, string pass) : base(username, pass)
-        {
-            Restaurant_Id = User.restaurantManagers.Count + 1;
-            foods = new List<Food>();
-            complaints = new List<Complaint>();
-            reservation = new List<Reservation>();
-            orders = new List<Orders>();
+            foods = new ObservableCollection<Food>();
+            complaints = new ObservableCollection<Complaint>();
+            reservation = new ObservableCollection<Reservation>();
+            orders = new ObservableCollection<Orders>();
             User.restaurantManagers.Add(this);
         }
 
-
-        public static List<Food> GetAllFoods()
+        public static ObservableCollection<Food> GetAllFoods()
         {
-            List<Food> allFoods = new List<Food>();
+            var allFoodsList = restaurantManagers
+                .Where(restaurant => restaurant.foods != null && restaurant.foods.Count > 0)
+                .SelectMany(restaurant => restaurant.foods)
+                .ToList();
 
-            foreach (var restaurant in restaurantManagers)
-            {
-                if (restaurant.foods != null && restaurant.foods.Count > 0)
-                {
-                    allFoods.AddRange(restaurant.foods);
-                }
-            }
-
-            return allFoods;
+            return new ObservableCollection<Food>(allFoodsList);
         }
 
-        public List<Food> GetMenuByCategory(RestaurantManager restaurant) // For Customer Panel that want to see Menu with Categories
-            => restaurant.foods.OrderBy(food => string.IsNullOrEmpty(food.Category)).ThenBy(food => food.Category).ToList();
-        // این متد اول اونهایی که دسته بندی دارند رو در لیست میچینه و سپس اونهایی که دسته بندی ندارند
+
+        public ObservableCollection<Food> GetMenuByCategory() // For Customer Panel that want to see Menu with Categories
+        {
+            // Create an ObservableCollection from the ordered list
+            return new ObservableCollection<Food>(
+                           foods.OrderBy(food => string.IsNullOrEmpty(food.Category))
+                                .ThenBy(food => food.Category)
+                                .ToList()
+            );
+        }// این متد اول او
+         // نهایی که دسته بندی دارند رو در لیست میچینه و سپس اونهایی که دسته بندی ندارند
 
         public void CalculateAllAvergeRating()
         {
@@ -155,7 +152,6 @@ namespace Backend.Models
                 var comment = food.foodComments.FirstOrDefault(c => c.CommentId == commentId);
                 if (comment != null)
                     comment.Replies.Add(reply);
-
             }
         }
 
@@ -163,7 +159,6 @@ namespace Backend.Models
         {
             if (!categories.Contains(category))
                 categories.Add(category);
-
         }
 
         public void RemoveCategory(string category)
@@ -224,24 +219,30 @@ namespace Backend.Models
             IsReserveService = reserve;
         }
 
-        public List<Orders> FilterOrders(string customerUserName = null, string? customerPhoneNumber = null, string foodName = null, float? minPrice = null, float? maxPrice = null, DateTime? startDate = null, DateTime? endDate = null)
+        public ObservableCollection<Orders> FilterOrders(string customerUserName, string customerPhoneNumber, string foodName, string minPrice, string maxPrice, DateTime? startDate = null, DateTime? endDate = null)
         {
             var filteredOrders = orders.AsQueryable();
 
-            if (!string.IsNullOrEmpty(customerUserName))
-                filteredOrders = filteredOrders.Where(order => order.customer.UserName == customerUserName);
+            if (customerUserName != "")
+                filteredOrders = filteredOrders.Where(order => order.customer.UserName.StartsWith(customerUserName));
 
-            if (customerPhoneNumber != null || customerPhoneNumber != "")
-                filteredOrders = filteredOrders.Where(order => order.customer.PhoneNumber == customerPhoneNumber);
+            if (customerPhoneNumber != "")
+                filteredOrders = filteredOrders.Where(order => order.customer.PhoneNumber.StartsWith(customerPhoneNumber));
 
-            if (!string.IsNullOrEmpty(foodName))
-                filteredOrders = filteredOrders.Where(order => order.Items.Any(food => food.Name == foodName));
+            if (foodName != "")
+                filteredOrders = filteredOrders.Where(order => order.CartItems.Any(x => x.Food.Name.StartsWith(foodName)));
 
-            if (minPrice != null)
-                filteredOrders = filteredOrders.Where(order => order.TotalPrice >= minPrice.Value);
+            if (minPrice != "")
+            {
+                float price = float.Parse(minPrice);
+                filteredOrders = filteredOrders.Where(order => order.TotalPrice >= price);
+            }
 
-            if (maxPrice != null)
-                filteredOrders = filteredOrders.Where(order => order.TotalPrice <= maxPrice.Value);
+            if (maxPrice != "")
+            {
+                float price = float.Parse(maxPrice);
+                filteredOrders = filteredOrders.Where(order => order.TotalPrice <= price);
+            }
 
             if (startDate != null)
                 filteredOrders = filteredOrders.Where(order => order.dataTime >= startDate.Value);
@@ -249,27 +250,33 @@ namespace Backend.Models
             if (endDate != null)
                 filteredOrders = filteredOrders.Where(order => order.dataTime <= endDate.Value);
 
-            return filteredOrders.ToList();
+            return new ObservableCollection<Orders>(filteredOrders.ToList());
         }
 
-        public List<Reservation> FilterReservations(string customerUserName = null, string? customerPhoneNumber = null, string foodName = null, float? minPrice = null, float? maxPrice = null, DateTime? startDate = null, DateTime? endDate = null)
+        public ObservableCollection<Reservation> FilterReservations(string customerUserName, string customerPhoneNumber, string foodName, string minPrice, string maxPrice, DateTime? startDate = null, DateTime? endDate = null)
         {
             var filteredReservations = reservation.AsQueryable();
 
-            if (!string.IsNullOrEmpty(customerUserName))
-                filteredReservations = filteredReservations.Where(reservation => reservation.Customer.UserName == customerUserName);
+            if (customerUserName != "")
+                filteredReservations = filteredReservations.Where(reservation => reservation.Customer.UserName.StartsWith(customerUserName));
 
-            if (customerPhoneNumber != null)
-                filteredReservations = filteredReservations.Where(reservation => reservation.Customer.PhoneNumber == customerPhoneNumber);
+            if (customerPhoneNumber != "")
+                filteredReservations = filteredReservations.Where(reservation => reservation.Customer.PhoneNumber.StartsWith(customerPhoneNumber));
 
-            if (!string.IsNullOrEmpty(foodName))
-                filteredReservations = filteredReservations.Where(reservation => reservation.Items.Any(food => food.Name == foodName));
+            if (foodName != "")
+                filteredReservations = filteredReservations.Where(reservation => reservation.CartItems.Any(x => x.Food.Name.StartsWith(foodName)));
 
-            if (minPrice != null)
-                filteredReservations = filteredReservations.Where(reservation => reservation.TotalPrice >= minPrice.Value);
+            if (minPrice != "")
+            {
+                float price = float.Parse(minPrice);
+                filteredReservations = filteredReservations.Where(reservation => reservation.TotalPrice >= price);
+            }
 
-            if (maxPrice != null)
-                filteredReservations = filteredReservations.Where(reservation => reservation.TotalPrice <= maxPrice.Value);
+            if (maxPrice != "")
+            {
+                float price = float.Parse(maxPrice);
+                filteredReservations = filteredReservations.Where(reservation => reservation.TotalPrice <= price);
+            }
 
             if (startDate != null)
                 filteredReservations = filteredReservations.Where(reservation => reservation.CreatedAt >= startDate.Value);
@@ -277,9 +284,29 @@ namespace Backend.Models
 
             if (endDate != null)
                 filteredReservations = filteredReservations.Where(reservation => reservation.CreatedAt <= endDate.Value);
-            
 
-            return filteredReservations.ToList();
+            return new ObservableCollection<Reservation>(filteredReservations.ToList());
+        }
+
+
+        // Get orders to CSV
+        public static void ExportFilteredOrdersToCsv(ObservableCollection<Orders> filteredOrders, string filePath)
+        {
+            using (var writer = new StreamWriter(filePath))
+            using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+            {
+                csv.WriteRecords(filteredOrders);
+            }
+        }
+
+        // Get reservations to CSV
+        public static void ExportFilteredReservationsToCsv(ObservableCollection<Reservation> filteredReservations, string filePath)
+        {
+            using (var writer = new StreamWriter(filePath))
+            using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+            {
+                csv.WriteRecords(filteredReservations);
+            }
         }
     }
 }

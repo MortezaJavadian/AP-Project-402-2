@@ -10,10 +10,12 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Backend.Models;
+using Backend.NetWork;
 
 namespace Wpf_View.CustomerPanel
 {
@@ -122,7 +124,7 @@ namespace Wpf_View.CustomerPanel
             => ((Application.Current.MainWindow as MainWindow).Content as Home).customer.Address =
                 ((Application.Current.MainWindow as MainWindow).Content as Home).ProfilePage.Address.Text;
 
-        public static void BuySpecialService()
+        public async static void BuySpecialService()
         {
             Home HomePage = ((Application.Current.MainWindow as MainWindow).Content as Home);
 
@@ -134,8 +136,39 @@ namespace Wpf_View.CustomerPanel
             }
             else
             {
-                HomePage.customer.SpecialService =
-                    Enum.Parse<SpecialService>(HomePage.ProfilePage.SpecialService.Text);
+                try
+                {
+                    HomePage.customer.GetMoneyForService((int)Enum.Parse<SpecialService>(HomePage.ProfilePage.SpecialService.Text));
+
+                    Panel.SetZIndex(HomePage.ProfilePage.VerifyPage, 1);
+
+                    for (int i = 1; i <= 25; i++)
+                    {
+                        await Task.Delay(1);
+                        HomePage.ProfilePage.VerifyPage.Opacity += 0.04;
+                    }
+
+                    HomePage.ProfilePage.Box1.Focus();
+                }
+                catch (Exception ex)
+                {
+                    HomePage.ProfilePage.SpecialService.Text = HomePage.customer.SpecialService.ToString();
+
+                    (HomePage.ProfilePage.InternetError.Child as TextBlock).Text = ex.Message;
+                    for (int i = 1; i <= 25; i++)
+                    {
+                        await Task.Delay(10);
+                        HomePage.ProfilePage.InternetError.Width += 9.1;
+                    }
+
+                    await Task.Delay(6000);
+
+                    for (int i = 1; i <= 25; i++)
+                    {
+                        await Task.Delay(10);
+                        HomePage.ProfilePage.InternetError.Width -= 9.1;
+                    }
+                }
             }
         }
     }
